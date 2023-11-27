@@ -1,0 +1,30 @@
+<?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+ 
+class EventSignUps extends Model
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+
+    protected $table = "event_sign_ups";
+    public $timestamps = false;
+    protected $fillable = [
+        "event_id",
+        "first_name",
+        "last_name", 
+        "email",
+        "contact",
+        "active", 
+        "insert_by",
+        "update_by"
+    ];
+    
+    public function event(){
+        return $this->belongsTo(Event::class, "id", "event_id");
+    }
+}
