@@ -85,11 +85,11 @@
                 if(sermons.length > 0){
                     for(var i=0;i<sermons.length;i++){
                         if(sermons[i].image == null){
-                            var image =  "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "sermon/" + sermons[i].sermon_id + "'><img style='max-height:150px;' src='" + address + "assets/img/banner.png' /></a></div>";
+                            var image =  "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "sermons/" + sermons[i].sermon_id + "'><img style='max-height:150px;' src='" + address + "assets/img/banner.png' /></a></div>";
                         }else{
-                            var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "sermon/" + sermons[i].sermon_id + "'><img style='max-height:150px;' src='" + portal_address + "assets/img/sermon/" + sermons[i].image + "'/></a></div>";
+                            var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "sermons/" + sermons[i].sermon_id + "'><img style='max-height:150px;' src='" + portal_address + "assets/img/sermon/" + sermons[i].image + "'/></a></div>";
                         }
-                        var title = "<h5><a style='color:black;text-decoration:none;cursor:pointer;' href='" + address + "sermon/" + sermons[i].sermon_id + "'>" + sermons[i].title + "</a></h5>";
+                        var title = "<h5><a style='color:black;text-decoration:none;cursor:pointer;' href='" + address + "sermons/" + sermons[i].sermon_id + "'>" + sermons[i].title + "</a></h5>";
                         var desc = "<h6>" + (sermons[i].description || "-") + "</h6>";
                         var date = "<div><h6>" + sermons[i].date + "</h6></div>";
                         var text = "<div class='title-desc'>" + title + desc + "</div>";

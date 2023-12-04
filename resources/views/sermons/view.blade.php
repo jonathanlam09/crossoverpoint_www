@@ -3,7 +3,7 @@
     $title = isset($sermon->title) ? $sermon->title : "-";
     $description = isset($sermon->description) ? $sermon->description : "-";
     $date = date("jS F Y", strtotime($sermon->date));
-    $image = isset($sermon->image) ? url("assets/img/sermon/" . $sermon->image) : url("assets/img/banner.png");
+    $image = isset($sermon->image) ? IMAGE_PATH . "assets/img/sermon/" . $sermon->image : url("assets/img/banner.png");
 ?>
 <style>
     @media screen and (max-width: 766px){

@@ -85,10 +85,10 @@
                 }
                 if(events.length > 0){
                     for(var i=0;i<events.length;i++){
-                        var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "event/" + events[i].event_id + "'>" + 
+                        var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "events/" + events[i].event_id + "'>" + 
                             "<img style='max-height:150px;' src='" + portal_address + "assets/img/event_img/" + events[i].image + "'/>" + 
                             "</a></div>";
-                        var title = "<h5><a style='color:black;text-decoration:none;' href='" + address + "event/" + events[i].event_id + "'>" + events[i].name + "</a></h5>";
+                        var title = "<h5><a style='color:black;text-decoration:none;' href='" + address + "events/" + events[i].event_id + "'>" + events[i].name + "</a></h5>";
                         var desc = "<span>" + events[i].description + "</span>";
                         var text = "<div class='col-md-9 col-12 text-desc'>" + title + desc + "</div>";
                         if(i == 0){

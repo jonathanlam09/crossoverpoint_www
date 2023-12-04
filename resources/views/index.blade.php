@@ -1,5 +1,5 @@
 @include("include/header")
-<section>
+<section class="paragraph-section d-none">
     <div class="container mt-5 mb-5" style="text-align:center;white-space:pre-line;" id="paragraph_div">
         <p id="paragraph" style="display:none;">
         What is Lorem Ipsum?
@@ -20,13 +20,13 @@
     </div>
 </section>
 <hr class="container">
-<section style="padding: 75px 0;">
+<section class="sermon-section d-none" style="padding: 75px 0;">
     <div class="container" id="sermon_container">
-        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.7s ease;">Upcoming Sermons</h3>
+        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">Upcoming Sermons</h3>
         <?php
             if(count($sermons) == 0){
                 ?>
-                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.7s ease;">Stay tuned for more upcoming sermons.</div>
+                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">Stay tuned for more upcoming sermons.</div>
                 <?php
             }else{
                 $main_sermon = $sermons[0];
@@ -34,9 +34,9 @@
                 array_splice($sermons, 0, 1);
                 ?>
                     <div class="row mb-2 mt-5" id="sermon_div">
-                        <div class="col-12 col-lg-9" style="opacity:.2;transition:.7s ease;transform:translateY(100%);">
+                        <div class="col-12 col-lg-9" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
                             <div class="img d-flex justify-content-center" style="position:relative;">
-                                <a href=""><img src="<?php echo $main_sermon_image?>"></a>
+                                <a href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>"></a>
                             </div>
                             <div class="text-center">
                                 <span><?php echo date("d F Y", strtotime($main_sermon["date"]))?></span> . <span><?php echo date("h:i A")?></span>
@@ -50,8 +50,8 @@
                                     foreach($sermons as $key=>$row){
                                         $image = isset($row["image"]) ? IMAGE_PATH . "sermon/" . $row["image"] : url("assets/img/banner.png");
                                     ?>
-                                    <div class="row mb-3" style="opacity:.2;transition:.7s ease;transform:translateY(100%);">
-                                        <a href="">
+                                    <div class="row mb-3" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                                        <a href="<?php echo url("sermons/" . $row["encrypted_id"])?>">
                                             <img src="<?php echo $image?>" alt="">
                                         </a>
                                         <div class="d-flex flex-column" style="text-align: center">
@@ -74,21 +74,21 @@
     if(count($sermons) > 0){
         ?>
         <div class="d-flex justify-content-center">
-            <a href="<?php echo url("sermon/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
+            <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
         </div>
         <?php
     }
     ?>
 <hr class="container">
-<section style="padding: 75px 0;">
+<section class="event-section d-none" style="padding: 75px 0;">
     <div class="container" id="event_container">
         <h3 class="text-center text-uppercase" 
-        style="opacity:.2;transform:translateY(100%);transition:.7s ease;">Upcoming Events</h3>
+        style="opacity:.2;transform:translateY(100%);transition:.5s ease;">Upcoming Events</h3>
         <?php
         if(count($events) == 0){
             ?>
             <div class="mt-5 text-center" 
-            style="opacity:.2;transform:translateY(100%);transition:.7s ease;">Stay tuned for more upcoming events.</div>
+            style="opacity:.2;transform:translateY(100%);transition:.5s ease;">Stay tuned for more upcoming events.</div>
             <?php
         }else{
             $main_event = $events[0];
@@ -96,9 +96,9 @@
             $main_event_image = isset($main_event["image"]) ? $main_event["image"] : "banner.png";
             ?>
             <div class="row mt-5" id="event_div">
-                <div class="col-12 col-lg-9" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.7s ease;">
+                <div class="col-12 col-lg-9" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                     <div class="img">
-                        <a href=""><img src="<?php echo IMAGE_PATH . "event_img/" . $main_event_image?>" alt=""></a>
+                        <a href="<?php echo url("events/" . $main_event["encrypted_id"])?>"><img src="<?php echo IMAGE_PATH . "event_img/" . $main_event_image?>" alt=""></a>
                     </div>
                     <div class="text-center">
                         <div class="content padding-5-half-rem-all lg-padding-4-half-rem-all xs-padding-20px-lr xs-padding-40px-tb position-relative mx-auto w-90 lg-w-100">
@@ -114,8 +114,8 @@
                             foreach($events as $row){
                                 $image = isset($row["image"]) ? $row["image"] : "banner.png";
                         ?>
-                    <div class="row" style="opacity:.2;transform:translateY(100%);transition:.7s ease;">
-                        <a href="">
+                    <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                        <a href="<?php echo url("events/" . $row["encrypted_id"])?>">
                             <img class="img-fluid" src="<?php echo IMAGE_PATH . "event_img/" . $image?>" alt="">
                         </a>
                         <div class="d-flex flex-column align-items-center">
@@ -134,11 +134,43 @@
         ?>
     </div>
 </section>
+<div class="test d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100vw;position:absolute;top:0;left:0">
+    <h3 class="crossoverpoint text-white" style="text-shadow: white 0px 0px 20px, white 0px 0px 20px">CROSSOVER POINT</h3>
+    <div class="crossoverpoint d-flex align-items-center text-white">
+        <div class="d-flex align-items-center">
+            <i class="fa-solid fa-circle" style="font-size:8px;margin-right:5px;"></i>
+            <span>Know Christ</span>
+        </div>
+        <div class="d-flex align-items-center" style="margin-left:15px;margin-right:15px;">
+            <i class="fa-solid fa-circle" style="font-size:8px;margin-right:5px;"></i>
+            <span>Make Christ Known</span>
+        </div>
+        <div class="d-flex align-items-center">
+            <i class="fa-solid fa-circle" style="font-size:8px;margin-right:5px;"></i>
+            <span>Known By Christ</span>
+        </div>
+    </div>
+</div>
+<style>
+    .crossoverpoint{
+        animation: glow 3s;
+    }
+
+    @keyframes glow{
+        0% {
+            opacity: 0;
+        }
+
+        100%{
+            opacity: 1;
+        }
+    }
+</style>
     <?php
     if(count($events) > 0){
     ?>
     <div class="d-flex justify-content-center mb-5">
-        <a href="<?php echo url("event/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
+        <a href="<?php echo url("events/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
     </div>
     <?php
     }
@@ -166,13 +198,29 @@
     var event_observer = new IntersectionObserver(show_event, event_opt);
 
     $(document).ready(() => {
+        const session = window.sessionStorage.getItem("session");
+        if(session){
+            $(".test").addClass("d-none");
+            $(".paragraph-section").removeClass("d-none");
+            $(".sermon-section").removeClass("d-none");
+            $(".event-section").removeClass("d-none");
+        }else{
+            setTimeout(() => {
+                $(".test").css("top", "-150%");
+                $(".paragraph-section").removeClass("d-none");
+                $(".sermon-section").removeClass("d-none");
+                $(".event-section").removeClass("d-none");
+                sessionStorage.setItem("session", true);
+            }, 3000);
+        }
+
         if(error != ""){
             warning_response(error)
         }
         var p = $("#paragraph").text();
         var p_array = p.split("\n");
         for(var i=0;i<p_array.length;i++){
-            var span = "<span class='paragraph' style='opacity:0.2;line-height:200px;transition:.7s ease-out;'>" + p_array[i] + "</span>" + "\n";
+            var span = "<span class='paragraph' style='opacity:0.2;line-height:200px;transition:.5s ease-out;'>" + p_array[i] + "</span>" + "\n";
             $("#paragraph_div").append(span);
         }
         var p_span = $(".paragraph");

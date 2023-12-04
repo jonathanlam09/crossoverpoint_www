@@ -10,17 +10,17 @@
                     <div class="mt-3 row">
                         <div class="col-2">
                             <a class="text-white" href="https://www.facebook.com/crossoverpointchurch" target="_blank">
-                                <i class="fa fa-facebook-f" aria-hidden="true"></i>
+                                <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div class="col-2">
                             <a class="text-white" href="https://www.instagram.com/crossoverpoint/" target="_blank">
-                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                <i class="fa-brands fa-instagram" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div class="col-2">
                             <a class="text-white" target="_blank" href="https://wa.me/60123861850?text=I%20would%20like%20to%20ask%20about%20Kota%20Kemuning%20Assembly%20Of%20God">
-                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                             </a>
                         </div>
                         <div class="col-2">
@@ -32,7 +32,7 @@
                     <div id="map"></div>
                 </div>
                 <div class="col-lg-6 col-12 p-5">
-                    <form>
+                    <form id="enquiry_form" onsubmit="submit_enquiry(event)">
                         <div>
                             <h6 style="font-weight: 700; font-size: 18px; margin: 0;">Enquiries</h6>
                         </div>
@@ -59,24 +59,24 @@
                         <div class="row mt-3">
                             <div class="col-12">
                                 <label for="">Type of Enquiries</label>
-                                <select name="type_of_enquiries" class="form-control">
+                                <select name="type_of_enquiry" class="form-control">
                                     <option value="">Select your enquiries</option>
-                                    <option value="1">Prayer request</option>
-                                    <option value="2">Shelter</option>
-                                    <option value="3">Serving</option>
-                                    <option value="4">Full time ministry</option>
-                                    <option value="5">Discipleship</option>
+                                    <option value="Prayer request">Prayer request</option>
+                                    <option value="Shelter">Shelter</option>
+                                    <option value="Serving">Serving</option>
+                                    <option value="Ministry">Ministry</option>
+                                    <option value="Discipleship">Discipleship</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
                                 <label for="">Remarks</label>
-                                <textarea class="form-control" style="resize: none;" name="enquiries" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                         <div class="mt-3" style="display: flex; justify-content: flex-end;">
-                            <a class="btn btn-default text-white" style="background-color:cornflowerblue;border-radius:2vh;" href="">Submit</a>
+                            <button type="submit" class="btn btn-default text-white" style="background-color:cornflowerblue;border-radius:2vh;">SUBMIT</button>
                         </div>
                     </form>
                 </div>
@@ -112,6 +112,24 @@ crossorigin="anonymous"></script>
             }
         })
     })
+
+    function submit_enquiry(e){
+        e.preventDefault();
+
+        const form = $("#enquiry_form").get(0);
+        var formdata = new FormData(form);
+        axios.post(address + "api/index/enquiry", formdata, apiHeader)
+        .then((response) => {
+            if(response.data.status){
+                success_response("Your enquiry has been submitted! We will connect with you soon.", true, "");
+            }else{
+                warning_response(response.data.message);
+            }
+        })
+        .catch((err) => {
+            error_response(err);
+        })
+    }
 
     function setup(total){
         var count = parseInt($("#count").val())

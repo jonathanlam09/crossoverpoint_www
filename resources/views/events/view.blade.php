@@ -35,12 +35,12 @@
         </div>
     </div>
     @endif
-    <div class="row" style="transform:translateY(100%);opacity:.2;transition:.5s ease;">
+    <div class="row" style="transform:translateY(50%);opacity:.2;transition:.5s ease;">
         <div class="col-12 mt-5 d-flex justify-content-center">
             <img class="img-fluid" src="<?php echo $image;?>">
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-5" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-5" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">Name</span>
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">Description</span>
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">Start date</span>
@@ -70,7 +70,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">End date</span>
@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">PIC</span>
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+    <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
                 <span style="font-weight:700;">Fee</span>
@@ -104,7 +104,7 @@
         if(time() >= strtotime($event->registration_open_date) && 
         time() <= strtotime($event->registration_close_date)){
             ?>
-            <div class="mt-5 d-flex justify-content-end" style="transform:translateY(100%);opacity:.2;transition:1s ease;">
+            <div class="mt-5 d-flex justify-content-end" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
                 <a class="btn" href="<?php echo url("events/sign_up/" . $event_id)?>" style="background-color:cornflowerblue;color:white;">SIGN UP</a>
             </div>
             <?php

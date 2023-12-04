@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SermonController;
 use App\Http\Controllers\UserController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\UserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post("/index/enquiry", [IndexController::class, "send_enquiry"]);
 Route::post("/event/get", [EventController::class, "get_events"]);
 Route::post("/event/sign_up", [EventController::class, "sign_up"]);
 Route::post("/sermon/get", [SermonController::class, "get_sermons"]);
@@ -32,6 +33,7 @@ Route::any("{req}", function($req) {
             $query = $after;
         }
     }
+    
     if(strtolower($path) !== $path){
         $redirectUri = strtolower($path);
         if(strlen($query) > 0)
