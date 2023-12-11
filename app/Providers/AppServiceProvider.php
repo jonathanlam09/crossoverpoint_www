@@ -73,6 +73,9 @@ use App\Observers\EventAttachmentsObserver;
 use App\Models\EventSignUps;
 use App\Observers\EventSignUpsObserver;
 
+use App\Models\Visitors;
+use App\Observers\VisitorsObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -111,5 +114,6 @@ class AppServiceProvider extends ServiceProvider
         PCOAttachments::observe(PCOAttachmentsObserver::class);
         Menus::observe(MenusObserver::class);
         Permissions::observe(PermissionsObserver::class);
+        Visitors::observe(VisitorsObserver::class);
     }
 }

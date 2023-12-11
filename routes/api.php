@@ -16,12 +16,14 @@ use App\Http\Controllers\UserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get("/index/language", [IndexController::class, "set_language"]);
 Route::post("/index/enquiry", [IndexController::class, "send_enquiry"]);
-Route::post("/event/get", [EventController::class, "get_events"]);
-Route::post("/event/sign_up", [EventController::class, "sign_up"]);
-Route::post("/sermon/get", [SermonController::class, "get_sermons"]);
-Route::post("/user/update_password", [UserController::class, "update_password"]);
-Route::post("/user/update_profile_details", [UserController::class, "update_profile_details"]);
+Route::post("/events/get", [EventController::class, "get_events"]);
+Route::post("/events/sign-up", [EventController::class, "sign_up"]);
+Route::post("/sermons/get", [SermonController::class, "get_sermons"]);
+Route::post("/users/update_password", [UserController::class, "update_password"]);
+Route::post("/users/update_profile_details", [UserController::class, "update_profile_details"]);
+Route::post("/visitors/create", [IndexController::class, "create_visitor"]);
 
 Route::any("{req}", function($req) {
     $uri = $_SERVER["REQUEST_URI"];
@@ -44,6 +46,6 @@ Route::any("{req}", function($req) {
 
 })->where("req", "^.*");
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware("auth:sanctum")->get("/user", function (Request $request) {
     return $request->user();
 });

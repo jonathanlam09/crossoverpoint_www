@@ -1,32 +1,43 @@
 @include("include/header")
 <section class="paragraph-section d-none">
     <div class="container mt-5 mb-5" style="text-align:center;white-space:pre-line;" id="paragraph_div">
-        <p id="paragraph" style="display:none;">
-        What is Lorem Ipsum?
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-        when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-        It has survived not only five centuries, but also the leap into electronic typesetting, 
-        remaining essentially unchanged. It was popularised in the 1960s with the release-out of Letraset sheets containing Lorem Ipsum passages, 
-        and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-        Why do we use it?
-        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
-        The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, 
-        as opposed to using 'Content here, content here', making it look like readable English. 
-        Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, 
-        and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, 
-        sometimes by accident, sometimes on purpose (injected humour and the like).
-        </p>
+        <?php
+            if($channel == "ENG"){
+            ?>
+                <p id="paragraph" style="display:none;">Creed of Faith
+                    I know the only true God. 
+                    I know Jesus Christ, the one God sent to earth. 
+                    I have the eternal life (John 17:3).  
+                    I confess with my mouth that Jesus is Lord. 
+                    I believe in my heart that Jesus rose from the dead (Romans 10:9). 
+                    I want to know Christ (Phil 3:10). 
+                    I will make Christ known to others (Col 1:28). 
+                    On that day of His return, I am known by Him as His own (John 10:14).
+                </p>
+            <?php
+            }else{
+                ?>
+                <p id="paragraph" style="display:none;">信仰信条
+                    我认识独一的真神。我认识神所差来的耶稣基督。
+                    我得着永生 （17:3）。
+                    我口里认耶稣为主。我心里信 神叫祂从死里复活（罗马 10:9）。
+                    我要认识基督 （腓 3:10）。
+                    我要传扬基督（歌 1:28）。
+                    基督再来时，祂认识我，因我属于祂 (约 10: 14)，且遵行祂的旨意（约6:40）。
+                </p>
+                <?php
+            }
+            ?>
     </div>
 </section>
 <hr class="container">
 <section class="sermon-section d-none" style="padding: 75px 0;">
     <div class="container" id="sermon_container">
-        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">Upcoming Sermons</h3>
+        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming Sermons" : "来临的道"?></h3>
         <?php
             if(count($sermons) == 0){
                 ?>
-                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">Stay tuned for more upcoming sermons.</div>
+                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming sermons." : "请继续关注即将到来的更多讲道。"?></div>
                 <?php
             }else{
                 $main_sermon = $sermons[0];
@@ -39,8 +50,8 @@
                                 <a href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>"></a>
                             </div>
                             <div class="text-center">
-                                <span><?php echo date("d F Y", strtotime($main_sermon["date"]))?></span> . <span><?php echo date("h:i A")?></span>
-                                <h6><?php echo $main_sermon["title"]?></h6>
+                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($main_sermon["date"]))?></h6>
+                                <h6 class="mb-3"><?php echo $main_sermon["title"]?></h6>
                                 <p><?php echo $main_sermon["description"]?></p>
                             </div>
                         </div>    
@@ -74,7 +85,7 @@
     if(count($sermons) > 0){
         ?>
         <div class="d-flex justify-content-center">
-            <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
+            <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
         </div>
         <?php
     }
@@ -83,12 +94,12 @@
 <section class="event-section d-none" style="padding: 75px 0;">
     <div class="container" id="event_container">
         <h3 class="text-center text-uppercase" 
-        style="opacity:.2;transform:translateY(100%);transition:.5s ease;">Upcoming Events</h3>
+        style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming Events" : "来临的活动"?></h3>
         <?php
         if(count($events) == 0){
             ?>
-            <div class="mt-5 text-center" 
-            style="opacity:.2;transform:translateY(100%);transition:.5s ease;">Stay tuned for more upcoming events.</div>
+            <div class="mt-5 text-center"
+            style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming events." : "请继续关注更多即将举行的活动。"?></div>
             <?php
         }else{
             $main_event = $events[0];
@@ -98,7 +109,7 @@
             <div class="row mt-5" id="event_div">
                 <div class="col-12 col-lg-9" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                     <div class="img">
-                        <a href="<?php echo url("events/" . $main_event["encrypted_id"])?>"><img src="<?php echo IMAGE_PATH . "event_img/" . $main_event_image?>" alt=""></a>
+                        <a href="<?php echo url("events/" . $main_event["encrypted_id"])?>"><img src="<?php echo IMAGE_PATH . "event/" . $main_event_image?>" alt=""></a>
                     </div>
                     <div class="text-center">
                         <div class="content padding-5-half-rem-all lg-padding-4-half-rem-all xs-padding-20px-lr xs-padding-40px-tb position-relative mx-auto w-90 lg-w-100">
@@ -116,7 +127,7 @@
                         ?>
                     <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                         <a href="<?php echo url("events/" . $row["encrypted_id"])?>">
-                            <img class="img-fluid" src="<?php echo IMAGE_PATH . "event_img/" . $image?>" alt="">
+                            <img class="img-fluid" src="<?php echo IMAGE_PATH . "event/" . $image?>" alt="">
                         </a>
                         <div class="d-flex flex-column align-items-center">
                             <a style="color:black;"><?php echo date("jS F Y", strtotime($row["start_date"]))?></a>
@@ -134,7 +145,7 @@
         ?>
     </div>
 </section>
-<div class="test d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100vw;position:absolute;top:0;left:0">
+<div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100vw;position:absolute;top:0;left:0">
     <h3 class="crossoverpoint text-white" style="text-shadow: white 0px 0px 20px, white 0px 0px 20px">CROSSOVER POINT</h3>
     <div class="crossoverpoint d-flex align-items-center text-white">
         <div class="d-flex align-items-center">
@@ -170,7 +181,7 @@
     if(count($events) > 0){
     ?>
     <div class="d-flex justify-content-center mb-5">
-        <a href="<?php echo url("events/upcoming")?>" style="color:black;text-decoration:none;">View more</a>
+        <a href="<?php echo url("events/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
     </div>
     <?php
     }
@@ -200,13 +211,13 @@
     $(document).ready(() => {
         const session = window.sessionStorage.getItem("session");
         if(session){
-            $(".test").addClass("d-none");
+            $(".initial-loader").addClass("d-none");
             $(".paragraph-section").removeClass("d-none");
             $(".sermon-section").removeClass("d-none");
             $(".event-section").removeClass("d-none");
         }else{
             setTimeout(() => {
-                $(".test").css("top", "-150%");
+                $(".initial-loader").css("top", "-150%");
                 $(".paragraph-section").removeClass("d-none");
                 $(".sermon-section").removeClass("d-none");
                 $(".event-section").removeClass("d-none");
@@ -220,9 +231,14 @@
         var p = $("#paragraph").text();
         var p_array = p.split("\n");
         for(var i=0;i<p_array.length;i++){
-            var span = "<span class='paragraph' style='opacity:0.2;line-height:200px;transition:.5s ease-out;'>" + p_array[i] + "</span>" + "\n";
-            $("#paragraph_div").append(span);
+            if(i == 0){
+                var el = "<h3 class='paragraph text-uppercase' style='opacity:0.2;line-height:200px;transition:.5s ease-out;'>" + p_array[i] + "</h3>" + "\n";
+            }else{
+                var el = "<span class='paragraph' style='opacity:0.2;line-height:200px;transition:.5s ease-out;'>" + p_array[i] + "</span>" + "\n";
+            }
+            $("#paragraph_div").append(el);
         }
+        
         var p_span = $(".paragraph");
         if(p_span.length > 0){
             for(var i=0;i<p_span.length;i++){

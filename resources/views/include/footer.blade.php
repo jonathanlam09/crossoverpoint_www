@@ -1,10 +1,9 @@
-
 <footer style="background-color: black;">
     <section id="contact_us">
         <div class="container pt-5 pb-5" style="color: white;">
             <div class="row">
                 <div class="col-lg-6 col-12 mb-5 p-5">
-                    <h6 style="font-weight: 700; font-size: 18px; margin: 0;">Crossover Point</h6>
+                    <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == "ENG" ? "Crossover Point" : "跨越教会"?></h6>
                     <p class="mt-3 mb-2" style="margin:0">32A, Jalan Aman Tiara 8, Telok Panglima Garang, Selangor 42500</p>
                     <a class="mt-3 text-white" style="cursor:pointer;text-decoration:none;" href="mailto:crossoverpointchurch@gmail.com">crossoverpointchurch@gmail.com</a>
                     <div class="mt-3 row">
@@ -34,49 +33,49 @@
                 <div class="col-lg-6 col-12 p-5">
                     <form id="enquiry_form" onsubmit="submit_enquiry(event)">
                         <div>
-                            <h6 style="font-weight: 700; font-size: 18px; margin: 0;">Enquiries</h6>
+                            <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == "ENG" ? "Enquiries" : "问诊"?></h6>
                         </div>
                         <div class="row">
                             <div class="col-6 mt-3">
-                                <label for="">First Name</label>
+                                <label for=""><?php echo $channel == "ENG" ? "First Name" : "名"?></label>
                                 <input name="first_name" type="text" class="form-control">
                             </div>
                             <div class="col-6 mt-3">
-                                <label for="">Last Name</label>
+                                <label for=""><?php echo $channel == "ENG" ? "Last Name" : "姓"?></label>
                                 <input name="last_name" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 mt-3">
-                                <label for="">Contact</label>
+                                <label for=""><?php echo $channel == "ENG" ? "Contact" : "联系号码"?></label>
                                 <input name="contact" type="text" class="form-control">
                             </div>
                             <div class="col-6 mt-3">
-                                <label for="">Email</label>
+                                <label for=""><?php echo $channel == "ENG" ? "Email" : "电邮地址"?></label>
                                 <input name="email" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
-                                <label for="">Type of Enquiries</label>
+                                <label for=""><?php echo $channel == "ENG" ? "Type of Enquiries" : "查询类型"?></label>
                                 <select name="type_of_enquiry" class="form-control">
-                                    <option value="">Select your enquiries</option>
-                                    <option value="Prayer request">Prayer request</option>
-                                    <option value="Shelter">Shelter</option>
-                                    <option value="Serving">Serving</option>
-                                    <option value="Ministry">Ministry</option>
-                                    <option value="Discipleship">Discipleship</option>
+                                    <option value=""><?php echo $channel == "ENG" ? "Select your enquiries" : "选择您的询问"?></option>
+                                    <option value="Prayer request"><?php echo $channel == "ENG" ? "Prayer Request" : "祈祷请求"?></option>
+                                    <option value="Shelter"><?php echo $channel == "ENG" ? "Shelter" : "庇护"?></option>
+                                    <option value="Serving"><?php echo $channel == "ENG" ? "Serving" : "服侍"?></option>
+                                    <option value="Ministry"><?php echo $channel == "ENG" ? "Ministry" : "事工"?></option>
+                                    <option value="Discipleship"><?php echo $channel == "ENG" ? "Discipleship" : "门徒训练"?></option>
                                 </select>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
-                                <label for="">Remarks</label>
+                                <label for=""><?php echo $channel == "ENG" ? "Remarks" : "评语"?></label>
                                 <textarea class="form-control" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                         <div class="mt-3" style="display: flex; justify-content: flex-end;">
-                            <button type="submit" class="btn btn-default text-white" style="background-color:cornflowerblue;border-radius:2vh;">SUBMIT</button>
+                            <button type="submit" class="btn btn-default text-white" style="background-color:cornflowerblue;border-radius:2vh;"><?php echo $channel == "ENG" ? "SUBMIT" : "提交"?></button>
                         </div>
                     </form>
                 </div>

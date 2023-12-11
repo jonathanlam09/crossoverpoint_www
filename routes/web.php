@@ -21,6 +21,7 @@ Route::get("/", [IndexController::class, "index"]);
 Route::get("/register", [IndexController::class, "register"]);
 Route::get("/testimony", [IndexController::class, "testimony"]);
 Route::get("/about-us", [IndexController::class, "aboutus"]);
+Route::get("/visitors", [IndexController::class, "visitor"]);
 
 Route::get("/event", function(){
     return redirect("event/upcoming");
@@ -28,7 +29,7 @@ Route::get("/event", function(){
 Route::get("/events/{type}", [EventController::class, "index"])->whereIn("type", ["upcoming", "past"]);
 Route::get("/events/past", [EventController::class, "index"]);
 Route::get("/events/{id}", [EventController::class, "view"])->whereAlphaNumeric("id");
-Route::get("/events/sign_up/{id}", [EventController::class, "sign_up_form"])->whereAlphaNumeric("id");
+Route::get("/events/sign-up/{id}", [EventController::class, "sign_up_form"])->whereAlphaNumeric("id");
 Route::get("/sermons", function(){
     return redirect("sermon/upcoming");
 });
@@ -43,6 +44,8 @@ Route::any("{req}", function($req) {
     $uri = $_SERVER["REQUEST_URI"];
     $path = strtok($uri, "?");
     $query = "";
+
+    //Check if the url has query
     if(strpos($uri, "?") !== false){
         $after = substr($uri, strpos($uri, "?") + 1);
         if($after !== false){
@@ -50,10 +53,12 @@ Route::any("{req}", function($req) {
         }
     }
 
+    //to avoid lowercase all the path
     if(strtolower($path) !== $path){
         $redirectUri = strtolower($path);
-        if(strlen($query) > 0)
+        if(strlen($query) > 0){
             $redirectUri .= "?" . $query;
+        }
         return redirect(trim($redirectUri, "/"));
     }
 

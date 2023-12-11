@@ -8,14 +8,10 @@ class EventSignUpsObserver
 {
     public function creating(EventSignUps $event_sign_up){
         $event_sign_up->insert_by = session()->get("user_id");
-        $event_sign_up->update_by = session()->get("user_id");
         $event_sign_up->insert_time = date("Y-m-d H:i:s");
-        $event_sign_up->update_time = date("Y-m-d H:i:s");
     }
 
     public function updating(EventSignUps $event_sign_up){
-        $event_sign_up->update_by = session()->get("user_id");
-        $event_sign_up->update_time = date("Y-m-d H:i:s");
     }
     /**
      * Handle the EventSignUps "created" event.

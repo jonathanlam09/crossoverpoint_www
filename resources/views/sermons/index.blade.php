@@ -1,4 +1,10 @@
 @include("include/header")
+<?php
+    $channel = session()->get("channel");
+    if(!isset($channel)){
+        $channel = "ENG";
+    }
+?>
 <style>
     @media screen and (max-width: 767px){
         .title-desc{
@@ -8,7 +14,7 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5" id="sermon">
-        <h3>SERMON</h3>
+        <h3><?php echo $channel == "ENG" ? "SERMONS" : "讲道"?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">
@@ -34,11 +40,11 @@
         <?php
         if($period == "upcoming"){
             ?>
-            <a href="<?php echo url("sermons/past")?>" class="btn btn-primary">Past sermons</a>
+            <a href="<?php echo url("sermons/past")?>" class="btn btn-primary"><?php echo $channel == "ENG" ? "Past sermons" : "过去的讲道"?></a>
             <?php
         }else{
             ?>
-            <a href="<?php echo url("sermons/upcoming")?>" class="btn btn-primary">Upcoming sermons</a>
+            <a href="<?php echo url("sermons/upcoming")?>" class="btn btn-primary"><?php echo $channel == "ENG" ? "Upcoming sermons" : "来临的讲道"?></a>
             <?php
         } 
         ?>
@@ -48,6 +54,8 @@
 </div>
 @include("include/footer")
 <script>
+    var channel = "<?php echo $channel?>";
+
     let opt = {
         root: document.getElementById("#sermon_row"),
         rootMargin: "0px",
@@ -72,7 +80,7 @@
         formdata.append("search", search);
         formdata.append("period", period);
 
-        axios.post(address + "api/sermon/get", formdata, apiHeader)
+        axios.post(address + "api/sermons/get", formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
                 $("#sermon_row").empty();
@@ -103,9 +111,9 @@
                     }
                 }else{
                     if($("#period").val() == "past"){
-                        var div = "<div class='col-12'>No past sermons.</div>";
+                        var div = "<div class='col-12'>" + (channel == "ENG" ? "No past sermons." : "没有过去的讲道。") + "</div>";
                     }else{
-                        var div = "<div class='col-12'>No upcoming sermons.</div>";
+                        var div = "<div class='col-12'>" + (channel == "ENG" ? "No upcoming sermons." : "没有即将举行的讲道。") + "</div>";
                     }
                     $("#sermon_row").append(div);
                 }

@@ -48,20 +48,20 @@ class Helper {
     }
 
     public static function is_weekend($your_date) {
-        $week_day = date('w', strtotime($your_date));
+        $week_day = date("w", strtotime($your_date));
         //returns true if Sunday or Saturday else returns false
         return ($week_day == 0 || $week_day == 6);
     }
 
     public static function generateRandomPassword($length = 8) {
         $sets = array();
-        $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
-        $sets[] = 'abcdefghjkmnpqrstuvwxyz';
-        $sets[] = '23456789';
-        $sets[] = '!@#$%&*?';
+        $sets[] = "ABCDEFGHJKMNPQRSTUVWXYZ";
+        $sets[] = "abcdefghjkmnpqrstuvwxyz";
+        $sets[] = "23456789";
+        $sets[] = "!@#$%&*?";
 
-        $all = '';
-        $password = '';
+        $all = "";
+        $password = "";
         foreach($sets as $set)
         {
             $password .= $set[array_rand(str_split($set))];
@@ -77,9 +77,9 @@ class Helper {
     }
 
     public static function generateRandomString($length = 10) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
         $charactersLength = strlen($characters);
-        $randomString = '';
+        $randomString = "";
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
@@ -87,9 +87,9 @@ class Helper {
     }
 
     public static function generateOneLetter($length = 1) {
-        $characters = 'abcdefghijklmnopqrstuvwxyz';
+        $characters = "abcdefghijklmnopqrstuvwxyz";
         $charactersLength = strlen($characters);
-        $randomString = '';
+        $randomString = "";
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
@@ -183,23 +183,23 @@ class Helper {
     }
 
     public static function remove_space($val){
-        return preg_replace('/\s[^\d]/', '', $val);
+        return preg_replace("/\s[^\d]/", "", $val);
     }
 
     public static function remove_non_digit($val){
-        return preg_replace('/[^\d]/', '', $val);
+        return preg_replace("/[^\d]/", "", $val);
     }
 
     // public static function remove_all_symbols($val){
-    //     return preg_replace('/[^A-Za-z0-9\-]/', '', $val);
+    //     return preg_replace("/[^A-Za-z0-9\-]/", "", $val);
     // }
 
     // public static function remove_all_symbols_and_words($val){
-    //     return preg_replace('/[^0-9\-]/', '', $val);
+    //     return preg_replace("/[^0-9\-]/", "", $val);
     // }
 
     public static function remove_all_symbols_and_digits($val){
-        return preg_replace('/[^A-Za-z\-]/', '', $val);
+        return preg_replace("/[^A-Za-z\-]/", "", $val);
     }
 
     public static function validate_contact($contact){
@@ -207,7 +207,38 @@ class Helper {
     }
 
     public static function sanitize($input){
-        return htmlentities($input, ENT_QUOTES, 'UTF-8');
+        return htmlentities($input, ENT_QUOTES, "UTF-8");
+    }
+
+    public static function validate($data){
+        $ret = [
+            "status" => false
+        ];
+       
+        try{
+            if(!isset($data["body"]) && empty($data["body"])){
+                throw new Exception("Empty validation body");
+            }
+
+            //if nothing to exclude
+            if(!isset($data["exclude"]) && empty($data["exclude"])){
+                foreach($data["body"] as $key=>$row){
+                    if(!isset($row) || $row == ""){
+                        throw new Exception($key . " cannot be empty!");
+                    }
+                }
+            }else{
+                foreach($data["body"] as $key=>$row){
+                    if((!isset($row) || $row == "") && !in_array($key, $data["exclude"])){
+                        throw new Exception($key . " cannot be empty!");
+                    }
+                }
+            }
+            $ret["status"] = true;
+        }catch(\Exception $e){
+            $ret["message"] = $e->getMessage();
+        }
+        return $ret;
     }
 }
 ?>

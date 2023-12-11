@@ -1,6 +1,6 @@
 @include("include/header")
 <?php
-    $image = isset($event->image) ? IMAGE_PATH . "event_img/" . $event->image : IMAGE_PATH . "banner.png";
+    $image = isset($event->image) ? IMAGE_PATH . "event/" . $event->image : IMAGE_PATH . "banner.png";
 ?>
 <style>
     .error-message{
@@ -9,14 +9,13 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3>EVENT</h3>
+        <h3><?php echo $channel == "ENG" ? "EVENTS" : "活动"?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-6 d-flex align-items-center">
+    <div class="row container-row">
+        <div class="col-md-6 d-flex align-items-center" style="transition:1s ease;transform:translateY(100%);opacity:.2;">
             <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;">
-                {{-- <h4><?php echo $event->name;?></h4> --}}
                 <div style="display:flex;justify-content:center;position:relative;">
                     <img src="<?php echo $image?>" style="border-top-left-radius:2vh;border-top-right-radius:2vh;">
                     <div style="box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;position:absolute;bottom:-15px;background-color:#f8f9fa;padding:5px 20px;border-radius:2vh;">
@@ -29,147 +28,113 @@
                 </div>
             </div>
         </div>
-        <div class="col-1" style="display: flex;justify-content:center;">
+        <div class="col-1" style="display: flex;justify-content:center;" style="transition:1s ease;transform:translateY(100%);opacity:.2;">
             <div style=" border-left:1px dotted lightgrey;">
             </div>
         </div> 
-        <hr class="d-block d-md-none mt-3">
-        <?php
-            if(isset($user)){
-                ?>
-                <div class="col-md-5 d-flex align-items-center">
-                    <div style="width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:30px">
-                        <div class="d-flex justify-content-center mt-3">
-                            <img src="<?php echo url("assets/img/logo.png")?>" style="width:80px;">
+        <div class="col-md-5 d-flex align-items-center" style="transition:1s ease;transform:translateY(100%);opacity:.2;">
+            <form id="event_sign_up_form" onsubmit="submit_handler(event)">
+                <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:15px">
+                    <div class="d-flex justify-content-center mt-3">
+                        <img src="<?php echo url("assets/img/logo.png")?>" style="width:80px;">
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-lg-6 col-12 mt-3">
+                            <label for=""><?php echo $channel == "ENG" ? "First Name" : "名"?></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control validation-required" name="first_name" id="first_name" placeholder="eg. John" style="border:none;">
+                            </div>
                         </div>
-                        <div class="mt-5">
-                            <div class="row mt-3">
-                                <div class="col-6">
-                                    <label for="">First name</label>
-                                </div>
-                                <div class="col-6">
-                                    <span><?php echo $user->first_name;?></span>
-                                </div>
+                        <div class="col-lg-6 col-12 mt-3">
+                            <label for=""><?php echo $channel == "ENG" ? "Last Name" : "姓"?></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control validation-required" name="last_name" id="last_name" placeholder="eg. Doe" style="border:none;">
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-6">
-                                    <label for="">Last name</label>
-                                </div>
-                                <div class="col-6">
-                                    <span><?php echo $user->last_name;?></span>
-                                </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label for=""><?php echo $channel == "ENG" ? "Email" : "电邮地址"?></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control validation-required" name="email" id="email" placeholder="eg. johndoe@example.com" style="border:none;">
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-6">
-                                    <label for="">Email</label>
-                                </div>
-                                <div class="col-6">
-                                    <span><?php echo $user->email;?></span>
-                                </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <label for=""><?php echo $channel == "ENG" ? "Contact" : "联系号码"?></label>
+                            <div class="input-group">
+                                <input type="text" class="form-control validation-required" name="contact" id="contact" placeholder="eg. 0123456789" style="border:none;">
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-6">
-                                    <label for="">Contact</label>
-                                </div>
-                                <div class="col-6">
-                                    <span><?php echo $user->contact?></span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center mt-5">
-                                <?php
-                                    $fee = isset($event->fee) ? $event->fee : 0;
-                                    if($fee == 0){
-                                        ?>
-                                        <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;">SIGN UP</a>
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <div>
-                                            <h6 class="text-center" style="font-weight:700;"><?php echo "$" . number_format($fee ,2)?></h6>
-                                            <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;">Proceed to payment</a>
-                                        </div>
-                                        <?php
-                                    }
+                        </div>
+                        <input type="text" value="<?php echo $event_id?>" name="event_id" hidden>
+                        <div class="d-flex justify-content-center mt-5">
+                            <?php
+                                $fee = isset($event->fee) ? $event->fee : 0;
+                                if($fee == 0){
                                     ?>
-                            </div>
+                                    <button type="submit" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></button>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <div>
+                                        <h6 class="text-center" style="font-weight:700;"><?php echo "$" . number_format($fee ,2)?></h6>
+                                        <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == "ENG" ? "PROCEED TO PAYMENT" : "付款"?></a>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                         </div>
                     </div>
                 </div>
-                <?php
-            }else{
-                ?>
-                <div class="col-md-5 d-flex align-items-center">
-                    <form id="event_sign_up_form">
-                        <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:15px">
-                            <div class="d-flex justify-content-center mt-3">
-                                <img src="<?php echo url("assets/img/logo.png")?>" style="width:80px;">
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-lg-6 col-12 mt-3">
-                                    <label for="">First name</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control validation-required" name="first_name" id="first_name" placeholder="eg. John" style="border:none;">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12 mt-3">
-                                    <label for="">Last name</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control validation-required" name="last_name" id="last_name" placeholder="eg. Doe" style="border:none;">
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <label for="">Email</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control validation-required" name="email" id="email" placeholder="eg. johndoe@example.com" style="border:none;">
-                                    </div>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <label for="">Contact</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control validation-required" name="contact" id="contact" placeholder="eg. 0123456789" style="border:none;">
-                                    </div>
-                                </div>
-                                <input type="text" value="<?php echo $event_id?>" name="event_id" hidden>
-                                <div class="d-flex justify-content-center mt-5">
-                                    <?php
-                                        $fee = isset($event->fee) ? $event->fee : 0;
-                                        if($fee == 0){
-                                            ?>
-                                            <button type="submit" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;">SIGN UP</button>
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <div>
-                                                <h6 class="text-center" style="font-weight:700;"><?php echo "$" . number_format($fee ,2)?></h6>
-                                                <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;">Proceed to payment</a>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <?php
-            }
-        ?>
+            </form>
+        </div>
     </div>
 </div>
 @include("include/footer")
 <script>
+    const opt = {
+        root: $(".container-row").get(0),
+        rootMargin: "0px",
+        threshold: 0,
+    };
+    var observer = new IntersectionObserver(show_event, opt);
     $(document).ready(() => {
-        var param = {
-            "id": "#event_sign_up_form",
-            "formdata": function(){
-                var formdata = new FormData(document.querySelector("#event_sign_up_form"));
-                return formdata;
-            },
-            "url": address + "api/event/sign_up",
-            "callback": function(){
-                success_response("Successfully signed up!", true, "event");
+        var event = $(".container-row").children();
+        if(event.length > 0){
+            for(var i=0;i<event.length;i++){
+                observer.observe(event[i]);
             }
-        };
-        submit(param);
+        }
     })
+
+    const event_id = "<?php echo $event_id?>";
+    async function submit_handler(e){
+        e.preventDefault();
+        const validation = await Helper.validate();
+        if(!validation.status){
+            warning_response(validation.message);
+        }
+        const form = $("#event_sign_up_form").get(0);
+        var formdata = new FormData(form);
+
+        axios.post(address + "api/events/sign-up?id=" + event_id, formdata, apiHeader)
+        .then((response) => {
+            if(response.data.status){
+                success_response("You have successfully signed up!", true, "events/" + event_id);
+            }else{
+                warning_response(response.data.message);
+            }
+        })
+        .catch((err) => {
+            error_response(err);
+        })
+    }
+
+    function show_event(entries){
+        if(entries.length > 0){
+            for(var i=0;i<entries.length;i++){
+                if(entries[i].isIntersecting){
+                    $(entries[i].target).css("opacity", "1");
+                    $(entries[i].target).css("transform", "translateY(0)");
+                }
+            }
+        }
+    }
 </script>

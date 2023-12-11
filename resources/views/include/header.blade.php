@@ -76,6 +76,13 @@
         transform: scale(1.05);
     }
 
+    .active-ch{
+        padding: 2px;
+        background-color: white;
+        color: black;
+        border-radius: 2px;
+    }
+
     @media only screen and (max-width: 991px){
         .banner{
             height: 250px!important;
@@ -83,7 +90,6 @@
     }
 
 </style>
-
 <section style="padding:0;width:100%;" class="banner-section">
     <div class="banner">
         <div style="background-image: linear-gradient(to bottom, black, transparent)">
@@ -94,16 +100,28 @@
                 </div>
                 <div class="menu-div d-none d-lg-flex" style="display:flex;justify-content:flex-end;align-items:center;margin-top:20px;">
                     <ul class="menu-list text-uppercase" style="display:flex;color:white;list-style-type:none;margin:0;padding:0">
-                        <li><a href="<?php echo url("/")?>" style="color:white;text-decoration:none;">Home</a></li>
-                        <li><a href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;">About Us</a></li>
-                        <li><a href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;">Testimonies</a></li>
-                        <li><a href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;">Sermons</a></li>
-                        <li><a href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;">Events</a></li>
-                        <li><i class="fa fa-search"></i></li>
+                        <li><a class="nav-home" href="<?php echo url("/")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "HOME" : "主页"?></a></li>
+                        <li><a class="nav-about-us" href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "About us" : "关于我们"?></a></li>
+                        <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
+                        <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
+                        <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
+                        <li><a class="nav-contact-us" href="#contact_us" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
+                        <li class="d-flex">
+                            <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" onclick="channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
+                            <div style="height:100%;border-right: 1px solid white;padding:5px"></div>
+                            <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
+                            <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" onclick="channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
+                        </li>
+                        {{-- <li><i class="fa fa-search"></i></li> --}}
                     </ul>
                 </div>
                 <div class="d-flex d-lg-none" style="color:white;justify-content:flex-end;align-items:center;font-size:18px;margin-top:20px;">
-                    {{-- <i class="fa fa-search" style="margin-right:20px;"></i> --}}
+                    <div class="d-flex justify-content-center align-items-center" style="margin-right:20px;font-size:12px;">
+                        <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" style="cursor:pointer;" onclick="channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
+                        <div style="border-right: 1px solid white;padding:5px"></div>
+                        <div style="border-left: 1px solid white;padding:5px"></div>
+                        <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" style="cursor:pointer;" onclick="channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
+                    </div>
                     <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
                 </div>
             </div>
@@ -117,13 +135,14 @@
                         <i class="fa fa-close" style="color:white;font-size:20px;padding:10px;margin-top:20px;cursor:pointer;" onclick="dropdown_menu()"></i>
                     </div>
                 </div>
+                
                 <ul class="menu-list text-uppercase text-center" style="color:white;list-style-type:none;margin:0;padding:20px;">
-                    <li><a href="<?php echo url("/")?>" style="color:white;text-decoration:none;">Home</a></li>
-                    <li><a href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;">About Us</a></li>
-                    <li><a href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;">Testimonies</a></li>
-                    <li><a href="<?php echo url("sermon/upcoming")?>" style="color:white;text-decoration:none;">Sermons</a></li>
-                    <li><a href="<?php echo url("event/upcoming")?>" style="color:white;text-decoration:none;">Events</a></li>
-                    <li><a href="#contact_us" style="color:white;text-decoration:none;">Contact Us</a></li>
+                    <li><a class="nav-home" href="<?php echo url("/")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "HOME" : "主页"?></a></li>
+                    <li><a class="nav-about-use" href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "About us" : "关于我们"?></a></li>
+                    <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
+                    <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
+                    <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
+                    <li><a class="nav-contact-us" href="#contact_us" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
                 </ul>
             </div>
         </div>
@@ -136,5 +155,19 @@
 
     function dropdown_menu(){
         $("#mobile-menu").slideToggle()
+    }
+
+    function channel(val){
+        axios.get(address + "api/index/language?ch=" + val)
+        .then((response) => {
+            if(response.data.status){
+                location.reload();
+            }else{
+                warning_response(response.data.message);
+            }
+        })
+        .catch((err) => {
+            error_response(err);
+        })
     }
 </script>

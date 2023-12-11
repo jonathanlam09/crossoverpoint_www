@@ -1,8 +1,7 @@
 @include("include/header")
-
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3>TESTIMONY</h3>
+        <h3><?php echo $channel == "ENG" ? "TESTIMONY" : "证言"?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5" id="testimony_div">

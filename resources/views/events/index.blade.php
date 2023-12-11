@@ -8,7 +8,7 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3>EVENT</h3>
+        <h3><?php echo $channel == "ENG" ? "EVENTS" : "活动"?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">
@@ -34,11 +34,11 @@
         <?php
         if($period == "upcoming"){
             ?>
-            <a href="<?php echo url("events/past")?>" class="btn btn-primary">Past events</a>
+            <a href="<?php echo url("events/past")?>" class="btn btn-primary"><?php echo $channel == "ENG" ? "Past events" : "过去的活动"?></a>
             <?php
         }else{
             ?>
-            <a href="<?php echo url("events/upcoming")?>" class="btn btn-primary">Upcoming events</a>
+            <a href="<?php echo url("events/upcoming")?>" class="btn btn-primary"><?php echo $channel == "ENG" ? "Past events" : "来临的活动"?></a>
             <?php
         }
         ?>
@@ -48,6 +48,7 @@
 </div>
 @include("include/footer")
 <script>
+    var channel = "<?php echo $channel?>";
     let opt = {
         root: document.getElementById("#event_row"),
         rootMargin: "0px",
@@ -73,7 +74,7 @@
         formdata.append("search", search);
         formdata.append("period", period);
 
-        axios.post(address + "api/event/get", formdata, apiHeader)
+        axios.post(address + "api/events/get", formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
                 $("#event_row").empty()
@@ -86,11 +87,12 @@
                 if(events.length > 0){
                     for(var i=0;i<events.length;i++){
                         var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "events/" + events[i].event_id + "'>" + 
-                            "<img style='max-height:150px;' src='" + portal_address + "assets/img/event_img/" + events[i].image + "'/>" + 
+                            "<img style='max-height:150px;' src='" + portal_address + "assets/img/event/" + events[i].image + "'/>" + 
                             "</a></div>";
                         var title = "<h5><a style='color:black;text-decoration:none;' href='" + address + "events/" + events[i].event_id + "'>" + events[i].name + "</a></h5>";
-                        var desc = "<span>" + events[i].description + "</span>";
-                        var text = "<div class='col-md-9 col-12 text-desc'>" + title + desc + "</div>";
+                        var desc = "<div class='mt-1'><span>" + events[i].description + "</span></div>";
+                        var date = "<div class='mt-1'><span>" + events[i].start_date + "</span></div>";
+                        var text = "<div class='col-md-9 col-12 text-desc'>" + title + desc + date + "</div>";
                         if(i == 0){
                             var row = "<div class='event-rows' style='opacity:.2;transform:translateY(50%);transition: .5s ease;'><hr><div class='row'>" + image + text + "</div><hr></div>";
                         }else{
@@ -99,7 +101,7 @@
                         $("#event_row").append(row);
                     }
                 }else{
-                    var row = "<div class='col-12'>No events.</div>";
+                    var row = "<div class='col-12'>" + (channel == "ENG" ? "No events." : "没有活动。") + "</div>";
                     $("#event_row").append(row);
                 }
             }else{

@@ -21,10 +21,9 @@ class EventSignUps extends Model
         "contact",
         "active", 
         "insert_by",
-        "update_by"
     ];
     
     public function event(){
-        return $this->belongsTo(Event::class, "id", "event_id");
+        return $this->belongsTo(Events::class, "id", "event_id");
     }
 }

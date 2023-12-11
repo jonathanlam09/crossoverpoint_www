@@ -1,7 +1,7 @@
 @include("include/header")
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3>ABOUT US</h3>
+        <h3><?php echo $channel == "ENG" ? "ABOUT US" : "关于我们"?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">

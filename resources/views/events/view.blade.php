@@ -2,15 +2,15 @@
 <?php
     $name = isset($event->name) ? $event->name : "-";
     $description = isset($event->description) ? $event->description : "-";
-    $start_date = date("jS F Y", strtotime($event->start_date));
-    $end_date = date("jS F Y", strtotime($event->end_date));
+    $start_date = date("jS F Y H:i:s A", strtotime($event->start_date));
+    $end_date = date("jS F Y H:i:s A", strtotime($event->end_date));
     $fee = isset($event->fee) ? $event->fee : "0";
     if($fee == 0){
-        $fee = "-";
+        $fee = "FOC";
     }else {
         $fee = "$" . number_format($fee, 2);
     }
-    $image = isset($event->image) ? IMAGE_PATH . "event_img/" . $event->image : IMAGE_PATH . "banner.png";
+    $image = isset($event->image) ? IMAGE_PATH . "event/" . $event->image : IMAGE_PATH . "banner.png";
 ?>
 <style>
     @media screen and (min-width:992px){
@@ -21,7 +21,7 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3>EVENT</h3>
+        <h3><?php echo $channel == "ENG" ? "EVENTS" : "活动"?></h3>
     </div>
 </div>
 
@@ -43,7 +43,7 @@
     <div class="row d-flex justify-content-center mt-5" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">Name</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "Name" : "名字"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $name;?></span>
@@ -53,7 +53,7 @@
     <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">Description</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "Description" : "描写"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $description;?></span>
@@ -63,7 +63,7 @@
     <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">Start date</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "Start date" : "开始日期"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $start_date;?></span>
@@ -73,7 +73,7 @@
     <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">End date</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "End date" : "结束日期"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $end_date;?></span>
@@ -83,7 +83,7 @@
     <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">PIC</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "PIC" : "负责人"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $event->pic->getFullname();?></span>
@@ -93,7 +93,7 @@
     <div class="row d-flex justify-content-center mt-3" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
         <div class="row" style="width: 800px">
             <div class="col-md-6 col-12">
-                <span style="font-weight:700;">Fee</span>
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "Fee" : "费用"?></span>
             </div>
             <div class="col-md-6 col-12">
                 <span><?php echo $fee;?></span>
@@ -105,7 +105,7 @@
         time() <= strtotime($event->registration_close_date)){
             ?>
             <div class="mt-5 d-flex justify-content-end" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
-                <a class="btn" href="<?php echo url("events/sign_up/" . $event_id)?>" style="background-color:cornflowerblue;color:white;">SIGN UP</a>
+                <a class="btn" href="<?php echo url("events/sign-up/" . $event_id)?>" style="background-color:cornflowerblue;color:white;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></a>
             </div>
             <?php
         }
@@ -113,7 +113,7 @@
 </div>
 @include("include/footer")
 <script>
-    let opt = {
+    const opt = {
         root: document.getElementById("#event_container"),
         rootMargin: "0px",
         threshold: 0,
