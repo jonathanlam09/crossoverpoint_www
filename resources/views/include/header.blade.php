@@ -67,11 +67,23 @@
     }
 
     .menu-list li {
-        padding: 10px 30px;
+        display: flex; 
+        align-items: center;
+        padding: 15px 30px;
         cursor: pointer;
     }
 
-    .menu-list li:hover{
+    .menu-div .menu-list li:not(:last-child):hover{
+        font-weight: bold;
+        transform: scale(1.05);
+    }
+
+    #mobile-menu .menu-list li:hover{
+        font-weight: bold;
+        transform: scale(1.05);
+    }
+
+    .ch-btn:hover, .eng-btn:hover{
         font-weight: bold;
         transform: scale(1.05);
     }
@@ -105,8 +117,8 @@
                         <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
                         <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
                         <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
-                        <li><a class="nav-contact-us" href="#contact_us" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
-                        <li class="d-flex">
+                        <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
+                        <li class="d-flex align-items-center">
                             <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" onclick="channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
                             <div style="height:100%;border-right: 1px solid white;padding:5px"></div>
                             <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
@@ -125,14 +137,14 @@
                     <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
                 </div>
             </div>
-            <div id="mobile-menu" style="width:100vw;background-color:black;position:absolute;top:0%;left:0%;display:none;">
+            <div id="mobile-menu" style="z-index:99;height:100vh;width:100vw;background-color:black;position:absolute;top:0%;left:0%;display:none;">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="logo-div" style="padding: 10px;">
                         <a href="#"><img src="<?php echo url("assets/img/logo.png")?>" 
                             style="cursor:pointer;height:80px;"></a>
                     </div>
                     <div>
-                        <i class="fa fa-close" style="color:white;font-size:20px;padding:10px;margin-top:20px;cursor:pointer;" onclick="dropdown_menu()"></i>
+                        <i class="fa fa-close" style="color:white;padding:10px;cursor:pointer;" onclick="dropdown_menu()"></i>
                     </div>
                 </div>
                 
@@ -142,7 +154,7 @@
                     <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
                     <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
                     <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
-                    <li><a class="nav-contact-us" href="#contact_us" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
+                    <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
                 </ul>
             </div>
         </div>
@@ -154,7 +166,7 @@
     })
 
     function dropdown_menu(){
-        $("#mobile-menu").slideToggle()
+        $("#mobile-menu").slideToggle();
     }
 
     function channel(val){
@@ -169,5 +181,14 @@
         .catch((err) => {
             error_response(err);
         })
+    }
+
+    function smooth_scroll(val){
+        if($("#mobile-menu").css("display") != "none"){
+            $("#mobile-menu").slideToggle();
+        }
+        $(val).get(0).scrollIntoView({
+            behavior: "smooth"
+        });
     }
 </script>

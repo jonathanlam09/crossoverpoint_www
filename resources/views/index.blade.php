@@ -40,14 +40,15 @@
                 <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming sermons." : "请继续关注即将到来的更多讲道。"?></div>
                 <?php
             }else{
+                $total_sermon_count = count($sermons);
                 $main_sermon = $sermons[0];
                 $main_sermon_image = isset($main_sermon["image"]) ? IMAGE_PATH . "sermon/" . $main_sermon["image"] : url("assets/img/banner.png");
                 array_splice($sermons, 0, 1);
                 ?>
                     <div class="row mb-2 mt-5" id="sermon_div">
-                        <div class="col-12 col-lg-9" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-9 ' : ''?>" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
                             <div class="img d-flex justify-content-center" style="position:relative;">
-                                <a href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>"></a>
+                                <a class="<?php echo ($total_sermon_count > 1) ? 'd-flex justify-content-center ' : ''?>" href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>" style="max-width:800px;width:100%;"></a>
                             </div>
                             <div class="text-center">
                                 <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($main_sermon["date"]))?></h6>
@@ -55,7 +56,7 @@
                                 <p><?php echo $main_sermon["description"]?></p>
                             </div>
                         </div>    
-                        <div class="col-12 col-lg-3 mb-3" id="sermon_sub_div">
+                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-3 ' : 'd-none'?> mb-3" id="sermon_sub_div">
                                 <?php
                                 if(count($sermons) > 0){
                                     foreach($sermons as $key=>$row){
@@ -102,24 +103,25 @@
             style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming events." : "请继续关注更多即将举行的活动。"?></div>
             <?php
         }else{
+            $total_event_count = count($events);
             $main_event = $events[0];
             array_splice($events, 0, 1);
             $main_event_image = isset($main_event["image"]) ? $main_event["image"] : "banner.png";
             ?>
             <div class="row mt-5" id="event_div">
-                <div class="col-12 col-lg-9" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                <div class="col-12 <?php echo ($total_event_count > 1) ? 'col-lg-9 ' : ''?>" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                     <div class="img">
-                        <a href="<?php echo url("events/" . $main_event["encrypted_id"])?>"><img src="<?php echo IMAGE_PATH . "event/" . $main_event_image?>" alt=""></a>
+                        <a class="<?php echo ($total_event_count == 1) ? 'd-flex justify-content-center' : 'test'?>" href="<?php echo url("events/" . $main_event["encrypted_id"])?>"><img src="<?php echo IMAGE_PATH . "event/" . $main_event_image?>" style="max-width:800px;width:100%;"></a>
                     </div>
                     <div class="text-center">
-                        <div class="content padding-5-half-rem-all lg-padding-4-half-rem-all xs-padding-20px-lr xs-padding-40px-tb position-relative mx-auto w-90 lg-w-100">
-                            <span><?php echo date("d F Y", strtotime($main_event["start_date"]))?></span> . <span><?php echo date("h:i A", strtotime($main_event["start_date"]))?></span>
+                        <div>
+                            <span><?php echo date("jS F Y", strtotime($main_event["start_date"]))?></span> . <span><?php echo date("h:i A", strtotime($main_event["start_date"]))?></span>
                             <h6><?php echo $main_event["name"]?></h6>
                             <p><?php echo $main_event["description"]?></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3" id="event_subdiv">
+                <div class="col-12 <?php echo ($total_event_count > 1) ? 'col-lg-3' : 'd-none'?>" id="event_subdiv">
                     <?php
                         if(count($events) > 0){
                             foreach($events as $row){
