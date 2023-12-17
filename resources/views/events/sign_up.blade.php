@@ -117,7 +117,11 @@
         axios.post(address + "api/events/sign-up?id=" + event_id, formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
-                success_response("You have successfully signed up!", true, "events/" + event_id);
+                const success_msg = channel == "ENG" ? "You have successfully signed up!" : "您已注册成功！";
+                success_response(success_msg)
+                .then((response) => {
+                    window.location.href = address + "events/" + event_id;
+                });
             }else{
                 warning_response(response.data.message);
             }

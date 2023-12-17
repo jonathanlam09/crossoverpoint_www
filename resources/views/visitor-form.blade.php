@@ -183,7 +183,11 @@
         axios.post(address + "api/visitors/create", formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
-                success_response("Successfully registered!", true, "");
+                const success_msg = channel == "ENG" ? "Successfully registered!" : "注册成功！";
+                success_response(success_msg)
+                .then((response) => {
+                    window.location.reload();
+                });
             }else{
                 warning_response(response.data.message);
             }

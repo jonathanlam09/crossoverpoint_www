@@ -120,7 +120,11 @@ crossorigin="anonymous"></script>
         axios.post(address + "api/index/enquiry", formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
-                success_response("Your enquiry has been submitted! We will connect with you soon.", true, "");
+                const success_msg = channel == "ENG" ? "Your enquiry has been submitted! We will connect with you soon." : "您的询问已提交！我们将尽快与您联系。";
+                success_response(success_msg)
+                .then((response) => {
+                    window.location.reload();
+                });
             }else{
                 warning_response(response.data.message);
             }
@@ -136,24 +140,24 @@ crossorigin="anonymous"></script>
         if(total > 5){
             for(var i=1;i<=total;i++){
                 if(i == 2){
-                    var page = "<div class='more_page' id='more_page_1' style='display:none;'>...</div>";
+                    var page = "<div class="more_page" id="more_page_1" style="display:none;">...</div>";
                     $("#page_" + i).before(page);
                     $(".pagination").append(page)
                 }else if(i == total){
-                    var page = "<div class='more_page' id='more_page_2'>...</div>";
+                    var page = "<div class="more_page" id="more_page_2">...</div>";
                     $("#page_" + i).before(page);
                     $(".pagination").append(page)
                 }
                 
                 if(i > 3 && i < total){
-                    var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "' style='display:none;'>" + i + "</div>";
+                    var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "" style="display:none;">" + i + "</div>";
                     $(".pagination").append(page)
                 }else{
                     if(i == 1){
-                        var page = "<div class='active-page page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
+                        var page = "<div class="active-page page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
                         $(".pagination").append(page)
                     }else{
-                        var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
+                        var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
                         $(".pagination").append(page)
                     }
                 }
@@ -161,10 +165,10 @@ crossorigin="anonymous"></script>
         }else{
             for(var i=1;i<=total;i++){
                 if(i == 1){
-                    var page = "<div class='active-page page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
+                    var page = "<div class="active-page page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
                     $(".pagination").append(page)
                 }else{
-                    var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
+                    var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
                     $(".pagination").append(page)
                 }
             }
@@ -235,24 +239,13 @@ crossorigin="anonymous"></script>
         }
     }
 
-    function success_response(data, redirect = false, redirect_page) {
-        if (redirect) {
-            Swal.fire({
-                title: "Success!",
-                icon: "success",
-                text: data,
-                button: 'OK',
-            }).then((result) => {
-                window.location.href = address + redirect_page;
-            })
-        } else {
-            Swal.fire({
-                title: "Success!",
-                icon: "success",
-                text: data,
-                button: 'OK',
-            })
-        }
+    async function success_response(data) {
+        return await Swal.fire({
+            title: "Success!",
+            icon: "success",
+            text: data,
+            button: "OK",
+        });
     }
 
     function warning_response(data, redirect = false, redirect_page) {
@@ -262,7 +255,7 @@ crossorigin="anonymous"></script>
                     title: "Warning!",
                     icon: "warning",
                     text: data,
-                    button: 'OK',
+                    button: "OK",
                 }).then((result) => {
                     window.location.href = address + redirect_page;
                 })
@@ -273,7 +266,7 @@ crossorigin="anonymous"></script>
                     title: "Warning!",
                     icon: "warning",
                     text: data,
-                    button: 'OK',
+                    button: "OK",
                 })
             }
         }
@@ -283,8 +276,8 @@ crossorigin="anonymous"></script>
         Swal.fire({
             title: "Error!",
             icon: "error",
-            text: 'Something Error !',
-            button: 'OK',
+            text: "Something Error !",
+            button: "OK",
         })
     }
 </script>

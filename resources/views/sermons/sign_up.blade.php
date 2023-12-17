@@ -103,7 +103,11 @@
         axios.post(address + "api/sermons/sign-up?id=" + sermon_id, formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
-                success_response("You have successfully signed up!", true, "sermons/" + sermon_id);
+                const success_msg = channel == "ENG" ? "You have successfully signed up!" : "已注册成功！";
+                success_response(success_msg)
+                .then((response) => {
+                    window.location.href = address + "sermons/" + sermon_id;
+                });
             }else{
                 warning_response(response.data.message);
             }
