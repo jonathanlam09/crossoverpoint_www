@@ -5,7 +5,8 @@
     </div>
 </div>
 <div class="container mt-5 mb-5" id="testimony_div">
-    <div class="row p-5 mt-5 mb-5 testimony-row" id="row_1" style="transform: translateX(-100%);transition-duration: 1.5s;">
+    <p class="text-center">Coming soon</p>
+    {{-- <div class="row p-5 mt-5 mb-5 testimony-row" id="row_1" style="transform: translateX(-100%);transition-duration: 1.5s;">
         <div class="col-md-4 col-12">
             <img src="<?php echo url("assets/img/banner.png")?>" alt="">
         </div>
@@ -56,7 +57,7 @@
         <div class="col-md-4 col-12">
             <img src="<?php echo url("assets/img/banner.png")?>" alt="">
         </div>
-    </div>
+    </div> --}}
 </div>
 <script>
     let options = {

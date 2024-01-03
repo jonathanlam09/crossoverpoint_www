@@ -18,7 +18,7 @@
                             </a>
                         </div>
                         <div class="col-2">
-                            <a class="text-white" target="_blank" href="https://wa.me/60123861850?text=I%20would%20like%20to%20ask%20about%20Kota%20Kemuning%20Assembly%20Of%20God">
+                            <a class="text-white" target="_blank" href="https://wa.me/601154265548?text=I%20would%20like%20to%20ask%20about%20Crossover%20Point">
                                 <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -140,24 +140,24 @@ crossorigin="anonymous"></script>
         if(total > 5){
             for(var i=1;i<=total;i++){
                 if(i == 2){
-                    var page = "<div class="more_page" id="more_page_1" style="display:none;">...</div>";
+                    var page = "<div class='more_page' id='more_page_1' style='display:none;'>...</div>";
                     $("#page_" + i).before(page);
                     $(".pagination").append(page)
                 }else if(i == total){
-                    var page = "<div class="more_page" id="more_page_2">...</div>";
+                    var page = "<div class='more_page' id='more_page_2'>...</div>";
                     $("#page_" + i).before(page);
                     $(".pagination").append(page)
                 }
                 
                 if(i > 3 && i < total){
-                    var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "" style="display:none;">" + i + "</div>";
+                    var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "' style='display:none;'>" + i + "</div>";
                     $(".pagination").append(page)
                 }else{
                     if(i == 1){
-                        var page = "<div class="active-page page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
+                        var page = "<div class='active-page page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
                         $(".pagination").append(page)
                     }else{
-                        var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
+                        var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
                         $(".pagination").append(page)
                     }
                 }
@@ -165,10 +165,10 @@ crossorigin="anonymous"></script>
         }else{
             for(var i=1;i<=total;i++){
                 if(i == 1){
-                    var page = "<div class="active-page page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
+                    var page = "<div class='active-page page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
                     $(".pagination").append(page)
                 }else{
-                    var page = "<div class="page" onclick="paginate(" + i + ", " + total +")" id="page_" + i + "">" + i + "</div>";
+                    var page = "<div class='page' onclick='paginate(" + i + ", " + total +")' id='page_" + i + "'>" + i + "</div>";
                     $(".pagination").append(page)
                 }
             }

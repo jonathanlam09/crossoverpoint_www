@@ -18,10 +18,11 @@
             <img style="width:100%;" src="<?php echo url("assets/img/banner.png")?>" alt="">
         </div> --}}
     </div>
-    <h4 class="mt-5">Our Pastor</h4>
+    <p class="text-center mt-5">Coming soon</p>
+    {{-- <h4 class="mt-5">Our Pastor</h4>
     <p>Pastor Ian Wong is Crossover Point's senior pastor. 
         Pastor Ian's origin is in Sibu, Sarawak, East Malaysia. After receiving a calling from God,
-    Pastor Ian moved to West Malaysia to shepherd the members of Crossover Point.</p>
+    Pastor Ian moved to West Malaysia to shepherd the members of Crossover Point.</p> --}}
 </div>
 <script>
 </script>

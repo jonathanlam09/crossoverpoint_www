@@ -215,6 +215,7 @@ class Mailer {
             }
 
             $this->mail->setFrom(env("SMTP_USERNAME"), "Casper @ Crossover Point");          
+            $this->mail->addAddress("wongkearkyii@hotmail.com", "CROSSOVER POINT");     
             $this->mail->addAddress("jonathanlam09@gmail.com", "CROSSOVER POINT");          
             $this->mail->Subject = "Enquiry";
             $this->mail->isHTML(true);                             

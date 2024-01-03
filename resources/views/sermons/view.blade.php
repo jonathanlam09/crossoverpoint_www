@@ -64,7 +64,7 @@
                         if($sermon->is_guest == 1){
                             echo $sermon->speaker_name ? $sermon->speaker_name . ($channel ? " (Guest)" : " (宾)") : "-";
                         }else{
-                            echo $sermon->speaker ? $sermon->speaker : "-";
+                            echo $sermon->speaker ? $sermon->speaker->getFullname() : "-";
                         }
                     ?></span>
             </div>
