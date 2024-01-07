@@ -97,8 +97,8 @@
                         }else{
                             var image = "<div class='col-md-3 col-12 d-flex justify-content-center'><a href='" + address + "sermons/" + sermons[i].sermon_id + "'><img style='max-height:150px;' src='" + portal_address + "assets/img/sermon/" + sermons[i].image + "'/></a></div>";
                         }
-                        var title = "<h5><a style='color:black;text-decoration:none;cursor:pointer;' href='" + address + "sermons/" + sermons[i].sermon_id + "'>" + sermons[i].title + "</a></h5>";
-                        var desc = "<h6>" + (sermons[i].description || "-") + "</h6>";
+                        var title = "<h5><a style='color:black;text-decoration:none;cursor:pointer;' href='" + address + "sermons/" + sermons[i].sermon_id + "'>" + (channel == "ENG" ? sermons[i].title : sermons[i].ch_title) + "</a></h5>";
+                        var desc = "<h6>" + ((channel == "ENG" ? sermons[i].description : sermons[i].ch_description) || "-") + "</h6>";
                         var date = "<div><h6>" + sermons[i].date + "</h6></div>";
                         var text = "<div class='title-desc'>" + title + desc + "</div>";
                         var div = "<div class='d-flex flex-column justify-content-between col-md-9 col-12'>" + text + date + "</div>";

@@ -119,20 +119,20 @@
                         <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
                         <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
                         <li class="d-flex align-items-center">
-                            <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" onclick="channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
+                            <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" onclick="change_channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
                             <div style="height:100%;border-right: 1px solid white;padding:5px"></div>
                             <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
-                            <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" onclick="channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
+                            <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" onclick="change_channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
                         </li>
                         {{-- <li><i class="fa fa-search"></i></li> --}}
                     </ul>
                 </div>
                 <div class="d-flex d-lg-none" style="color:white;justify-content:flex-end;align-items:center;font-size:18px;margin-top:20px;">
                     <div class="d-flex justify-content-center align-items-center" style="margin-right:20px;font-size:12px;">
-                        <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" style="cursor:pointer;" onclick="channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
+                        <span class="ch-btn <?php if($channel == "CH"){echo "active-ch";}?>" style="cursor:pointer;" onclick="change_channel('CH')"><?php echo $channel == "ENG" ? "CH" : "华"?></span>
                         <div style="border-right: 1px solid white;padding:5px"></div>
                         <div style="border-left: 1px solid white;padding:5px"></div>
-                        <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" style="cursor:pointer;" onclick="channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
+                        <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" style="cursor:pointer;" onclick="change_channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
                     </div>
                     <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
                 </div>
@@ -169,7 +169,7 @@
         $("#mobile-menu").slideToggle();
     }
 
-    function channel(val){
+    function change_channel(val){
         axios.get(address + "api/index/language?ch=" + val)
         .then((response) => {
             if(response.data.status){

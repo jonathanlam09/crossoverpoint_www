@@ -52,8 +52,8 @@
                             </div>
                             <div class="text-center">
                                 <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($main_sermon["date"]))?></h6>
-                                <h6 class="mb-3"><?php echo $main_sermon["title"]?></h6>
-                                <p><?php echo $main_sermon["description"]?></p>
+                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $main_sermon["title"] : $main_sermon["ch_title"]?></h6>
+                                <p><?php echo $channel == "ENG" ? $main_sermon["description"] : $main_sermon["ch_description"]?></p>
                             </div>
                         </div>    
                         <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-3 ' : 'd-none'?> mb-3" id="sermon_sub_div">
@@ -116,8 +116,8 @@
                     <div class="text-center">
                         <div>
                             <span><?php echo date("jS F Y", strtotime($main_event["start_date"]))?></span> . <span><?php echo date("h:i A", strtotime($main_event["start_date"]))?></span>
-                            <h6><?php echo $main_event["name"]?></h6>
-                            <p><?php echo $main_event["description"]?></p>
+                            <h6><?php echo $channel == "ENG" ? $main_event["name"] : $main_event["ch_name"];?></h6>
+                            <p><?php echo $channel == "ENG" ? $main_event["description"] : $main_event["ch_description"];?></p>
                         </div>
                     </div>
                 </div>

@@ -96,7 +96,8 @@ crossorigin="anonymous"></script>
     const address = window.location.origin + "/";
     const portal_address = "https://admin.crossoverpoint.org.my/";
     const apiHeader = { headers: { "Content-Type": "multipart/form-data"} };
-
+    var channel = "<?php echo $channel;?>";
+    
     $(document).ready(()=>{
         $("#dt_search").on("input", ()=>{
             var type = $("#type").val()

@@ -113,7 +113,9 @@ class SermonController extends Controller
                     $result[] = [
                         "image" => $row->image,
                         "title" => isset($row->title) ? $row->title : "-",
+                        "ch_title" => isset($row->ch_title) ? $row->ch_title : "-",
                         "description" => $row->description,
+                        "ch_description" => $row->ch_description,
                         "date" => $row->date,
                         "preacher" => $preacher,
                         "sermon_id" => Helper::encrypt($row->id)
