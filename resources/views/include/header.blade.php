@@ -18,7 +18,7 @@
         background-color: #f8f9fa;
         font-size: 14px;
         height: 100vh;
-        width: 100vw;
+        /* width: 100vw; */
     }
 
     .page{
@@ -137,7 +137,7 @@
                     <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
                 </div>
             </div>
-            <div id="mobile-menu" style="z-index:99;height:100vh;width:100vw;background-color:black;position:absolute;top:0%;left:0%;display:none;">
+            <div id="mobile-menu" style="z-index:99;height:100vh;width:100%;background-color:black;position:fixed;top:0%;left:0%;display:none;">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="logo-div" style="padding: 10px;">
                         <a href="#"><img src="<?php echo url("assets/img/logo.png")?>" 

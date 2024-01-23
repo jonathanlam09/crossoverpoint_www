@@ -147,7 +147,7 @@
         ?>
     </div>
 </section>
-<div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100vw;position:absolute;top:0;left:0">
+<div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100%;position:fixed;top:0;left:0">
     <h3 class="crossoverpoint text-white" style="text-shadow: white 0px 0px 20px, white 0px 0px 20px">CROSSOVER POINT</h3>
     <div class="crossoverpoint d-flex align-items-center text-white">
         <div class="d-flex align-items-center">
