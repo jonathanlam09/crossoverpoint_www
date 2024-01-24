@@ -14,11 +14,9 @@
 <style>
     html, body{
         font-family: Arial, Helvetica, sans-serif;
-        /* overflow-x: hidden; */
         background-color: #f8f9fa;
         font-size: 14px;
         height: 100vh;
-        /* width: 100vw; */
     }
 
     .page{
@@ -39,8 +37,10 @@
     .banner{
         height: 560px;
         background-image: url("<?php echo url('assets/img/background.jpg')?>");
-        background-repeat: none;
-        background-size: cover;
+        transition: 5s ease;
+        background-size: 120%;
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 
     .error-message{
@@ -163,6 +163,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
     $(document).ready(()=>{
+        $(".banner").css("background-size", "100%")
     })
 
     function dropdown_menu(){
