@@ -33,7 +33,7 @@
                 <div class="col-lg-6 col-12 p-5">
                     <form id="enquiry_form" onsubmit="submit_enquiry(event)">
                         <div>
-                            <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == "ENG" ? "Enquiries" : "问诊"?></h6>
+                            <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == "ENG" ? "Enquiries" : "詢問"?></h6>
                         </div>
                         <div class="row">
                             <div class="col-6 mt-3">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
-                                <label for=""><?php echo $channel == "ENG" ? "Remarks" : "评语"?></label>
+                                <label for=""><?php echo $channel == "ENG" ? "Remarks" : "备注"?></label>
                                 <textarea class="form-control" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
                             </div>
                         </div>

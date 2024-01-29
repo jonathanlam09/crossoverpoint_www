@@ -72,16 +72,7 @@
     </div>
     <div class="d-flex justify-content-center mt-5" style="transition:1s ease;opacity:.2;transform:translateY(50%);">
         <div class="broadcast-div" style="width:800px;height:500px;">
-            <?php
-                if(isset($sermon->broadcast_live)){
-                    ?>
-                        <iframe src="https://www.facebook.com/plugins/video.php?href=<?php echo urlencode($sermon->broadcast_live)?>" 
-                            frameborder="0" 
-                            style="width:100%;height:100%;"
-                            allow="fullscreen"></iframe>
-                    <?php
-                }
-            ?>
+            <?php echo $sermon->broadcast_live?>
         </div>
     </div>
 </div>

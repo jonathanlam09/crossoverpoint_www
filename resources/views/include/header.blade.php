@@ -114,8 +114,8 @@
                     <ul class="menu-list text-uppercase" style="display:flex;color:white;list-style-type:none;margin:0;padding:0">
                         <li><a class="nav-home" href="<?php echo url("/")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "HOME" : "主页"?></a></li>
                         <li><a class="nav-about-us" href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "About us" : "关于我们"?></a></li>
-                        <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
-                        <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
+                        <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "見證"?></a></li>
+                        <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "聚會"?></a></li>
                         <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
                         <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
                         <li class="d-flex align-items-center">
@@ -151,8 +151,8 @@
                 <ul class="menu-list text-uppercase text-center" style="color:white;list-style-type:none;margin:0;padding:20px;">
                     <li><a class="nav-home" href="<?php echo url("/")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "HOME" : "主页"?></a></li>
                     <li><a class="nav-about-use" href="<?php echo url("/about-us")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "About us" : "关于我们"?></a></li>
-                    <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "证言"?></a></li>
-                    <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "讲道"?></a></li>
+                    <li><a class="nav-testimony" href="<?php echo url("testimony")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Testimonies" : "見證"?></a></li>
+                    <li><a class="nav-sermons" href="<?php echo url("sermons/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Sermons" : "聚會"?></a></li>
                     <li><a class="nav-events" href="<?php echo url("events/upcoming")?>" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Events" : "活动"?></a></li>
                     <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;"><?php echo $channel == "ENG" ? "Contact us" : "联系我们"?></a></li>
                 </ul>
