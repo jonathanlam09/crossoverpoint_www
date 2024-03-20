@@ -106,9 +106,9 @@
     <div class="banner">
         <div style="background-image: linear-gradient(to bottom, black, transparent)">
             <div class="container-fluid" style="padding:0;margin:0;display:flex;justify-content:space-between;align-items:center;">
-                <div class="logo-div" style="padding: 10px;">
+                <div class="logo-div bg-white d-flex justify-content-center align-items-center" style="padding:10px;border-radius:50%;margin:15px;height:100px;width:100px;">
                     <a href="/"><img src="<?php echo url("assets/img/logo.png")?>" 
-                        style="cursor:pointer;height:80px;"></a>
+                        style="cursor:pointer;"></a>
                 </div>
                 <div class="menu-div d-none d-lg-flex" style="display:flex;justify-content:flex-end;align-items:center;margin-top:20px;">
                     <ul class="menu-list text-uppercase" style="display:flex;color:white;list-style-type:none;margin:0;padding:0">

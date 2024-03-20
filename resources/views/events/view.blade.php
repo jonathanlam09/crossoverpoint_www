@@ -100,16 +100,18 @@
             </div>
         </div>
     </div>
-    <?php
+    <div class="d-flex justify-content-end mt-5">
+        <a onclick="history.back()" class="btn btn-secondary">BACK</a>
+        <?php
         if(time() >= strtotime($event->registration_open_date) && 
         time() <= strtotime($event->registration_close_date)){
             ?>
-            <div class="mt-5 d-flex justify-content-end" style="transform:translateY(50%);opacity:.2;transition:1s ease;">
                 <a class="btn" href="<?php echo url("events/sign-up/" . $event_id)?>" style="background-color:cornflowerblue;color:white;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></a>
-            </div>
             <?php
         }
     ?>
+    </div>
+    
 </div>
 @include("include/footer")
 <script>

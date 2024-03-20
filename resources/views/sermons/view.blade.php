@@ -70,10 +70,20 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-5" style="transition:1s ease;opacity:.2;transform:translateY(50%);">
-        <div class="broadcast-div" style="width:800px;height:500px;">
-            <?php echo $sermon->broadcast_live?>
-        </div>
+    <?php
+        if(isset($sermon->broadcast_live)){
+            ?>
+            <div class="d-flex justify-content-center mt-5" style="transition:1s ease;opacity:.2;transform:translateY(50%);">
+                <div class="broadcast-div" style="width:800px;height:500px;">
+                    <?php echo $sermon->broadcast_live?>
+                </div>
+            </div>
+            <?php
+        }
+    ?>
+    <iframe src="https://www.facebook.com/crossoverpointchurch/videos/398597589422445/" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+    <div class="d-flex justify-content-end mt-5">
+        <a onclick="history.back()" class="btn btn-secondary">BACK</a>
     </div>
 </div>
 @include("include/footer")
