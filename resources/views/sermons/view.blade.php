@@ -70,18 +70,22 @@
             </div>
         </div>
     </div>
-    <?php
-        if(isset($sermon->broadcast_live)){
-            ?>
-            <div class="d-flex justify-content-center mt-5" style="transition:1s ease;opacity:.2;transform:translateY(50%);">
-                <div class="broadcast-div" style="width:800px;height:500px;">
-                    <?php echo $sermon->broadcast_live?>
-                </div>
+    <div class="row d-flex justify-content-center mt-3" style="transition:1s ease;opacity:.2;transform:translateY(50%);">
+        <div class="row" style="max-width: 800px;">
+            <div class="col-md-6 col-12">
+                <span style="font-weight:700;"><?php echo $channel == "ENG" ? "Broadcast link" : "广播网址"?></span>
             </div>
-            <?php
-        }
-    ?>
-    <iframe src="https://www.facebook.com/crossoverpointchurch/videos/398597589422445/" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+            <div class="col-md-6 col-12">
+                <?php
+                    if(isset($sermon->broadcast_live)){
+                        ?>
+                        <a href="<?php echo $sermon->broadcast_live?>" target="_blank"><?php echo $sermon->broadcast_live?></a>
+                        <?php
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
     <div class="d-flex justify-content-end mt-5">
         <a onclick="history.back()" class="btn btn-secondary">BACK</a>
     </div>

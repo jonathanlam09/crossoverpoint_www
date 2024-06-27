@@ -61,8 +61,7 @@ Route::any("{req}", function($req) {
         }
         return redirect(trim($redirectUri, "/"));
     }
-
-    return response()->view("error", [], 404);
+    return redirect("/");
 })->where("req", "^.*");
 
 Route::get("/error", function(){

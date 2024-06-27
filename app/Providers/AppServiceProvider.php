@@ -76,6 +76,10 @@ use App\Observers\EventSignUpsObserver;
 use App\Models\Visitors;
 use App\Observers\VisitorsObserver;
 
+use App\Models\Highlights;
+use App\Observers\HighlightsObserver;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -115,5 +119,6 @@ class AppServiceProvider extends ServiceProvider
         Menus::observe(MenusObserver::class);
         Permissions::observe(PermissionsObserver::class);
         Visitors::observe(VisitorsObserver::class);
+        Highlights::observe(HighlightsObserver::class);
     }
 }

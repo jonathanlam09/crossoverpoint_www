@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sermons;
 use App\Models\Events;
+use App\Models\Highlights;
 use App\Models\Visitors;
 use Exception;
 use Helper;
@@ -23,9 +24,12 @@ class IndexController extends Controller
             ->take(4)
             ->get();
 
+            $highlights = Highlights::where("active", 1)->get();
+
             $data = [
                 "sermons" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $sermons])), true),
-                "events" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $events])), true)
+                "events" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $events])), true),
+                "highlights" => $highlights
             ];
         }catch(\Exception $e){
             return redirect("error")->with("error", $e->getMessage());

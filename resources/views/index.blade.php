@@ -46,7 +46,7 @@
                 array_splice($sermons, 0, 1);
                 ?>
                     <div class="row mb-2 mt-5" id="sermon_div">
-                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-9 ' : ''?>" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-12 ' : ''?>" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
                             <div class="img d-flex justify-content-center" style="position:relative;">
                                 <a class="<?php echo ($total_sermon_count > 1) ? 'd-flex justify-content-center ' : ''?>" href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>" style="max-width:800px;width:100%;"></a>
                             </div>
@@ -56,7 +56,7 @@
                                 <p><?php echo $channel == "ENG" ? $main_sermon["description"] : $main_sermon["ch_description"]?></p>
                             </div>
                         </div>    
-                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-3 ' : 'd-none'?> mb-3" id="sermon_sub_div">
+                        {{-- <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-3 ' : 'd-none'?> mb-3" id="sermon_sub_div">
                                 <?php
                                 if(count($sermons) > 0){
                                     foreach($sermons as $key=>$row){
@@ -75,7 +75,7 @@
                                     }
                                 }
                                 ?>
-                        </div>
+                        </div> --}}
                     </div>
                 <?php
             }

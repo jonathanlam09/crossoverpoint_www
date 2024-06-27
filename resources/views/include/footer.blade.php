@@ -94,7 +94,7 @@ integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0
 crossorigin="anonymous"></script>
 <script>
     const address = window.location.origin + "/";
-    const portal_address = "https://admin.crossoverpoint.org.my/";
+    // const portal_address = "https://admin.crossoverpoint.org.my/";
     const apiHeader = { headers: { "Content-Type": "multipart/form-data"} };
     var channel = "<?php echo $channel;?>";
     
