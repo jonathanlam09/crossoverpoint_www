@@ -100,10 +100,10 @@
             height: 250px!important;
         }
     }
-</style>
 
+</style>
 <section style="padding:0;width:100%;" class="banner-section">
-    <div class="banner position-relative">
+    <div class="banner">
         <div style="background-image: linear-gradient(to bottom, black, transparent)">
             <div class="container-fluid" style="padding:0;margin:0;display:flex;justify-content:space-between;align-items:center;">
                 <div class="logo-div bg-white d-flex justify-content-center align-items-center" style="padding:10px;border-radius:50%;margin:15px;height:100px;width:100px;">
@@ -124,6 +124,7 @@
                             <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
                             <span class="eng-btn <?php if($channel == "ENG"){echo "active-ch";}?>" onclick="change_channel('ENG')"><?php echo $channel == "ENG" ? "ENG" : "英"?></span>
                         </li>
+                        {{-- <li><i class="fa fa-search"></i></li> --}}
                     </ul>
                 </div>
                 <div class="d-flex d-lg-none" style="color:white;justify-content:flex-end;align-items:center;font-size:18px;margin-top:20px;">
@@ -157,43 +158,12 @@
                 </ul>
             </div>
         </div>
-        <div class="position-absolute d-flex" 
-        style="left:50%;bottom:2%;transform:translateX(-50%);">
-            <i class="fas fa-circle text-white" style="margin:5px;font-size:10px;"></i>
-            <i class="fas fa-circle text-white" style="margin:5px;font-size:10px;"></i>
-            <i class="fas fa-circle text-white" style="margin:5px;font-size:10px;"></i>
-            <i class="fas fa-circle text-white" style="margin:5px;font-size:10px;"></i>
-        </div>
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-    var highlights = '<?php if(isset($highlights)){ echo $highlights;}?>';
-    var highlights_array = ['assets/img/background.jpg'];
-    const portal_address = "https://admin.crossoverpoint.org.my/";
-    if(highlights) {
-        highlights = JSON.parse(highlights);
-        if(highlights.length > 0){
-            for(var highlight of highlights) {
-                highlights_array.push(portal_address + highlight.path);
-            }
-        }
-    }
-    
-    var index = 0;
     $(document).ready(()=>{
-        if(highlights_array.length > 1) {
-            $(".banner").css("background-size", "100%");
-            $(".banner").css("transition", "1s ease");
-            setInterval(() => {
-                $(".banner").css("background-image", "url(" + highlights_array[index] + ")");
-                if(index !== highlights_array.length-1) {
-                    index++;
-                } else {
-                    index = 0;
-                }
-            }, 5000);
-        }
+        $(".banner").css("background-size", "100%")
     })
 
     function dropdown_menu(){

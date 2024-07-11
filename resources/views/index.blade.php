@@ -35,62 +35,33 @@
     <div class="container" id="sermon_container">
         <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming Sermons" : "来临的道"?></h3>
         <?php
-            if(count($sermons) == 0){
+            if(!$sermon){
                 ?>
                 <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming sermons." : "请继续关注即将到来的更多讲道。"?></div>
                 <?php
             }else{
-                $total_sermon_count = count($sermons);
-                $main_sermon = $sermons[0];
-                $main_sermon_image = isset($main_sermon["image"]) ? IMAGE_PATH . "sermon/" . $main_sermon["image"] : url("assets/img/banner.png");
-                array_splice($sermons, 0, 1);
+                $main_sermon_image = isset($sermon->image) ? IMAGE_PATH . "sermon/" . $sermon->image : url("assets/img/banner.png");
                 ?>
                     <div class="row mb-2 mt-5" id="sermon_div">
-                        <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-12 ' : ''?>" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                        <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
                             <div class="img d-flex justify-content-center" style="position:relative;">
-                                <a class="<?php echo ($total_sermon_count > 1) ? 'd-flex justify-content-center ' : ''?>" href="<?php echo url("sermons/" . $main_sermon["encrypted_id"])?>"><img src="<?php echo $main_sermon_image?>" style="max-width:800px;width:100%;"></a>
+                                <a href="<?php echo url("sermons/" . $sermon->encrypted_id)?>"><img src="<?php echo $main_sermon_image?>" style="max-width:800px;width:100%;"></a>
                             </div>
                             <div class="text-center">
-                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($main_sermon["date"]))?></h6>
-                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $main_sermon["title"] : $main_sermon["ch_title"]?></h6>
-                                <p><?php echo $channel == "ENG" ? $main_sermon["description"] : $main_sermon["ch_description"]?></p>
+                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($sermon->date))?></h6>
+                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $sermon->title : $sermon->ch_title?></h6>
+                                <p><?php echo $channel == "ENG" ? $sermon->description : $sermon->ch_description?></p>
                             </div>
                         </div>    
-                        {{-- <div class="col-12 <?php echo ($total_sermon_count > 1) ? 'col-lg-3 ' : 'd-none'?> mb-3" id="sermon_sub_div">
-                                <?php
-                                if(count($sermons) > 0){
-                                    foreach($sermons as $key=>$row){
-                                        $image = isset($row["image"]) ? IMAGE_PATH . "sermon/" . $row["image"] : url("assets/img/banner.png");
-                                    ?>
-                                    <div class="row mb-3" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
-                                        <a href="<?php echo url("sermons/" . $row["encrypted_id"])?>">
-                                            <img src="<?php echo $image?>" alt="">
-                                        </a>
-                                        <div class="d-flex flex-column" style="text-align: center">
-                                            <a style="color:black;"><?php echo date("jS F Y", strtotime($row["date"]))?></a>
-                                            <a style="color:black;"><?php echo $row["title"]?></a>
-                                        </div>
-                                    </div>
-                                <?php
-                                    }
-                                }
-                                ?>
-                        </div> --}}
                     </div>
                 <?php
             }
         ?>
     </div>
 </section>
-    <?php
-    if(count($sermons) > 0){
-        ?>
-        <div class="d-flex justify-content-center">
-            <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
-        </div>
-        <?php
-    }
-    ?>
+<div class="d-flex justify-content-center">
+    <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
+</div>
 <hr class="container">
 <section class="event-section d-none" style="padding: 75px 0;">
     <div class="container" id="event_container">
@@ -148,7 +119,7 @@
     </div>
 </section>
 <div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100%;position:fixed;top:0;left:0">
-    <div class="d-flex justify-content-center bg-white mb-5" style="border-radius: 50%;height:150px;width:150px;">
+    <div class="initial-loader-logo d-flex justify-content-center bg-white mb-5" style="border-radius:50%;height:150px;width:150px;">
         <img class="img-fluid" src="<?php echo url("assets/img/logo.png")?>">
     </div>
     <div class="crossoverpoint d-flex align-items-center text-white">
@@ -167,8 +138,8 @@
     </div>
 </div>
 <style>
-    .crossoverpoint{
-        animation: glow 3s;
+    .crossoverpoint, .initial-loader-logo{
+        animation: glow 5s;
     }
 
     @keyframes glow{
@@ -220,12 +191,14 @@
             $(".sermon-section").removeClass("d-none");
             $(".event-section").removeClass("d-none");
         }else{
+            $("body, html").css("overflow-y", "hidden");
             setTimeout(() => {
+                $("body, html").css("overflow-y", "auto");
                 $(".initial-loader").css("top", "-150%");
                 $(".paragraph-section").removeClass("d-none");
                 $(".sermon-section").removeClass("d-none");
                 $(".event-section").removeClass("d-none");
-                sessionStorage.setItem("session", true);
+                // sessionStorage.setItem("session", true);
             }, 3000);
         }
 

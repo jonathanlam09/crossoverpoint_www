@@ -14,22 +14,22 @@ class IndexController extends Controller
 {
     public function index(){
         try{
-            $sermons = Sermons::where("active", 1)
+            $sermon = Sermons::where("active", 1)
             ->whereDate("date", ">=", date("Y-m-d"))
             ->take(4)
-            ->get();
+            ->first();
+            if($sermon) {
+                $sermon->encrypted_id = Helper::encrypt($sermon->id);
+            }
         
             $events = Events::where("active", 1)
             ->whereDate("start_date", ">=", date("Y-m-d"))
             ->take(4)
             ->get();
 
-            $highlights = Highlights::where("active", 1)->get();
-
             $data = [
-                "sermons" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $sermons])), true),
+                "sermon" => $sermon,
                 "events" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $events])), true),
-                "highlights" => $highlights
             ];
         }catch(\Exception $e){
             return redirect("error")->with("error", $e->getMessage());
