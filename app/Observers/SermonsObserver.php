@@ -39,6 +39,7 @@ class SermonsObserver
         if(!$user){
             throw new Exception("User not found!");
         }
+        
         $data = [
             "prev_data" => json_encode($prev_dt),
             "new_data" => json_encode($new_dt),

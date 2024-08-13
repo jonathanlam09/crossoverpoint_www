@@ -2,8 +2,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class PCODuration extends Model
+ 
+class GalleryHighlights extends Model
 {
     /**
      * The table associated with the model.
@@ -11,12 +11,14 @@ class PCODuration extends Model
      * @var string
      */
 
-    protected $table = 'pco_schedule_duration';
+    protected $table = "gallery_highlights";
     public $timestamps = false;
     protected $fillable = [
-        'name',
-        'active',
-        'insert_by',
-        'update_by'
+        "type",
+        "name", 
+        "path",
+        "active",
+        "insert_by",
+        "update_by"
     ];
 }

@@ -10,21 +10,28 @@ class Menus extends Model
      *
      * @var string
      */
+    const operation = [
+        'create' => 1,
+        'read' => 2,
+        'update' => 3,
+        'delete' => 4
+    ];
 
-    protected $table = "menus";
+    protected $table = 'menus';
     public $timestamps = false;
     protected $fillable = [
-        "name",
-        "link",
-        "seq",
-        "ref_id",
-        "active",
+        'name',
+        'constant',
+        'link',
+        'seq',
+        'ref_id',
+        'active',
     ];
 
     public function get_submenu(){
         return self::where([
-            "ref_id" => $this->id,
-            "active" => 1
+            'ref_id' => $this->id,
+            'active' => 1
         ])->get();
     }
 }

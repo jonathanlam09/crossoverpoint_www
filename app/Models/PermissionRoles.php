@@ -11,17 +11,17 @@ class PermissionRoles extends Model
      *
      * @var string
      */
-    protected $table = "permission_roles";
+    protected $table = 'permission_roles';
     public $timestamps = false;
     protected $fillable = [
-        "title",
-        "active", 
-        "insert_by", 
-        "update_by"
+        'title',
+        'active', 
+        'insert_by', 
+        'update_by'
     ];
 
     public function permissions(){
-        return $this->hasMany(Permissions::class, "role_id", "id")->where("active", 1);
+        return $this->hasMany(Permissions::class, 'role_id', 'id')->where('active', 1);
     }
 }
    

@@ -7,10 +7,15 @@ use App\Models\Visitors;
 class VisitorsObserver
 {
     public function creating(Visitors $visitor){
+        $visitor->insert_by = session()->get("user_id");
+        $visitor->update_by = session()->get("user_id");
         $visitor->insert_time = date("Y-m-d H:i:s");
+        $visitor->update_time = date("Y-m-d H:i:s");
     }
 
     public function updating(Visitors $visitor){
+        $visitor->update_by = session()->get("user_id");
+        $visitor->update_time = date("Y-m-d H:i:s");
     }
     /**
      * Handle the Visitors "created" event.

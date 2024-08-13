@@ -11,13 +11,27 @@ class PCOSongs extends Model
      * @var string
      */
 
-    protected $table = "pco_songs";
+    protected $table = 'pco_songs';
     public $timestamps = false;
     protected $fillable = [
-        "pco_id",
-        "song_id", 
-        "active",
-        "insert_by",
-        "update_by"
+        'pco_id',
+        'song_id', 
+        'song_key_id',
+        'label',
+        'active',
+        'insert_by',
+        'update_by'
     ];
+
+    public function song(){
+        return $this->hasOne(Songs::class, 'id', 'song_id')->where('active', 1);
+    }
+
+    public function key(){
+        return Songs::keys[$this->song_key_id];
+    }
+
+    public function label(){
+        return Songs::label[$this->label];
+    }
 }

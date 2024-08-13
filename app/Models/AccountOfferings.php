@@ -13,37 +13,51 @@ class AccountOfferings extends Model
      * @var string
      */
 
-    protected $table = "account_offerings";
+    protected $table = 'account_offerings';
     public $timestamps = false;
     protected $fillable = [
-        "go_100", "go_50", "go_20", "go_10", "go_5", "go_1", "go_coin",
-        "th_100", "th_50", "th_20", "th_10", "th_5", "th_1", "th_coin",
-        "plg_100", "plg_50", "plg_20", "plg_10", "plg_5", "plg_1", "plg_coin",
-        "mg_100", "mg_50", "mg_20", "mg_10", "mg_5", "mg_1", "mg_coin",
-        "cm_100", "cm_50", "cm_20", "cm_10", "cm_5", "cm_1", "cm_coin",
-        "other_reason", "other_100", "other_50", "other_20", "other_10", "other_5", "other_1", "other_coin",
-        "signature_1", "witness_one", "signature_2", "witness_two", 
-        "date", "active", "insert_by", "update_by"
+        'go_100', 'go_50', 'go_20', 'go_10', 'go_5', 'go_1', 'go_coin',
+        'th_100', 'th_50', 'th_20', 'th_10', 'th_5', 'th_1', 'th_coin',
+        'plg_100', 'plg_50', 'plg_20', 'plg_10', 'plg_5', 'plg_1', 'plg_coin',
+        'mg_100', 'mg_50', 'mg_20', 'mg_10', 'mg_5', 'mg_1', 'mg_coin',
+        'cm_100', 'cm_50', 'cm_20', 'cm_10', 'cm_5', 'cm_1', 'cm_coin',
+        'other_reason', 'other_100', 'other_50', 'other_20', 'other_10', 'other_5', 'other_1', 'other_coin',
+        'signature_1', 'witness_one', 'signature_2', 'witness_two', 
+        'date', 'active', 'insert_by', 'update_by'
     ];
 
     public function insert_user(){
-        return $this->hasOne(Users::class, "id", "insert_by");
+        return $this->hasOne(Users::class, 'id', 'insert_by');
     }
 
     public function update_user(){
-        return $this->hasOne(Users::class, "id", "update_by");
+        return $this->hasOne(Users::class, 'id', 'update_by');
     }
 
     public function witness_one_user(){
-        return $this->hasOne(Users::class, "id", "witness_one");
+        return $this->hasOne(Users::class, 'id', 'witness_one');
     }
 
     public function witness_two_user(){
-        return $this->hasOne(Users::class, "id", "witness_two");
+        return $this->hasOne(Users::class, 'id', 'witness_two');
+    }
+
+    public function deductions(){
+        return $this->hasMany(AccountOfferingDeductions::class, 'offering_id', 'id')->where('active', 1);
     }
 
     public function cheque(){
-        return $this->hasMany(AccountOfferingCheques::class, "offering_id");
+        return $this->hasMany(AccountOfferingCheques::class, 'offering_id', 'id')->where('active', 1);
+    }
+
+    public function getDeductionTotalAmount(){
+        $total = 0;
+        if(count($this->deductions) > 0){
+            foreach($this->deductions as $row){
+                $total += floatval($row->amount);
+            }
+        }
+        return number_format($total, 2);
     }
 
     public function getTotalAmount(){
@@ -103,14 +117,20 @@ class AccountOfferings extends Model
             }
         }
 
+        $deductions = 0;
+        if(count($this->deductions) > 0){
+            foreach($this->deductions as $row){
+                $deductions += $row->amount;
+            }
+        }
+
         $total = $go_100 + $go_50 + $go_20 + $go_10 + $go_5 + $go_1 + $go_coin +
         $th_100 + $th_50 + $th_20 + $th_10 + $th_5 + $th_1 + $th_coin + 
         $plg_100 + $plg_50 + $plg_20 + $plg_10 + $plg_5 + $plg_1 + $plg_coin + 
         $mg_100 + $mg_50 + $mg_20 + $mg_10 + $mg_5 + $mg_1 + $mg_coin + 
         $cm_100 + $cm_50 + $cm_20 + $cm_10 + $cm_5 + $cm_1 + $cm_coin + 
         $other_100 + $other_50 + $other_20 + $other_10 + $other_5 + $other_1 + $other_coin + 
-        $cheque_amount;
-
+        $cheque_amount - $deductions;
         return number_format($total, 2);
     }
 
@@ -178,17 +198,17 @@ class AccountOfferings extends Model
         }
        
         $total = 0;
-        if($type == "GO"){
+        if($type == 'GO'){
             $total = $go_100 + $go_50 + $go_20 + $go_10 + $go_5 + $go_1 + $go_coin;
-        }else if($type == "PLG"){
+        }else if($type == 'PLG'){
             $total = $plg_100 + $plg_50 + $plg_20 + $plg_10 + $plg_5 + $plg_1 + $plg_coin;
-        }else if($type == "MG"){
+        }else if($type == 'MG'){
             $total = $mg_100 + $mg_50 + $mg_20 + $mg_10 + $mg_5 + $mg_1 + $mg_coin;
-        }else if($type == "CM"){
+        }else if($type == 'CM'){
             $total = $cm_100 + $cm_50 + $cm_20 + $cm_10 + $cm_5 + $cm_1 + $cm_coin;
-        }else if($type == "TH"){
+        }else if($type == 'TH'){
             $total = $th_100 + $th_50 + $th_20 + $th_10 + $th_5 + $th_1 + $th_coin;
-        }else if($type == "OTHER"){
+        }else if($type == 'OTHER'){
             $total = $other_100 + $other_50 + $other_20 + $other_10 + $other_5 + $other_1 + $other_coin;
         }else{
             $total = 0;

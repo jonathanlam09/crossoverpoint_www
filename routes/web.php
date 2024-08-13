@@ -22,6 +22,7 @@ Route::get("/register", [IndexController::class, "register"]);
 Route::get("/testimony", [IndexController::class, "testimony"]);
 Route::get("/about-us", [IndexController::class, "aboutus"]);
 Route::get("/visitors", [IndexController::class, "visitor"]);
+Route::get("/gallery/{topic_id}", [IndexController::class, "gallery"]);
 
 Route::get("/event", function(){
     return redirect("event/upcoming");

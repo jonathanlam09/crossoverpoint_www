@@ -11,21 +11,21 @@ class GroupMembers extends Model
      * @var string
      */
 
-    protected $table = "group_members";
+    protected $table = 'group_members';
     public $timestamps = false;
     protected $fillable = [
-        "group_id",
-        "user_id",
-        "active",
-        "insert_by",
-        "update_by"
+        'group_id',
+        'user_id',
+        'active',
+        'insert_by',
+        'update_by'
     ];
 
     public function group(){
-        return $this->hasOne(Group::class, "id", "group_id");
+        return $this->hasOne(Groups::class, 'id', 'group_id');
     }
 
     public function user(){
-        return $this->hasOne(Users::class, "id", "user_id");
+        return $this->hasOne(Users::class, 'id', 'user_id');
     }
 }

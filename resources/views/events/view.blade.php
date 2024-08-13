@@ -106,7 +106,7 @@
         if(time() >= strtotime($event->registration_open_date) && 
         time() <= strtotime($event->registration_close_date)){
             ?>
-                <a class="btn" href="<?php echo url("events/sign-up/" . $event_id)?>" style="background-color:cornflowerblue;color:white;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></a>
+                <a class="btn" href="<?php echo url("events/sign-up/" . $event_id)?>" style="margin-left:5px;background-color:cornflowerblue;color:white;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></a>
             <?php
         }
     ?>

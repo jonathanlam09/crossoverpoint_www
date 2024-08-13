@@ -11,20 +11,20 @@ class AuditLogs extends Model
      * @var string
      */
 
-    protected $table = "audit_logs";
+    protected $table = 'audit_logs';
     public $timestamps = false;
     protected $fillable = [
-        "prev_data", 
-        "new_data", 
-        "model", 
-        "operation", 
-        "ref_id", 
-        "remarks", 
-        "insert_by", 
-        "ip_address"
+        'prev_data', 
+        'new_data', 
+        'model', 
+        'operation', 
+        'ref_id', 
+        'remarks', 
+        'insert_by', 
+        'ip_address'
     ];
 
     public function user(){
-        return $this->hasOne(Users::class, "id", "insert_by");
+        return $this->hasOne(Users::class, 'id', 'insert_by');
     }
 }

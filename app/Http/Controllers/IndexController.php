@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sermons;
 use App\Models\Events;
+use App\Models\GalleryHighlights;
+use App\Models\GalleryTopics;
 use App\Models\Highlights;
 use App\Models\Visitors;
 use Exception;
@@ -27,9 +29,19 @@ class IndexController extends Controller
             ->take(4)
             ->get();
 
+            $topics = GalleryTopics::where([
+                "active" => 1
+            ])->get();
+
+            $highlights = GalleryHighlights::where([
+                "active" => 1
+            ])->get();
+
             $data = [
                 "sermon" => $sermon,
                 "events" => json_decode(json_encode(Helper::insert_encrypted_id(["body" => $events])), true),
+                "topics" => Helper::insert_encrypted_id(["body" => $topics]),
+                "highlights" => $highlights
             ];
         }catch(\Exception $e){
             return redirect("error")->with("error", $e->getMessage());
@@ -194,5 +206,31 @@ class IndexController extends Controller
             $ret["message"] = $e->getMessage();
         }
         return json_encode($ret);
+    }
+
+    public function gallery($topic_id) {
+        try {
+            $topic_id = Helper::decrypt($topic_id);
+            if(!$topic_id) {
+                throw new Exception("Invalid reference ID!");
+            }
+
+            $topic = GalleryTopics::where([
+                "id" => $topic_id, 
+                "active" => 1
+            ])->first();
+            if(!$topic) {
+                throw new Exception("Gallery not found.");
+            }
+            
+            $topic->encrypted_id = Helper::encrypt($topic->id);
+            $topic->media = Helper::insert_encrypted_id(["body" => $topic->media]);
+            $data = [
+                "topic" => $topic
+            ];
+        } catch (\Exception $e) {
+            return redirect("dashboard")->with("error", $e->getMessage());
+        }
+        return view("gallery", $data);
     }
 }

@@ -1,4 +1,171 @@
 @include("include/header")
+<style>
+    .highlight-dot.active{
+        color: cornflowerblue!important;
+    }
+
+    .highlight-dot {
+        color: lightgrey!important;
+        cursor: pointer;
+    }
+
+    .announcement-section::-webkit-scrollbar {
+        display: none;
+    }
+
+    .highlights-img::-webkit-scrollbar {
+        display: none;
+    }
+
+    .media-container {
+        max-height: 560px;
+        aspect-ratio: 16/9;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition-duration: 1s;
+    }
+
+    @media screen and (max-width: 767px) {
+        .announcements-banner {
+            min-width: 150px;
+            margin: 0 1rem;
+        }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+        .announcements-banner {
+            min-width: 200px;
+            margin: 0 3rem;
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .announcements-banner {
+            min-width: 250px;
+            margin: 0 5rem
+        }
+    }
+</style>
+<?php
+    if(isset($highlights)) {
+        ?>
+        <section class="highlight-section d-none">
+            <div class="container mt-5 mb-5" style="text-align:center;white-space:pre-line;" id="highlight_container">
+                <div class="row m-2">
+                    <div class="col-12 d-flex align-items-start p-0" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                        <div class="media-container d-flex align-items-center position-relative w-100 h-100">
+                            {{-- <video autoplay muted 
+                            id="highlight_vid" 
+                            style="object-fit:contain;width:100%;height:100%;" 
+                            onclick="toggleMute(event)"
+                            onended="prompt()">
+                                <source src="<?php echo url("assets/vid/familycamp.mp4")?>" type="video/mp4">
+                                    Your browser does not support the video tag.
+                            </video> --}}
+                            <div class="d-flex position-absolute" style="bottom:0;left:50%;transform:translate(-50%, -10px)">
+                                <?php
+                                    if(count($highlights) > 0) {
+                                        foreach ($highlights as $key=>$row) {
+                                            if($key == 0) {
+                                                ?>
+                                                <i class="fas fa-circle p-1 highlight-dot" id="highlight_dot_<?php echo $key?>" onclick="reset_highlights(<?php echo $key?>)"></i>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <i class="fas fa-circle p-1 highlight-dot" id="highlight_dot_<?php echo $key?>" onclick="reset_highlights(<?php echo $key?>)"></i>
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        .announcement-section:hover .announcement-slider {
+                            animation-play-state: paused;
+                        }
+
+                        .announcement-section {
+                            white-space: nowrap;
+                            overflow: scroll;
+                            cursor: pointer;
+                        }
+
+                        .announcement-slider::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                        .announcement-slider {
+                            display: inline-block;
+                            width: max-content;
+                            animation: 10s scroll linear infinite;
+                        }
+
+                        .announcement-slider img {
+                            width: 200px;
+                            padding: 0 30px;
+                        }
+
+                        @keyframes scroll {
+                            0% {
+                                transform: translateX(0);
+                            }
+                            100% {
+                                transform: translateX(-100%);
+                            }
+                        }
+                    </style>
+                    <?php
+                    if(count($events) > 0) {
+                        ?>
+                        <div class="col-12" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                            <h6 class="text-success fw-bold text-uppercase" style="white-space: nowrap">
+                                <i class="fas fa-bullhorn"></i>
+                                <i class="fas fa-bullhorn"></i>
+                                <i class="fas fa-bullhorn"></i>
+                            </h6>
+                            <a href="<?php echo url("/events/upcoming")?>">
+                                <div class="announcement-section" >
+                                    <div class="announcement-slider">
+                                        <?php
+                                            foreach ($events as $key=>$row) {
+                                                ?>
+                                                    <img src="<?php echo IMAGE_PATH . "event/" . $row["image"]?>">
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
+                                    <div class="announcement-slider">
+                                        <?php
+                                            foreach ($events as $key=>$row) {
+                                                ?>
+                                                    <img src="<?php echo IMAGE_PATH . "event/" . $row["image"]?>">
+                                                <?php
+                                            }
+                                        ?>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>    
+        </section>
+        <?php
+    }
+?>
+
+<hr class="container">
+<script>
+    function toggleMute(e) {
+        e.currentTarget.muted = !e.currentTarget.muted;
+    }
+
+</script>
 <section class="paragraph-section d-none">
     <div class="container mt-5 mb-5" style="text-align:center;white-space:pre-line;" id="paragraph_div">
         <?php
@@ -100,7 +267,7 @@
                         ?>
                     <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                         <a href="<?php echo url("events/" . $row["encrypted_id"])?>">
-                            <img class="img-fluid" src="<?php echo IMAGE_PATH . "event/" . $image?>" alt="">
+                            <img class="img-fluid" src="<?php echo IMAGE_PATH . "event/" . $image?>">
                         </a>
                         <div class="d-flex flex-column align-items-center">
                             <a style="color:black;"><?php echo date("jS F Y", strtotime($row["start_date"]))?></a>
@@ -118,6 +285,37 @@
         ?>
     </div>
 </section>
+<hr class="container">
+<?php
+    if(isset($topics)) {
+        ?>
+        <section class="more-section d-none" style="padding: 75px 0;">
+            <div class="container" id="more_container">
+                <h3 class="text-center text-uppercase" 
+                style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "More about us" : "关于我们更多"?></h3>
+                <div class="memory-row row mt-5 pt-5">
+                    <?php
+                        if(count($topics) > 0) {
+                            foreach ($topics as $key => $row) {
+                                ?>
+                                <div class="col-md-3 col-sm-6 col-12 p-0" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                                    <a class="text-decoration-none text-white" href="<?php echo url('gallery/' . $row->encrypted_id)?>">
+                                        <div class="bg-dark memory-card text-white d-flex justify-content-center align-items-center" 
+                                        style="background-image:url(<?php echo ADMIN_PORTAL . $row->path?>);">
+                                            <h4><?php echo $row->name ?></h4>
+                                        </div>
+                                    </a>    
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                </div>
+            </div>
+        </section>
+        <?php
+    }
+?>
 <div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100%;position:fixed;top:0;left:0">
     <div class="initial-loader-logo d-flex justify-content-center bg-white mb-5" style="border-radius:50%;height:150px;width:150px;">
         <img class="img-fluid" src="<?php echo url("assets/img/logo.png")?>">
@@ -162,6 +360,47 @@
     }
     ?>
 <script>
+    const highlights = JSON.parse(`<?php echo $highlights?>`);
+    var count_highlight = 0;
+    var highlight_interval;
+    var dportal_address = `<?php echo ADMIN_PORTAL?>`;
+
+    $(document).ready(() => {
+        const el = document.querySelector(".banner");
+        initiate_highlights(count_highlight);
+        highlight_interval = setInterval(() => {
+            initiate_highlights(count_highlight)
+        }, 
+        5000);
+
+        $("html, body").animate({
+            scrollTop: $(".banner").offset().top
+        }, 500);
+    })
+   
+    
+    function initiate_highlights (num) {
+        count_highlight = num;
+        $(".highlight-dot").removeClass("active");
+        $("#highlight_dot_" + num).addClass("active");
+        $(".media-container").css("background-image", `url(${dportal_address + highlights[num]?.path})`);
+        if(count_highlight == highlights.length-1){
+            count_highlight = 0;
+        }else {
+            count_highlight++;
+        }
+    }
+
+    function reset_highlights (num) {
+        count_highlight = num;
+        clearInterval(highlight_interval);
+        initiate_highlights(count_highlight);
+        highlight_interval = setInterval(() => {
+            initiate_highlights(count_highlight)
+        }, 
+        5000);
+    }
+
     var error = "<?php echo session()->get('error')?>";
     let para_opt = {
         root: document.getElementById("#paragraph_div"),
@@ -178,10 +417,22 @@
         rootMargin: "0px",
         threshold: 0,
     };
+    let more_opt = {
+        root: document.getElementById("#more_container"),
+        rootMargin: "0px",
+        threshold: 0,
+    };
+    let highlight_opt = {
+        root: document.getElementById("#highlight_container"),
+        rootMargin: "0px",
+        threshold: 0,
+    };
 
     var paragraph_observer = new IntersectionObserver(show_paragraph, para_opt);
     var sermon_observer = new IntersectionObserver(show_sermon, sermon_opt);
     var event_observer = new IntersectionObserver(show_event, event_opt);
+    var more_observer = new IntersectionObserver(show_more, more_opt);
+    var highlight_observer = new IntersectionObserver(show_highlight, highlight_opt);
 
     $(document).ready(() => {
         const session = window.sessionStorage.getItem("session");
@@ -190,6 +441,8 @@
             $(".paragraph-section").removeClass("d-none");
             $(".sermon-section").removeClass("d-none");
             $(".event-section").removeClass("d-none");
+            $(".more-section").removeClass("d-none");
+            $(".highlight-section").removeClass("d-none");
         }else{
             $("body, html").css("overflow-y", "hidden");
             setTimeout(() => {
@@ -198,7 +451,9 @@
                 $(".paragraph-section").removeClass("d-none");
                 $(".sermon-section").removeClass("d-none");
                 $(".event-section").removeClass("d-none");
-                // sessionStorage.setItem("session", true);
+                $(".more-section").removeClass("d-none");
+                $(".highlight-section").removeClass("d-none");
+                sessionStorage.setItem("session", true);
             }, 3000);
         }
 
@@ -234,6 +489,20 @@
         if(event.length > 0){
             for(var i=0;i<event.length;i++){
                 event_observer.observe(event[i]);
+            }
+        }
+
+        var more = $("#more_container").children();
+        if(more.length > 0){
+            for(var i=0;i<more.length;i++){
+                more_observer.observe(more[i]);
+            }
+        }
+
+        var highlight = $($("#highlight_container").children()[0]).children();
+        if(highlight.length > 0){
+            for(var i=0;i<highlight.length;i++){
+                highlight_observer.observe(highlight[i]);
             }
         }
     })
@@ -302,5 +571,43 @@
             }
         }
     }
+
+    function show_more(entries){
+        if(entries.length > 0){
+            for(var i=0;i<entries.length;i++){
+                if(entries[i].isIntersecting){
+                    if($(entries[i].target).hasClass("memory-row")) {
+                        const children = $(entries[i].target).children();
+                        if(children.length > 0) {
+                            for(var j=0;j<children.length;j++) {
+                                (function(j) {
+                                    var timeToStartNote = (j*100);
+                                    setTimeout(function() {
+                                        $(children[j]).css("opacity", "1");
+                                        $(children[j]).css("transform", "translateY(0%)");
+                                    }, timeToStartNote);
+                                })(j);
+                            }
+                        }
+                    } else {
+                        $(entries[i].target).css("opacity", "1");
+                        $(entries[i].target).css("transform", "translateY(0%)");
+                    }
+                }
+            }
+        }
+    }
+
+    function show_highlight (entries) {
+        if(entries.length > 0){
+            for(var i=0;i<entries.length;i++){
+                if(entries[i].isIntersecting){
+                    $(entries[i].target).css("opacity", "1");
+                    $(entries[i].target).css("transform", "translateY(0%)");
+                }
+            }
+        }
+    }
 </script>
+<script src="https://vjs.zencdn.net/8.16.1/video.min.js"></script>
 @include("include/footer")

@@ -11,12 +11,12 @@ class Groups extends Model
      * @var string
      */
 
-    protected $table = "groups";
+    protected $table = 'groups';
     public $timestamps = false;
     protected $fillable = [
-        "name",
-        "active",
-        "insert_by",
-        "update_by"
+        'name',
+        'active',
+        'insert_by',
+        'update_by'
     ];
 }

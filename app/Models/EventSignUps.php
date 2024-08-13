@@ -11,19 +11,20 @@ class EventSignUps extends Model
      * @var string
      */
 
-    protected $table = "event_sign_ups";
+    protected $table = 'event_sign_ups';
     public $timestamps = false;
     protected $fillable = [
-        "event_id",
-        "first_name",
-        "last_name", 
-        "email",
-        "contact",
-        "active", 
-        "insert_by",
+        'event_id',
+        'first_name',
+        'last_name', 
+        'email',
+        'contact',
+        'active', 
+        'insert_by',
+        'update_by'
     ];
     
     public function event(){
-        return $this->belongsTo(Events::class, "id", "event_id");
+        return $this->belongsTo(Events::class, 'id', 'event_id');
     }
 }

@@ -2,22 +2,22 @@
 
 namespace App\Observers;
 
-use App\Models\Highlights;
+use App\Models\GalleryHighlights;
 use App\Models\AuditLogs;
 use App\Models\Users;
 use Helper;
 use Exception;
 
-class HighlightsObserver
+class GalleryHighlightsObserver
 {
-    public function creating(Highlights $highlight){
+    public function creating(GalleryHighlights $highlight){
         $highlight->insert_by = session()->get("user_id");
         $highlight->update_by = session()->get("user_id");
         $highlight->insert_time = date("Y-m-d H:i:s");
         $highlight->update_time = date("Y-m-d H:i:s");
     }
 
-    public function updating(Highlights $highlight){
+    public function updating(GalleryHighlights $highlight){
         $highlight->update_by = session()->get("user_id");
         $highlight->update_time = date("Y-m-d H:i:s");
 
@@ -38,7 +38,6 @@ class HighlightsObserver
             "id" => session()->get("user_id"),
             "active" => 1
         ])->first();
-        
         if(!$user){
             throw new Exception("User not found!");
         }
@@ -46,7 +45,7 @@ class HighlightsObserver
         $data = [
             "prev_data" => json_encode($prev_dt),
             "new_data" => json_encode($new_dt),
-            "model" => "highlight",
+            "model" => "gallery_highlights",
             "operation" => "U",
             "ref_id" => Helper::encrypt($highlight->id),
             "ip_address" => Helper::get_client_ip()
@@ -54,12 +53,12 @@ class HighlightsObserver
         AuditLogs::create($data);
     }
     /**
-     * Handle the Highlights "created" event.
+     * Handle the GalleryHighlights "created" event.
      */
-    public function created(Highlights $highlight)
+    public function created(GalleryHighlights $highlight)
     {
         AuditLogs::create([
-            "model" => "highlight",
+            "model" => "gallery_Highlights",
             "operation" => "C",
             "ref_id" => Helper::encrypt($highlight->id),
             "ip_address" => Helper::get_client_ip()
@@ -67,33 +66,33 @@ class HighlightsObserver
     }
 
     /**
-     * Handle the Highlights "updated" event.
+     * Handle the GalleryHighlights "updated" event.
      */
-    public function updated(Highlights $highlight)
+    public function updated(GalleryHighlights $highlight)
+    {
+        // 
+    }
+
+    /**
+     * Handle the GalleryHighlights "deleted" event.
+     */
+    public function deleted(GalleryHighlights $highlight)
     {
         //
     }
 
     /**
-     * Handle the Highlights "deleted" event.
+     * Handle the GalleryHighlights "restored" event.
      */
-    public function deleted(Highlights $highlight)
+    public function restored(GalleryHighlights $highlight)
     {
         //
     }
 
     /**
-     * Handle the Highlights "restored" event.
+     * Handle the GalleryHighlights "force deleted" event.
      */
-    public function restored(Highlights $highlight)
-    {
-        //
-    }
-
-    /**
-     * Handle the Highlights "force deleted" event.
-     */
-    public function forceDeleted(Highlights $highlight)
+    public function forceDeleted(GalleryHighlights $highlight)
     {
         //
     }

@@ -13,44 +13,32 @@ class PCORequests extends Model
      * @var string
      */
 
-    protected $table = "pco_requests";
+    protected $table = 'pco_requests';
     public $timestamps = false;
     protected $fillable = [
-        "pco_id",
-        "user_id", 
-        "role_id", 
-        "is_confirmed",
-        "notes",
-        "active",
-        "insert_by",
-        "update_by"
+        'pco_id',
+        'user_id', 
+        'custom',
+        'value',
+        'role_id', 
+        'seq',
+        'is_confirmed',
+        'is_sent_email',
+        'notes',
+        'active',
+        'insert_by',
+        'update_by'
     ];
 
     public function pco(){
-        return $this->belongsTo(PCO::class, "id", "pco_id");
+        return $this->hasOne(PCO::class, 'id', 'pco_id');
     }
 
     public function user(){
-        return $this->hasOne(Users::class, "id", "user_id");
+        return $this->hasOne(Users::class, 'id', 'user_id');
     }
 
     public function role(){
-        return $this->hasOne(PCORoles::class, "id", "role_id");
-    }
-
-    // public static function test(){
-    //     $guitarist = DB::table("pco_request")
-    //     ->where("pco_id", $row->id)
-    //     ->where("role_id", 1)
-    //     ->where("active", 1)
-    //     ->orderBy("id", "desc")
-    //     ->first();
-    // }
-
-    public static function getRequest($pco_role_id){
-        $request = self::where([
-            "pco_id" => $pco_role_id,
-            "active" => 1
-        ]);
+        return $this->hasOne(PCORoles::class, 'id', 'role_id');
     }
 }

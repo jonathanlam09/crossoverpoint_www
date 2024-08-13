@@ -11,19 +11,19 @@ class EventAttachments extends Model
      * @var string
      */
 
-    protected $table = "event_attachments";
+    protected $table = 'event_attachments';
     public $timestamps = false;
     protected $fillable = [
-        "event_id",
-        "name",
-        "path", 
-        "extension",
-        "active", 
-        "insert_by",
-        "update_by"
+        'event_id',
+        'name',
+        'path', 
+        'extension',
+        'active', 
+        'insert_by',
+        'update_by'
     ];
     
     public function event(){
-        return $this->belongsTo(Event::class, "id", "event_id");
+        return $this->belongsTo(Event::class, 'id', 'event_id');
     }
 }

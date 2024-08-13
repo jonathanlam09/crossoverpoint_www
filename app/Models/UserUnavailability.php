@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
  
-class Highlights extends Model
+class UserUnavailability extends Model
 {
     /**
      * The table associated with the model.
@@ -11,15 +11,15 @@ class Highlights extends Model
      * @var string
      */
 
-    protected $table = "highlights";
+    protected $table = 'user_unavailability';
     public $timestamps = false;
     protected $fillable = [
-        "type",
-        "ref_id",
-        "name",
-        "path",
-        "active",
-        "insert_by",
-        "update_by"
+        'user_id',
+        'start_date',
+        'end_date',
+        'reason',
+        'active',
+        'insert_by',
+        'update_by'
     ];
 }

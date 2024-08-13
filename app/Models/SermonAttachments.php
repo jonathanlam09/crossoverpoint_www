@@ -11,15 +11,15 @@ class SermonAttachments extends Model
      * @var string
      */
 
-    protected $table = "sermon_attachments";
+    protected $table = 'sermon_attachments';
     public $timestamps = false;
     protected $fillable = [
-        "sermon_id",
-        "name", 
-        "path", 
-        "extension",
-        "active",
-        "insert_by",
-        "update_by"
+        'sermon_id',
+        'name', 
+        'path', 
+        'extension',
+        'active',
+        'insert_by',
+        'update_by'
     ];
 }

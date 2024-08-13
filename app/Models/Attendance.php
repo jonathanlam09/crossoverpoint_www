@@ -12,19 +12,20 @@ class Attendance extends Model
      * @var string
      */
 
-    protected $table = "attendance";
+    protected $table = 'attendance';
     public $timestamps = false;
     protected $fillable = [
-        "user_id",
-        "type", 
-        "ref_id", 
-        "remarks", 
-        "active", 
-        "insert_by", 
-        "update_by"
+        'user_id',
+        'visitor_id',
+        'type', 
+        'ref_id', 
+        'remarks', 
+        'active', 
+        'insert_by', 
+        'update_by'
     ];
 
     public function user(){
-        return $this->hasOne(Users::class, "id", "user_id");
+        return $this->hasOne(Users::class, 'id', 'user_id');
     }
 }

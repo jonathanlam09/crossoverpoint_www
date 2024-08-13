@@ -11,15 +11,16 @@ class SongAttachments extends Model
      * @var string
      */
 
-    protected $table = "song_attachments";
+    protected $table = 'song_attachments';
     public $timestamps = false;
     protected $fillable = [
-        "song_id",
-        "name",
-        "path", 
-        "extension",
-        "active", 
-        "insert_by", 
-        "update_by"
+        'song_id',
+        'song_key_id',
+        'name',
+        'path', 
+        'extension',
+        'active', 
+        'insert_by', 
+        'update_by'
     ];
 }

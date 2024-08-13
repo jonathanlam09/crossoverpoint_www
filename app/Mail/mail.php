@@ -29,7 +29,7 @@ class Mailer {
         }
     }
 
-    public function sermon_sign_up($param){
+    public function service_sign_up($param){
         $ret = [
             "status" => false
         ];
@@ -51,8 +51,8 @@ class Mailer {
                 throw new Exception("Empty contact!");
             }
 
-            if(!isset($param["sermon"])){
-                throw new Exception("Empty sermon!");
+            if(!isset($param["service"])){
+                throw new Exception("Empty service!");
             }
            
             $this->mail->setFrom(env("SMTP_USERNAME"), "Casper @ Crossover Point");          
@@ -76,14 +76,14 @@ class Mailer {
                                             <td align='center'>
                                                 <div style='background-color:lightgrey;width:80%;padding:30px;margin:50px 0px;'>
                                                     <div>
-                                                        <img style='width:100%;max-width:400px;border-radius:1vh;' src='https://admin.crossoverpoint.org.my/assets/img/sermon/" . $param["sermon"]->image . "'/>
+                                                        <img style='width:100%;max-width:400px;border-radius:1vh;' src='https://admin.crossoverpoint.org.my/assets/img/service/" . $param["service"]->image . "'/>
                                                     </div>
                                                     <div style='max-width:500px;'>
-                                                        <p align='left' style='margin:0;margin-top:1.5rem;'>Name: " . $param["sermon"]->title . "</p>
-                                                        <p align='left' style='margin:0;'>Description: " . $param["sermon"]->description . "</p>
-                                                        <p align='left' style='margin:0;'>Start Date: " . date("jS F Y 10:00:00 A", strtotime($param["sermon"]->date)) . "</p>
-                                                        <p align='left' style='margin:0;'>End Date: " . date("jS F Y 12:00:00 A", strtotime($param["sermon"]->date)) . "</p>
-                                                        <p align='left' style='margin:0;'>Speaker: " . $param["sermon"]->speaker ?  $param["sermon"]->speaker->getFullname() : $param["sermon"]->speaker_name .  "</p>
+                                                        <p align='left' style='margin:0;margin-top:1.5rem;'>Name: " . $param["service"]->title . "</p>
+                                                        <p align='left' style='margin:0;'>Description: " . $param["service"]->description . "</p>
+                                                        <p align='left' style='margin:0;'>Start Date: " . date("jS F Y 10:00:00 A", strtotime($param["service"]->date)) . "</p>
+                                                        <p align='left' style='margin:0;'>End Date: " . date("jS F Y 12:00:00 A", strtotime($param["service"]->date)) . "</p>
+                                                        <p align='left' style='margin:0;'>Speaker: " . $param["service"]->speaker ?  $param["service"]->speaker->getFullname() : $param["service"]->speaker_name .  "</p>
                                                     </div>
                                                 </div>
                                             </td>
