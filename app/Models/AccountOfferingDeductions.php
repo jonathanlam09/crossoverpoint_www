@@ -20,7 +20,7 @@ class AccountOfferingDeductions extends Model
         'remark',
         'type',
         'active',
-        'insert_by'
+        'created_by'
     ];
 
     public function offering(){

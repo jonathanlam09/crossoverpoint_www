@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
  
-class SongKeys extends Model
+class ServiceAttachments extends Model
 {
     /**
      * The table associated with the model.
@@ -11,12 +11,15 @@ class SongKeys extends Model
      * @var string
      */
 
-    protected $table = "song_keys";
+    protected $table = 'service_attachments';
     public $timestamps = false;
     protected $fillable = [
-        "name",
-        "active", 
-        "insert_by", 
-        "update_by"
+        'service_id',
+        'name', 
+        'path', 
+        'extension',
+        'active',
+        'created_by',
+        'updated_by'
     ];
 }

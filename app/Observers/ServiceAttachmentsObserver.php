@@ -2,22 +2,22 @@
 
 namespace App\Observers;
 
-use App\Models\PCOAttachments;
-use App\Models\Users;
+use App\Models\ServiceAttachments;
 use App\Models\AuditLogs;
+use App\Models\Users;
 use Helper;
 use Exception;
 
-class PCOAttachmentsObserver
+class ServiceAttachmentsObserver
 {
-    public function creating(PCOAttachments $attachment){
+    public function creating(ServiceAttachments $attachment){
         $attachment->created_by = session()->get('user_id');
         $attachment->updated_by = session()->get('user_id');
         $attachment->created_at = date('Y-m-d H:i:s');
         $attachment->updated_at = date('Y-m-d H:i:s');
     }
 
-    public function updating(PCOAttachments $attachment){
+    public function updating(ServiceAttachments $attachment){
         $attachment->updated_by = session()->get('user_id');
         $attachment->updated_at = date('Y-m-d H:i:s');
 
@@ -45,54 +45,54 @@ class PCOAttachmentsObserver
         $data = [
             'prev_data' => json_encode($prev_dt),
             'new_data' => json_encode($new_dt),
-            'model' => 'pco_attachments',
+            'model' => 'service_attachments',
             'operation' => 'U',
-            'ref_id' => Helper::encrypt($attachment->id),
+            'ref_id' => Helper::encrypt($attachment->path),
             'ip_address' => Helper::get_client_ip()
         ];
         AuditLogs::create($data);
     }
     /**
-     * Handle the PCOAttachments 'created' event.
+     * Handle the ServiceAttachments 'created' event.
      */
-    public function created(PCOAttachments $attachment)
+    public function created(ServiceAttachments $attachment)
     {
         AuditLogs::create([
-            'model' => 'pco_attachments',
+            'model' => 'service_attachments',
             'operation' => 'C',
-            'ref_id' => Helper::encrypt($attachment->id),
+            'ref_id' => Helper::encrypt($attachment->path),
             'ip_address' => Helper::get_client_ip()
         ]);
     }
 
     /**
-     * Handle the PCOAttachments 'updated' event.
+     * Handle the ServiceAttachments 'updated' event.
      */
-    public function updated(PCOAttachments $attachment)
+    public function updated(ServiceAttachments $attachment)
     {
         //
     }
 
     /**
-     * Handle the PCOAttachments 'deleted' event.
+     * Handle the ServiceAttachments 'deleted' event.
      */
-    public function deleted(PCOAttachments $attachment)
+    public function deleted(ServiceAttachments $attachment)
     {
         //
     }
 
     /**
-     * Handle the PCOAttachments 'restored' event.
+     * Handle the ServiceAttachments 'restored' event.
      */
-    public function restored(PCOAttachments $attachment)
+    public function restored(ServiceAttachments $attachment)
     {
         //
     }
 
     /**
-     * Handle the PCOAttachments 'force deleted' event.
+     * Handle the ServiceAttachments 'force deleted' event.
      */
-    public function forceDeleted(PCOAttachments $attachment)
+    public function forceDeleted(ServiceAttachments $attachment)
     {
         //
     }

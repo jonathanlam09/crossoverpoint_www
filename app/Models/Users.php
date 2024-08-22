@@ -33,13 +33,13 @@ class Users extends Model
         'is_attend_church',
         'church',
         'role_id',
+        'is_member',
+        'is_visitor',
         'is_admin',
         'is_first_login',
         'active',
-        'insert_time',
-        'update_time',
-        'insert_by',
-        'update_by',
+        'created_by',
+        'updated_by',
         'www_access_token',
         'portal_access_token',
         'reset_token',
@@ -47,18 +47,25 @@ class Users extends Model
         'reset_time',
         'failed_attempt',
         'disabled_time',
+        'unavailable_start_date',
+        'unavailable_end_date',
+        'preferred_language'
     ];
 
     public function pco_roles(){
         return $this->hasMany(PCOTeamMembers::class, 'user_id', 'id')->where('active', 1);
     }
 
-    public function pco_request(){
+    public function pco_requests(){
         return $this->hasMany(PCORequests::class, 'user_id', 'id')->where('active', 1);
     }
 
     public function unavailability(){
         return $this->hasMany(UserUnavailability::class, 'user_id', 'id')->where('active', 1);
+    }
+
+    public function relationships(){
+        return $this->hasMany(UserRelationships::class, 'user_id', 'id')->where('active', 1);
     }
 
     public static function getFullnameById($user_id){

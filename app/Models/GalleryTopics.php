@@ -11,14 +11,14 @@ class GalleryTopics extends Model
      * @var string
      */
 
-    protected $table = "gallery_topics";
+    protected $table = 'gallery_topics';
     public $timestamps = false;
     protected $fillable = [
-        "name", 
-        "path",
-        "active",
-        "insert_by",
-        "update_by"
+        'name', 
+        'path',
+        'active',
+        'created_by',
+        'updated_by'
     ];
 
     public function media(){

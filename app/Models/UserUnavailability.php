@@ -19,7 +19,7 @@ class UserUnavailability extends Model
         'end_date',
         'reason',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 }

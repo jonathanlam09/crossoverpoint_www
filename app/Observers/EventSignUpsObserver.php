@@ -6,49 +6,48 @@ use App\Models\EventSignUps;
 
 class EventSignUpsObserver
 {
-    public function creating(EventSignUps $event_sign_up){
-        $event_sign_up->insert_by = session()->get("user_id");
-        $event_sign_up->insert_time = date("Y-m-d H:i:s");
+    public function creating(EventSignUps $sign_up){
+        $sign_up->created_at = date('Y-m-d H:i:s');
     }
 
-    public function updating(EventSignUps $event_sign_up){
+    public function updating(EventSignUps $sign_up){
     }
     /**
-     * Handle the EventSignUps "created" event.
+     * Handle the EventSignUps 'created' event.
      */
-    public function created(EventSignUps $event_sign_up)
+    public function created(EventSignUps $sign_up)
     {
         //
     }
 
     /**
-     * Handle the EventSignUps "updated" event.
+     * Handle the EventSignUps 'updated' event.
      */
-    public function updated(EventSignUps $event_sign_up)
+    public function updated(EventSignUps $sign_up)
     {
         //
     }
 
     /**
-     * Handle the EventSignUps "deleted" event.
+     * Handle the EventSignUps 'deleted' event.
      */
-    public function deleted(EventSignUps $event_sign_up)
+    public function deleted(EventSignUps $sign_up)
     {
         //
     }
 
     /**
-     * Handle the EventSignUps "restored" event.
+     * Handle the EventSignUps 'restored' event.
      */
-    public function restored(EventSignUps $event_sign_up)
+    public function restored(EventSignUps $sign_up)
     {
         //
     }
 
     /**
-     * Handle the EventSignUps "force deleted" event.
+     * Handle the EventSignUps 'force deleted' event.
      */
-    public function forceDeleted(EventSignUps $event_sign_up)
+    public function forceDeleted(EventSignUps $sign_up)
     {
         //
     }

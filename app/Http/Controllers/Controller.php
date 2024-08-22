@@ -13,10 +13,10 @@ class Controller extends BaseController
     public function __construct()
     {                   
         // Share a var with all views
-        $channel = session()->get("channel");
+        $channel = session()->get('channel');
         if(!isset($channel)){
-            $channel = "ENG";
+            $channel = 'ENG';
         }
-        View::share("channel", $channel);
+        View::share('channel', $channel);
     }
 }

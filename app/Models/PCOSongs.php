@@ -19,8 +19,8 @@ class PCOSongs extends Model
         'song_key_id',
         'label',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function song(){

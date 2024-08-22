@@ -198,26 +198,26 @@
     </div>
 </section>
 <hr class="container">
-<section class="sermon-section d-none" style="padding: 75px 0;">
-    <div class="container" id="sermon_container">
-        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming Sermons" : "来临的道"?></h3>
+<section class="service-section d-none" style="padding: 75px 0;">
+    <div class="container" id="service_container">
+        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming services" : "来临的道"?></h3>
         <?php
-            if(!$sermon){
+            if(!$service){
                 ?>
-                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming sermons." : "请继续关注即将到来的更多讲道。"?></div>
+                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming services." : "请继续关注即将到来的更多讲道。"?></div>
                 <?php
             }else{
-                $main_sermon_image = isset($sermon->image) ? IMAGE_PATH . "sermon/" . $sermon->image : url("assets/img/banner.png");
+                $main_service_image = isset($service->image) ? IMAGE_PATH . "service/" . $service->image : url("assets/img/banner.png");
                 ?>
-                    <div class="row mb-2 mt-5" id="sermon_div">
+                    <div class="row mb-2 mt-5" id="service_div">
                         <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
                             <div class="img d-flex justify-content-center" style="position:relative;">
-                                <a href="<?php echo url("sermons/" . $sermon->encrypted_id)?>"><img src="<?php echo $main_sermon_image?>" style="max-width:800px;width:100%;"></a>
+                                <a href="<?php echo url("services/" . $service->encrypted_id)?>"><img src="<?php echo $main_service_image?>" style="max-width:800px;width:100%;"></a>
                             </div>
                             <div class="text-center">
-                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($sermon->date))?></h6>
-                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $sermon->title : $sermon->ch_title?></h6>
-                                <p><?php echo $channel == "ENG" ? $sermon->description : $sermon->ch_description?></p>
+                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($service->date))?></h6>
+                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $service->title : $service->ch_title?></h6>
+                                <p><?php echo $channel == "ENG" ? $service->description : $service->ch_description?></p>
                             </div>
                         </div>    
                     </div>
@@ -227,7 +227,7 @@
     </div>
 </section>
 <div class="d-flex justify-content-center">
-    <a href="<?php echo url("sermons/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
+    <a href="<?php echo url("services/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
 </div>
 <hr class="container">
 <section class="event-section d-none" style="padding: 75px 0;">
@@ -407,8 +407,8 @@
         rootMargin: "0px",
         threshold: 0,
     };
-    let sermon_opt = {
-        root: document.getElementById("#sermon_container"),
+    let service_opt = {
+        root: document.getElementById("#service_container"),
         rootMargin: "0px",
         threshold: 0,
     };
@@ -429,7 +429,7 @@
     };
 
     var paragraph_observer = new IntersectionObserver(show_paragraph, para_opt);
-    var sermon_observer = new IntersectionObserver(show_sermon, sermon_opt);
+    var service_observer = new IntersectionObserver(show_service, service_opt);
     var event_observer = new IntersectionObserver(show_event, event_opt);
     var more_observer = new IntersectionObserver(show_more, more_opt);
     var highlight_observer = new IntersectionObserver(show_highlight, highlight_opt);
@@ -439,7 +439,7 @@
         if(session){
             $(".initial-loader").addClass("d-none");
             $(".paragraph-section").removeClass("d-none");
-            $(".sermon-section").removeClass("d-none");
+            $(".service-section").removeClass("d-none");
             $(".event-section").removeClass("d-none");
             $(".more-section").removeClass("d-none");
             $(".highlight-section").removeClass("d-none");
@@ -449,7 +449,7 @@
                 $("body, html").css("overflow-y", "auto");
                 $(".initial-loader").css("top", "-150%");
                 $(".paragraph-section").removeClass("d-none");
-                $(".sermon-section").removeClass("d-none");
+                $(".service-section").removeClass("d-none");
                 $(".event-section").removeClass("d-none");
                 $(".more-section").removeClass("d-none");
                 $(".highlight-section").removeClass("d-none");
@@ -478,10 +478,10 @@
             }
         }
 
-        var sermon = $("#sermon_container").children();
-        if(sermon.length > 0){
-            for(var i=0;i<sermon.length;i++){
-                sermon_observer.observe(sermon[i]);
+        var service = $("#service_container").children();
+        if(service.length > 0){
+            for(var i=0;i<service.length;i++){
+                service_observer.observe(service[i]);
             }
         }
 
@@ -518,14 +518,14 @@
         }
     }
 
-    function show_sermon(entries){
+    function show_service(entries){
         if(entries.length > 0){
             for(var i=0;i<entries.length;i++){
                 if(entries[i].isIntersecting){
-                    if(entries[i].target.id == "sermon_div"){
+                    if(entries[i].target.id == "service_div"){
                         var child = $(entries[i].target).children();
                         for(var j=0;j<child.length;j++){
-                            if(child[j].id == "sermon_sub_div"){
+                            if(child[j].id == "service_sub_div"){
                                 var sub_div = $(child[j]).children();
                                 for(var k=0;k<sub_div.length;k++){
                                     $(sub_div[k]).css("opacity", "1");

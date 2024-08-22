@@ -19,8 +19,8 @@ class PCOAttachments extends Model
         'path',
         'extension',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function pco(){

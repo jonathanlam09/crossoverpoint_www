@@ -10,24 +10,24 @@ use Exception;
 
 class GroupMembersObserver
 {
-    public function creating(GroupMembers $group_member){
-        $group_member->insert_by = session()->get("user_id");
-        $group_member->update_by = session()->get("user_id");
-        $group_member->insert_time = date("Y-m-d H:i:s");
-        $group_member->update_time = date("Y-m-d H:i:s");
+    public function creating(GroupMembers $member){
+        $member->created_by = session()->get('user_id');
+        $member->updated_by = session()->get('user_id');
+        $member->created_at = date('Y-m-d H:i:s');
+        $member->updated_at = date('Y-m-d H:i:s');
     }
 
-    public function updating(GroupMembers $group_member){
-        $group_member->update_by = session()->get("user_id");
-        $group_member->update_time = date("Y-m-d H:i:s");
+    public function updating(GroupMembers $member){
+        $member->updated_by = session()->get('user_id');
+        $member->updated_at = date('Y-m-d H:i:s');
 
         $prev_dt = [];
         $new_dt = [];
-        $new_data = $group_member->getDirty();
-        $old_data = $group_member->getOriginal();
+        $new_data = $member->getDirty();
+        $old_data = $member->getOriginal();
 
         foreach($new_data as $key=>$row){
-            if($key != "update_by" && $key != "update_time"){
+            if($key != 'updated_by' && $key != 'updated_at'){
                 $old = $old_data[$key];
                 $prev_dt[$key] = $old;
                 $new_dt[$key] =  $row;
@@ -35,65 +35,64 @@ class GroupMembersObserver
         }
 
         $user = Users::where([
-            "id" => session()->get("user_id"),
-            "active" => 1
+            'id' => session()->get('user_id'),
+            'active' => 1
         ])->first();
-        
         if(!$user){
-            throw new Exception("User not found!");
+            throw new Exception('User not found!');
         }
 
         $data = [
-            "prev_data" => json_encode($prev_dt),
-            "new_data" => json_encode($new_dt),
-            "model" => "event",
-            "operation" => "U",
-            "ref_id" => Helper::encrypt($group_member->id),
-            "ip_address" => Helper::get_client_ip()
+            'prev_data' => json_encode($prev_dt),
+            'new_data' => json_encode($new_dt),
+            'model' => 'group_members',
+            'operation' => 'U',
+            'ref_id' => Helper::encrypt($member->id),
+            'ip_address' => Helper::get_client_ip()
         ];
         AuditLogs::create($data);
     }
     /**
-     * Handle the GroupMembers "created" GroupMember.
+     * Handle the GroupMembers 'created' GroupMember.
      */
-    public function created(GroupMembers $group_member)
+    public function created(GroupMembers $member)
     {
         AuditLogs::create([
-            "model" => "event",
-            "operation" => "C",
-            "ref_id" => Helper::encrypt($group_member->id),
-            "ip_address" => Helper::get_client_ip()
+            'model' => 'group_members',
+            'operation' => 'C',
+            'ref_id' => Helper::encrypt($member->id),
+            'ip_address' => Helper::get_client_ip()
         ]);
     }
 
     /**
-     * Handle the GroupMembers "updated" GroupMember.
+     * Handle the GroupMembers 'updated' GroupMember.
      */
-    public function updated(GroupMembers $group_member)
+    public function updated(GroupMembers $member)
     {
         //
     }
 
     /**
-     * Handle the GroupMembers "deleted" GroupMember.
+     * Handle the GroupMembers 'deleted' GroupMember.
      */
-    public function deleted(GroupMembers $group_member)
+    public function deleted(GroupMembers $member)
     {
         //
     }
 
     /**
-     * Handle the GroupMembers "restored" GroupMember.
+     * Handle the GroupMembers 'restored' GroupMember.
      */
-    public function restored(GroupMembers $group_member)
+    public function restored(GroupMembers $member)
     {
         //
     }
 
     /**
-     * Handle the GroupMembers "force deleted" GroupMember.
+     * Handle the GroupMembers 'force deleted' GroupMember.
      */
-    public function forceDeleted(GroupMembers $group_member)
+    public function forceDeleted(GroupMembers $member)
     {
         //
     }

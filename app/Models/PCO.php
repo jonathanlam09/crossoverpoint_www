@@ -21,16 +21,16 @@ class PCO extends Model
         'call_to_worship_ch',
         'notes', 
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function requests(){
         return $this->hasMany(PCORequests::class, 'pco_id', 'id')->where('active', 1);
     }
 
-    public function sermon(){
-        return $this->hasOne(Sermons::class, 'id', 'ref_id');
+    public function service(){
+        return $this->hasOne(Services::class, 'id', 'ref_id');
     }
 
     public function event(){
@@ -143,7 +143,7 @@ class PCO extends Model
 
     public function getRequestedPreacher(){
         if($this->type == 1){
-            $ref = $this->sermon;
+            $ref = $this->service;
         }else{
             $ref = $this->event;
         }

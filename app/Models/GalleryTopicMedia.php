@@ -11,16 +11,16 @@ class GalleryTopicMedia extends Model
      * @var string
      */
 
-    protected $table = "gallery_topic_media";
+    protected $table = 'gallery_topic_media';
     public $timestamps = false;
     protected $fillable = [
-        "topic_id", 
-        "type",
-        "date",
-        "filename",
-        "path",
-        "active",
-        "insert_by",
-        "update_by"
+        'topic_id', 
+        'type',
+        'date',
+        'filename',
+        'path',
+        'active',
+        'created_by',
+        'updated_by'
     ];
 }

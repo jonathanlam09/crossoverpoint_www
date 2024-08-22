@@ -26,8 +26,8 @@ class PCORequests extends Model
         'is_sent_email',
         'notes',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function pco(){

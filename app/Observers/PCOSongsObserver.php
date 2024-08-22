@@ -10,24 +10,24 @@ use Exception;
 
 class PCOSongsObserver
 {
-    public function creating(PCOSongs $pco_song){
-        $pco_song->insert_by = session()->get("user_id");
-        $pco_song->update_by = session()->get("user_id");
-        $pco_song->insert_time = date("Y-m-d H:i:s");
-        $pco_song->update_time = date("Y-m-d H:i:s");
+    public function creating(PCOSongs $song){
+        $song->created_by = session()->get('user_id');
+        $song->updated_by = session()->get('user_id');
+        $song->created_at = date('Y-m-d H:i:s');
+        $song->updated_at = date('Y-m-d H:i:s');
     }
 
-    public function updating(PCOSongs $pco_song){
-        $pco_song->update_by = session()->get("user_id");
-        $pco_song->update_time = date("Y-m-d H:i:s");
+    public function updating(PCOSongs $song){
+        $song->updated_by = session()->get('user_id');
+        $song->updated_at = date('Y-m-d H:i:s');
 
         $prev_dt = [];
         $new_dt = [];
-        $new_data = $pco_song->getDirty();
-        $old_data = $pco_song->getOriginal();
+        $new_data = $song->getDirty();
+        $old_data = $song->getOriginal();
 
         foreach($new_data as $key=>$row){
-            if($key != "update_by" && $key != "update_time"){
+            if($key != 'updated_by' && $key != 'updated_at'){
                 $old = $old_data[$key];
                 $prev_dt[$key] = $old;
                 $new_dt[$key] =  $row;
@@ -35,65 +35,65 @@ class PCOSongsObserver
         }
 
         $user = Users::where([
-            "id" => session()->get("user_id"),
-            "active" => 1
+            'id' => session()->get('user_id'),
+            'active' => 1
         ])->first();
 
         if(!$user){
-            throw new Exception("User not found!");
+            throw new Exception('User not found!');
         }
 
         $data = [
-            "prev_data" => json_encode($prev_dt),
-            "new_data" => json_encode($new_dt),
-            "model" => "pco_song",
-            "operation" => "U",
-            "ref_id" => Helper::encrypt($pco_song->song_id),
-            "ip_address" => Helper::get_client_ip()
+            'prev_data' => json_encode($prev_dt),
+            'new_data' => json_encode($new_dt),
+            'model' => 'pco_songs',
+            'operation' => 'U',
+            'ref_id' => Helper::encrypt($song->song_id),
+            'ip_address' => Helper::get_client_ip()
         ];
         AuditLogs::create($data);
     }
     /**
-     * Handle the PCOSongs "created" event.
+     * Handle the PCOSongs 'created' event.
      */
-    public function created(PCOSongs $pco_song)
+    public function created(PCOSongs $song)
     {
         AuditLogs::create([
-            "model" => "pco_song",
-            "operation" => "C",
-            "ref_id" => Helper::encrypt($pco_song->song_id),
-            "ip_address" => Helper::get_client_ip()
+            'model' => 'pco_songs',
+            'operation' => 'C',
+            'ref_id' => Helper::encrypt($song->song_id),
+            'ip_address' => Helper::get_client_ip()
         ]);
     }
 
     /**
-     * Handle the PCOSongs "updated" event.
+     * Handle the PCOSongs 'updated' event.
      */
-    public function updated(PCOSongs $pco_song)
+    public function updated(PCOSongs $song)
     {
         //
     }
 
     /**
-     * Handle the PCOSongs "deleted" event.
+     * Handle the PCOSongs 'deleted' event.
      */
-    public function deleted(PCOSongs $pco_song)
+    public function deleted(PCOSongs $song)
     {
         //
     }
 
     /**
-     * Handle the PCOSongs "restored" event.
+     * Handle the PCOSongs 'restored' event.
      */
-    public function restored(PCOSongs $pco_song)
+    public function restored(PCOSongs $song)
     {
         //
     }
 
     /**
-     * Handle the PCOSongs "force deleted" event.
+     * Handle the PCOSongs 'force deleted' event.
      */
-    public function forceDeleted(PCOSongs $pco_song)
+    public function forceDeleted(PCOSongs $song)
     {
         //
     }

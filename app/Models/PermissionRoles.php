@@ -16,8 +16,8 @@ class PermissionRoles extends Model
     protected $fillable = [
         'title',
         'active', 
-        'insert_by', 
-        'update_by'
+        'created_by', 
+        'updated_by'
     ];
 
     public function permissions(){

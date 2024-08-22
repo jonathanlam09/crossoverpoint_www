@@ -20,8 +20,8 @@ class AccountOfferingCheques extends Model
         'cheque_number', 
         'cheque_amount',
         'active', 
-        'insert_by', 
-        'update_by'
+        'created_by', 
+        'updated_by'
     ];
 
     public function offering(){

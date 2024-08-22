@@ -21,8 +21,8 @@ class Attendance extends Model
         'ref_id', 
         'remarks', 
         'active', 
-        'insert_by', 
-        'update_by'
+        'created_by', 
+        'updated_by'
     ];
 
     public function user(){

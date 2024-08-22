@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PCO;
  
-class Sermons extends Model
+class Services extends Model
 {
     /**
      * The table associated with the model.
@@ -12,7 +12,7 @@ class Sermons extends Model
      * @var string
      */
 
-    protected $table = 'sermons';
+    protected $table = 'services';
     public $timestamps = false;
     protected $fillable = [
         'title',
@@ -26,8 +26,8 @@ class Sermons extends Model
         'speaker_name', 
         'image', 
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function pco(){

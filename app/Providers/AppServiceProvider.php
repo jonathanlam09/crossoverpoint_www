@@ -46,11 +46,11 @@ use App\Observers\PCOSongArrangementsObserver;
 use App\Models\PCORoles;
 use App\Observers\PCORolesObserver;
 
-use App\Models\Sermons;
-use App\Observers\SermonsObserver;
+use App\Models\Services;
+use App\Observers\ServicesObserver;
 
-use App\Models\SermonAttachments;
-use App\Observers\SermonAttachmentsObserver;
+use App\Models\ServiceAttachments;
+use App\Observers\ServiceAttachmentsObserver;
 
 use App\Models\PCOTeams;
 use App\Observers\PCOTeamsObserver;
@@ -76,9 +76,6 @@ use App\Observers\GroupMembersObserver;
 use App\Models\PCOAttachments;
 use App\Observers\PCOAttachmentsObserver;
 
-use App\Models\Menus;
-use App\Observers\MenusObserver;
-
 use App\Models\Permissions;
 use App\Observers\PermissionsObserver;
 
@@ -94,6 +91,11 @@ use App\Observers\VisitorsObserver;
 use App\Models\UserUnavailability;
 use App\Observers\UserUnavailabilityObserver;
 
+use App\Models\UserRelationships;
+use App\Observers\UserRelationshipsObserver;
+
+use App\Models\Modules;
+use App\Observers\ModulesObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -130,14 +132,15 @@ class AppServiceProvider extends ServiceProvider
         PCORequests::observe(PCORequestsObserver::class);
         PCOTeams::observe(PCOTeamsObserver::class);
         PCOTeamMembers::observe(PCOTeamMembersObserver::class);
-        Sermons::observe(SermonsObserver::class);
-        SermonAttachments::observe(SermonAttachmentsObserver::class);
+        Services::observe(ServicesObserver::class);
+        ServiceAttachments::observe(ServiceAttachmentsObserver::class);
         Users::observe(UsersObserver::class);
         UserUnavailability::observe(UserUnavailabilityObserver::class);
+        UserRelationships::observe(UserRelationshipsObserver::class);
         Songs::observe(SongsObserver::class);
         SongAttachments::observe(SongAttachmentsObserver::class);
         PCOAttachments::observe(PCOAttachmentsObserver::class);
-        Menus::observe(MenusObserver::class);
+        Modules::observe(ModulesObserver::class);
         Permissions::observe(PermissionsObserver::class);
         Visitors::observe(VisitorsObserver::class);
     }

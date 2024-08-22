@@ -20,7 +20,7 @@ class SongAttachments extends Model
         'path', 
         'extension',
         'active', 
-        'insert_by', 
-        'update_by'
+        'created_by', 
+        'updated_by'
     ];
 }

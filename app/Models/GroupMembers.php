@@ -17,8 +17,8 @@ class GroupMembers extends Model
         'group_id',
         'user_id',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function group(){

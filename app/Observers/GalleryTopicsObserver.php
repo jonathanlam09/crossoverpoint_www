@@ -11,62 +11,22 @@ use Exception;
 class GalleryTopicsObserver
 {
     public function creating(GalleryTopics $topic){
-        $topic->insert_by = session()->get("user_id");
-        $topic->update_by = session()->get("user_id");
-        $topic->insert_time = date("Y-m-d H:i:s");
-        $topic->update_time = date("Y-m-d H:i:s");
+        $topic->created_at = date('Y-m-d H:i:s');
+        $topic->updated_at = date('Y-m-d H:i:s');
     }
 
     public function updating(GalleryTopics $topic){
-        $topic->update_by = session()->get("user_id");
-        $topic->update_time = date("Y-m-d H:i:s");
-
-        $prev_dt = [];
-        $new_dt = [];
-        $new_data = $topic->getDirty();
-        $old_data = $topic->getOriginal();
-
-        foreach($new_data as $key=>$row){
-            if($key != "update_by" && $key != "update_time"){
-                $old = $old_data[$key];
-                $prev_dt[$key] = $old;
-                $new_dt[$key] =  $row;
-            }
-        }
-
-        $user = Users::where([
-            "id" => session()->get("user_id"),
-            "active" => 1
-        ])->first();
-        if(!$user){
-            throw new Exception("User not found!");
-        }
-
-        $data = [
-            "prev_data" => json_encode($prev_dt),
-            "new_data" => json_encode($new_dt),
-            "model" => "gallery_topics",
-            "operation" => "U",
-            "ref_id" => Helper::encrypt($topic->id),
-            "ip_address" => Helper::get_client_ip()
-        ];
-        AuditLogs::create($data);
+        $topic->updated_at = date('Y-m-d H:i:s');
     }
     /**
-     * Handle the GalleryTopics "created" event.
+     * Handle the GalleryTopics 'created' event.
      */
     public function created(GalleryTopics $topic)
     {
-        AuditLogs::create([
-            "model" => "gallery_topics",
-            "operation" => "C",
-            "ref_id" => Helper::encrypt($topic->id),
-            "ip_address" => Helper::get_client_ip()
-        ]);
     }
 
     /**
-     * Handle the GalleryTopics "updated" event.
+     * Handle the GalleryTopics 'updated' event.
      */
     public function updated(GalleryTopics $topic)
     {
@@ -74,7 +34,7 @@ class GalleryTopicsObserver
     }
 
     /**
-     * Handle the GalleryTopics "deleted" event.
+     * Handle the GalleryTopics 'deleted' event.
      */
     public function deleted(GalleryTopics $topic)
     {
@@ -82,7 +42,7 @@ class GalleryTopicsObserver
     }
 
     /**
-     * Handle the GalleryTopics "restored" event.
+     * Handle the GalleryTopics 'restored' event.
      */
     public function restored(GalleryTopics $topic)
     {
@@ -90,7 +50,7 @@ class GalleryTopicsObserver
     }
 
     /**
-     * Handle the GalleryTopics "force deleted" event.
+     * Handle the GalleryTopics 'force deleted' event.
      */
     public function forceDeleted(GalleryTopics $topic)
     {

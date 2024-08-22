@@ -11,14 +11,14 @@ class GalleryHighlights extends Model
      * @var string
      */
 
-    protected $table = "gallery_highlights";
+    protected $table = 'gallery_highlights';
     public $timestamps = false;
     protected $fillable = [
-        "type",
-        "name", 
-        "path",
-        "active",
-        "insert_by",
-        "update_by"
+        'type',
+        'name', 
+        'path',
+        'active',
+        'created_by',
+        'updated_by'
     ];
 }

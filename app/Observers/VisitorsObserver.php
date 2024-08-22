@@ -7,18 +7,18 @@ use App\Models\Visitors;
 class VisitorsObserver
 {
     public function creating(Visitors $visitor){
-        $visitor->insert_by = session()->get("user_id");
-        $visitor->update_by = session()->get("user_id");
-        $visitor->insert_time = date("Y-m-d H:i:s");
-        $visitor->update_time = date("Y-m-d H:i:s");
+        $visitor->created_by = session()->get('user_id');
+        $visitor->updated_by = session()->get('user_id');
+        $visitor->created_at = date('Y-m-d H:i:s');
+        $visitor->updated_at = date('Y-m-d H:i:s');
     }
 
     public function updating(Visitors $visitor){
-        $visitor->update_by = session()->get("user_id");
-        $visitor->update_time = date("Y-m-d H:i:s");
+        $visitor->updated_by = session()->get('user_id');
+        $visitor->updated_at = date('Y-m-d H:i:s');
     }
     /**
-     * Handle the Visitors "created" event.
+     * Handle the Visitors 'created' event.
      */
     public function created(Visitors $visitor)
     {
@@ -26,7 +26,7 @@ class VisitorsObserver
     }
 
     /**
-     * Handle the Visitors "updated" event.
+     * Handle the Visitors 'updated' event.
      */
     public function updated(Visitors $visitor)
     {
@@ -34,7 +34,7 @@ class VisitorsObserver
     }
 
     /**
-     * Handle the Visitors "deleted" event.
+     * Handle the Visitors 'deleted' event.
      */
     public function deleted(Visitors $visitor)
     {
@@ -42,7 +42,7 @@ class VisitorsObserver
     }
 
     /**
-     * Handle the Visitors "restored" event.
+     * Handle the Visitors 'restored' event.
      */
     public function restored(Visitors $visitor)
     {
@@ -50,7 +50,7 @@ class VisitorsObserver
     }
 
     /**
-     * Handle the Visitors "force deleted" event.
+     * Handle the Visitors 'force deleted' event.
      */
     public function forceDeleted(Visitors $visitor)
     {

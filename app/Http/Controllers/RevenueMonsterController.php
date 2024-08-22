@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Sermon;
-use App\Models\Event;
 use Helper;
 use Exception;
 

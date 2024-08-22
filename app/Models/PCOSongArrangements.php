@@ -17,14 +17,14 @@ class PCOSongArrangements extends Model
         'pco_id',
         'path', 
         'active',
-        'insert_by',
+        'created_by',
     ];
 
     public function pco(){
         return $this->hasOne(PCO::class, 'id', 'pco_id')->where('active', 1);
     }
 
-    public function user(){
-        return $this->hasOne(Users::class, 'id', 'insert_by')->where('active', 1);
+    public function creator(){
+        return $this->hasOne(Users::class, 'id', 'created_by')->where('active', 1);
     }
 }

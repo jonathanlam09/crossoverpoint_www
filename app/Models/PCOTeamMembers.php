@@ -18,8 +18,8 @@ class PCOTeamMembers extends Model
         'user_id',
         'pco_role_id', 
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function user(){

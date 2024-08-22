@@ -18,8 +18,8 @@ class PCOTeams extends Model
         'ch_name', 
         'leader_id', 
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function leader(){

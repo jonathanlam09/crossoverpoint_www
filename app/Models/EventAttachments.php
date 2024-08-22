@@ -19,11 +19,11 @@ class EventAttachments extends Model
         'path', 
         'extension',
         'active', 
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
     
     public function event(){
-        return $this->belongsTo(Event::class, 'id', 'event_id');
+        return $this->belongsTo(Events::class, 'id', 'event_id');
     }
 }

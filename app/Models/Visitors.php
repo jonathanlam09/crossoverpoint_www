@@ -30,10 +30,10 @@ class Visitors extends Model
         'is_attend_church',
         'church_name',
         'active',
-        'insert_time',
-        'update_time',
-        'insert_by',
-        'update_by',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
     ];
 
     public function getFullname(){

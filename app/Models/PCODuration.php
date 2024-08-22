@@ -16,7 +16,7 @@ class PCODuration extends Model
     protected $fillable = [
         'name',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 }

@@ -1,9 +1,10 @@
 <?php
 namespace App\Models;
 
+use Helper;
 use Illuminate\Database\Eloquent\Model;
  
-class Menus extends Model
+class Modules extends Model
 {
     /**
      * The table associated with the model.
@@ -17,21 +18,23 @@ class Menus extends Model
         'delete' => 4
     ];
 
-    protected $table = 'menus';
+    protected $table = 'modules';
     public $timestamps = false;
     protected $fillable = [
         'name',
         'constant',
         'link',
         'seq',
-        'ref_id',
+        'refId',
         'active',
     ];
 
-    public function get_submenu(){
-        return self::where([
+    public function getSubModules(){
+        $modules = self::where([
             'ref_id' => $this->id,
             'active' => 1
         ])->get();
+        $modules = Helper::insert_encrypted_id(['body' => $modules]);
+        return $modules;
     }
 }

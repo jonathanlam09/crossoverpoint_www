@@ -41,8 +41,8 @@ class PCORoles extends Model
         'pco_team_id',
         'is_required_for_rehearsal',
         'active',
-        'insert_by',
-        'update_by'
+        'created_by',
+        'updated_by'
     ];
 
     public function team(){

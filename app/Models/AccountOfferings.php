@@ -23,15 +23,15 @@ class AccountOfferings extends Model
         'cm_100', 'cm_50', 'cm_20', 'cm_10', 'cm_5', 'cm_1', 'cm_coin',
         'other_reason', 'other_100', 'other_50', 'other_20', 'other_10', 'other_5', 'other_1', 'other_coin',
         'signature_1', 'witness_one', 'signature_2', 'witness_two', 
-        'date', 'active', 'insert_by', 'update_by'
+        'date', 'active', 'created_by', 'updated_by'
     ];
 
-    public function insert_user(){
-        return $this->hasOne(Users::class, 'id', 'insert_by');
+    public function creator(){
+        return $this->hasOne(Users::class, 'id', 'created_by');
     }
 
-    public function update_user(){
-        return $this->hasOne(Users::class, 'id', 'update_by');
+    public function updater(){
+        return $this->hasOne(Users::class, 'id', 'updated_by');
     }
 
     public function witness_one_user(){

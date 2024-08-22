@@ -1,6 +1,6 @@
-@include("include/header")
+@include('include/header')
 <?php
-    $image = isset($event->image) ? IMAGE_PATH . "event/" . $event->image : IMAGE_PATH . "banner.png";
+    $image = isset($event->image) ? IMAGE_PATH . 'event/' . $event->image : IMAGE_PATH . 'banner.png';
 ?>
 <style>
     .error-message{
@@ -9,7 +9,7 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3><?php echo $channel == "ENG" ? "EVENTS" : "活动"?></h3>
+        <h3><?php echo $channel == 'ENG' ? 'EVENTS' : '活动'?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">
@@ -36,29 +36,29 @@
             <form id="event_sign_up_form" onsubmit="submit_handler(event)">
                 <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:15px">
                     <div class="d-flex justify-content-center mt-3">
-                        <img src="<?php echo url("assets/img/logo.png")?>" style="width:80px;">
+                        <img src="<?php echo url('assets/img/logo.png')?>" style="width:80px;">
                     </div>
                     <div class="row mt-5">
                         <div class="col-lg-6 col-12 mt-3">
-                            <label for=""><?php echo $channel == "ENG" ? "First Name" : "名"?></label>
+                            <label for=""><?php echo $channel == 'ENG' ? 'First Name' : '名'?></label>
                             <div class="input-group">
                                 <input type="text" class="form-control validation-required" name="first_name" id="first_name" placeholder="eg. John" style="border:none;">
                             </div>
                         </div>
                         <div class="col-lg-6 col-12 mt-3">
-                            <label for=""><?php echo $channel == "ENG" ? "Last Name" : "姓"?></label>
+                            <label for=""><?php echo $channel == 'ENG' ? 'Last Name' : '姓'?></label>
                             <div class="input-group">
                                 <input type="text" class="form-control validation-required" name="last_name" id="last_name" placeholder="eg. Doe" style="border:none;">
                             </div>
                         </div>
                         <div class="col-12 mt-3">
-                            <label for=""><?php echo $channel == "ENG" ? "Email" : "电邮地址"?></label>
+                            <label for=""><?php echo $channel == 'ENG' ? 'Email' : '电邮地址'?></label>
                             <div class="input-group">
                                 <input type="text" class="form-control validation-required" name="email" id="email" placeholder="eg. johndoe@example.com" style="border:none;">
                             </div>
                         </div>
                         <div class="col-12 mt-3">
-                            <label for=""><?php echo $channel == "ENG" ? "Contact" : "联系号码"?></label>
+                            <label for=""><?php echo $channel == 'ENG' ? 'Contact' : '联系号码'?></label>
                             <div class="input-group">
                                 <input type="text" class="form-control validation-required" name="contact" id="contact" placeholder="eg. 0123456789" style="border:none;">
                             </div>
@@ -69,13 +69,13 @@
                                 $fee = isset($event->fee) ? $event->fee : 0;
                                 if($fee == 0){
                                     ?>
-                                    <button type="submit" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == "ENG" ? "SIGN UP" : "报名"?></button>
+                                    <button type="submit" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == 'ENG' ? 'SIGN UP' : '报名'?></button>
                                     <?php
                                 }else{
                                     ?>
                                     <div>
                                         <h6 class="text-center" style="font-weight:700;"><?php echo "$" . number_format($fee ,2)?></h6>
-                                        <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == "ENG" ? "PROCEED TO PAYMENT" : "付款"?></a>
+                                        <a href="" class="btn" style="background-color:cornflowerblue;color:white;border-radius:2vh;"><?php echo $channel == 'ENG' ? 'PROCEED TO PAYMENT' : '付款'?></a>
                                     </div>
                                     <?php
                                 }
@@ -87,16 +87,18 @@
         </div>
     </div>
 </div>
-@include("include/footer")
+@include('include/footer')
 <script>
+    const event_id = `<?php echo $event_id?>`;
     const opt = {
-        root: $(".container-row").get(0),
-        rootMargin: "0px",
+        root: $('.container-row').get(0),
+        rootMargin: '0px',
         threshold: 0,
     };
     var observer = new IntersectionObserver(show_event, opt);
+    
     $(document).ready(() => {
-        var event = $(".container-row").children();
+        var event = $('.container-row').children();
         if(event.length > 0){
             for(var i=0;i<event.length;i++){
                 observer.observe(event[i]);
@@ -104,23 +106,22 @@
         }
     })
 
-    const event_id = "<?php echo $event_id?>";
     async function submit_handler(e){
         e.preventDefault();
         const validation = await Helper.validate();
         if(!validation.status){
             warning_response(validation.message);
         }
-        const form = $("#event_sign_up_form").get(0);
+        const form = $('#event_sign_up_form').get(0);
         var formdata = new FormData(form);
 
-        axios.post(address + "api/events/sign-up?id=" + event_id, formdata, apiHeader)
+        axios.post(`${address}api/events/${event_id}/sign-up`, formdata, apiHeader)
         .then((response) => {
             if(response.data.status){
-                const success_msg = channel == "ENG" ? "You have successfully signed up!" : "您已注册成功！";
+                const success_msg = channel == 'ENG' ? 'You have successfully signed up!' : '您已注册成功！';
                 success_response(success_msg)
                 .then((response) => {
-                    window.location.href = address + "events/" + event_id;
+                    window.location.href = address + 'events/' + event_id;
                 });
             }else{
                 warning_response(response.data.message);
@@ -135,8 +136,8 @@
         if(entries.length > 0){
             for(var i=0;i<entries.length;i++){
                 if(entries[i].isIntersecting){
-                    $(entries[i].target).css("opacity", "1");
-                    $(entries[i].target).css("transform", "translateY(0)");
+                    $(entries[i].target).css('opacity', '1');
+                    $(entries[i].target).css('transform', 'translateY(0)');
                 }
             }
         }

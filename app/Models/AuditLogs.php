@@ -20,11 +20,11 @@ class AuditLogs extends Model
         'operation', 
         'ref_id', 
         'remarks', 
-        'insert_by', 
+        'created_by', 
         'ip_address'
     ];
 
     public function user(){
-        return $this->hasOne(Users::class, 'id', 'insert_by');
+        return $this->hasOne(Users::class, 'id', 'created_by');
     }
 }

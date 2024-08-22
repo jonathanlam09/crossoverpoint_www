@@ -14,16 +14,16 @@ class Permissions extends Model
     protected $table = 'permissions';
     public $timestamps = false;
     protected $fillable = [
-        'menu_id',
+        'module_id',
         'role_id',
         'operation',
         'active',
-        'insert_by',
-        'update_by',
+        'created_by',
+        'updated_by',
     ];
 
     public function menu(){
-        return $this->hasOne(Menus::class, 'id', 'menu_id');
+        return $this->hasOne(Modules::class, 'id', 'module_id');
     }
 
     public static function getPermissions(){
