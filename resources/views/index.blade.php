@@ -47,119 +47,6 @@
         }
     }
 </style>
-<?php
-    if(isset($highlights)) {
-        ?>
-        <section class="highlight-section d-none">
-            <div class="container mt-5 mb-5" style="text-align:center;white-space:pre-line;" id="highlight_container">
-                <div class="row m-2">
-                    <div class="col-12 d-flex align-items-start p-0" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
-                        <div class="media-container d-flex align-items-center position-relative w-100 h-100">
-                            {{-- <video autoplay muted 
-                            id="highlight_vid" 
-                            style="object-fit:contain;width:100%;height:100%;" 
-                            onclick="toggleMute(event)"
-                            onended="prompt()">
-                                <source src="<?php echo url("assets/vid/familycamp.mp4")?>" type="video/mp4">
-                                    Your browser does not support the video tag.
-                            </video> --}}
-                            <div class="d-flex position-absolute" style="bottom:0;left:50%;transform:translate(-50%, -10px)">
-                                <?php
-                                    if(count($highlights) > 0) {
-                                        foreach ($highlights as $key=>$row) {
-                                            if($key == 0) {
-                                                ?>
-                                                <i class="fas fa-circle p-1 highlight-dot" id="highlight_dot_<?php echo $key?>" onclick="reset_highlights(<?php echo $key?>)"></i>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <i class="fas fa-circle p-1 highlight-dot" id="highlight_dot_<?php echo $key?>" onclick="reset_highlights(<?php echo $key?>)"></i>
-                                                <?php
-                                            }
-                                        }
-                                    }
-                                    ?>
-                            </div>
-                        </div>
-                    </div>
-                    <style>
-                        .announcement-section:hover .announcement-slider {
-                            animation-play-state: paused;
-                        }
-
-                        .announcement-section {
-                            white-space: nowrap;
-                            overflow: scroll;
-                            cursor: pointer;
-                        }
-
-                        .announcement-slider::-webkit-scrollbar {
-                            display: none;
-                        }
-
-                        .announcement-slider {
-                            display: inline-block;
-                            width: max-content;
-                            animation: 10s scroll linear infinite;
-                        }
-
-                        .announcement-slider img {
-                            width: 200px;
-                            padding: 0 30px;
-                        }
-
-                        @keyframes scroll {
-                            0% {
-                                transform: translateX(0);
-                            }
-                            100% {
-                                transform: translateX(-100%);
-                            }
-                        }
-                    </style>
-                    <?php
-                    if(count($events) > 0) {
-                        ?>
-                        <div class="col-12" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
-                            <h6 class="text-success fw-bold text-uppercase" style="white-space: nowrap">
-                                <i class="fas fa-bullhorn"></i>
-                                <i class="fas fa-bullhorn"></i>
-                                <i class="fas fa-bullhorn"></i>
-                            </h6>
-                            <a href="<?php echo url("/events/upcoming")?>">
-                                <div class="announcement-section" >
-                                    <div class="announcement-slider">
-                                        <?php
-                                            foreach ($events as $key=>$row) {
-                                                ?>
-                                                    <img src="<?php echo IMAGE_PATH . "event/" . $row["image"]?>">
-                                                <?php
-                                            }
-                                        ?>
-                                    </div>
-                                    <div class="announcement-slider">
-                                        <?php
-                                            foreach ($events as $key=>$row) {
-                                                ?>
-                                                    <img src="<?php echo IMAGE_PATH . "event/" . $row["image"]?>">
-                                                <?php
-                                            }
-                                        ?>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>    
-        </section>
-        <?php
-    }
-?>
-
-<hr class="container">
 <script>
     function toggleMute(e) {
         e.currentTarget.muted = !e.currentTarget.muted;
@@ -263,11 +150,11 @@
                     <?php
                         if(count($events) > 0){
                             foreach($events as $row){
-                                $image = isset($row["image"]) ? $row["image"] : "banner.png";
+                                $image = isset($row["image"]) ? IMAGE_PATH . "event/" . $row["image"] : IMAGE_PATH . "banner.png";
                         ?>
                     <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                         <a href="<?php echo url("events/" . $row["encrypted_id"])?>">
-                            <img class="img-fluid" src="<?php echo IMAGE_PATH . "event/" . $image?>">
+                            <img class="img-fluid" src="<?php echo $image ?>">
                         </a>
                         <div class="d-flex flex-column align-items-center">
                             <a style="color:black;"><?php echo date("jS F Y", strtotime($row["start_date"]))?></a>
@@ -285,6 +172,15 @@
         ?>
     </div>
 </section>
+<?php
+    if(count($events) > 0){
+    ?>
+    <div class="d-flex justify-content-center mb-5">
+        <a href="<?php echo url("events/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
+    </div>
+    <?php
+    }
+?>
 <hr class="container">
 <?php
     if(isset($topics)) {
@@ -350,15 +246,6 @@
         }
     }
 </style>
-    <?php
-    if(count($events) > 0){
-    ?>
-    <div class="d-flex justify-content-center mb-5">
-        <a href="<?php echo url("events/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
-    </div>
-    <?php
-    }
-    ?>
 <script>
     const highlights = JSON.parse(`<?php echo $highlights?>`);
     var count_highlight = 0;

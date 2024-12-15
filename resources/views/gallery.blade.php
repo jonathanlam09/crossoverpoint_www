@@ -1,4 +1,4 @@
-@include("include/header")
+@include('include/header')
 <style>
     .media-row * {
         transition-duration: .5s;
@@ -38,7 +38,13 @@
                             <div class="col-lg-2 col-md-3 col-sm-6 col-12 d-flex justify-content-center align-items-center"
                             style="opacity:.2;transform:translateY(50%);">
                                 <div class="image-container m-2">
-                                    <img class="topic-media" src="<?php echo ADMIN_PORTAL . $row->path?>" class="w-100 h-100" onclick="show_image(`<?php echo $row->path?>`)"/>
+                                    <img class="topic-media" 
+                                    src="<?php echo ADMIN_PORTAL . $row->path?>" 
+                                    alt="..."
+                                    class="w-100 h-100" 
+                                    onclick="show_image(`<?php echo $row->path?>`)"
+                                    style="min-height: 1px"
+                                    loading="lazy"/>
                                 </div>
                             </div>
                             <?php
@@ -58,12 +64,12 @@
     <div class="position-fixed" style="top:0;right:0;cursor:pointer;" onclick="close_image()">
         <i class="fas fa-times text-white" style="font-size: 24px;"></i>
     </div>
-    <img id="display_image" class="img-fluid p-5" style="object-fit:contain;width:100%;height:100%;">
+    <img id="display_image" class="img-fluid p-5" style="object-fit:contain;width:100%;height:100%;" loading="lazy">
 </div>
 <script>
     let gallery_opt = {
-        root: document.getElementById("#gallery_container"),
-        rootMargin: "0px",
+        root: document.getElementById('#gallery_container'),
+        rootMargin: '0px',
         threshold: 0,
     };
 
@@ -76,8 +82,8 @@
                     (function(i) {
                         var timeToStartNote = (i*50);
                         setTimeout(function() {
-                            $(entries[i].target).css("opacity", "1");
-                            $(entries[i].target).css("transform", "translateY(0%)");
+                            $(entries[i].target).css('opacity', '1');
+                            $(entries[i].target).css('transform', 'translateY(0%)');
                         }, timeToStartNote);
                     })(i);
                 }
@@ -86,12 +92,12 @@
     }
 
     $(document).ready(() => {
-        const el = document.querySelector(".banner");
-        $("html, body").animate({
-            scrollTop: $(".banner").offset().top
+        const el = document.querySelector('.banner');
+        $('html, body').animate({
+            scrollTop: $('.banner').offset().top
         }, 500);
 
-        var gallery = $(".media-row").children();
+        var gallery = $('.media-row').children();
         if(gallery.length > 0){
             for(var i=0;i<gallery.length;i++){
                 gallery_observer.observe(gallery[i]);
@@ -100,13 +106,13 @@
     })
 
     function show_image (path) {
-        $(".expand-image-div").removeClass("d-none");
-        $("#display_image").attr("src", "http://localhost:8000/" + path);
+        $('.expand-image-div').removeClass('d-none');
+        $('#display_image').attr('src', portal_address + path);
     }
 
     function close_image(){
-        $(".expand-image-div").addClass("d-none");
-        $("#display_image").attr("src", "");
+        $('.expand-image-div').addClass('d-none');
+        $('#display_image').attr('src', '');
     }
 </script>
-@include("include/footer")
+@include('include/footer')

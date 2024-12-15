@@ -1,4 +1,4 @@
-@include("include/header")
+@include('include/header')
 <style>
     .circle {
         width: 10px;
@@ -41,11 +41,12 @@
 </style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
-        <h3><?php echo $channel == "ENG" ? "ABOUT US" : "关于我们"?></h3>
+        <h3><?php echo $channel == 'ENG' ? 'ABOUT US' : '关于我们'?></h3>
     </div>
 </div>
 <div class="container mt-5 mb-5">
-    <section class="timeline-section" style="width:100%;">
+    <p class="text-center">Coming soon.</p>
+    {{-- <section class="timeline-section" style="width:100%;">
         <div class="row">
             <div class="col-5"></div>
             <div class="col-2 d-flex justify-content-center">
@@ -139,8 +140,8 @@
                 <img src="<?php echo url('assets/img/background.jpg')?>" style="max-width: 300px;">
             </div>
         </div>
-    </section>
+    </section> --}}
 </div>
 <script>
 </script>
-@include("include/footer")
+@include('include/footer')

@@ -25,7 +25,7 @@
         <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'What is your email?' : '您的电邮地址？'?></div>
         <div class="row">
             <div class="col-sm-6 mt-5 position-relative">
-                <input type="text" class="form-control validation-required" id="email" name="email" placeholder="johndoe@example.com..." style="border: none;background-color:transparent;border-bottom:1px solid;border-radius:0!important;">
+                <input type="text" class="form-control" id="email" name="email" placeholder="johndoe@example.com..." style="border: none;background-color:transparent;border-bottom:1px solid;border-radius:0!important;">
             </div>
         </div>
         <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'What is your contact?' : '您的联系号码？'?></div>
@@ -34,7 +34,7 @@
                 <input type="text" class="form-control validation-required" id="contact" name="contact" placeholder="0123456789" style="border:none;background-color:transparent;border-bottom:1px solid;border-radius:0!important;">
             </div>
         </div>
-        {{-- <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'What is your address?' : '您的地址？'?></div>
+        <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'What is your address?' : '您的地址？'?></div>
         <div class="row">
             <div class="col-12 mt-5 position-relative">
                 <textarea name="address" class="form-control validation-required" id="address" style="background-color:transparent;border:1px solid;border-radius:0!important;"></textarea>
@@ -56,11 +56,11 @@
         <div class="d-flex mt-5 position-relative">
             <div>
                 <input class="validation-required" id="sex" type="radio" name="sex" value="1">
-                <label for=""><?php $channel == 'ENG' ? 'Male' : '男'?></label>
+                <label for=""><?php echo $channel == 'ENG' ? 'Male' : '男'?></label>
             </div>
             <div style="margin-left:20px;">
-                <input type="radio" name="sex" value="0">
-                <label for=""><?php $channel == 'ENG' ? 'Female' : '女'?></label>
+                <input class="validation-required" type="radio" name="sex" value="0">
+                <label for=""><?php echo $channel == 'ENG' ? 'Female' : '女'?></label>
             </div>
         </div>
         <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'What is your marital status?' : '您的婚姻状况？'?></div>
@@ -129,22 +129,41 @@
         <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'How did you come to know of this service?' : '您是如何得知有关此聚会？'?></div>
         <div class="mt-5 position-relative">
             <div>
-                <input class="validation-required" type="checkbox" name="purpose[]" value="1">
+                <input type="checkbox" name="media[]" value="1">
+                <label><?php echo $channel == 'ENG' ? 'Social Media (Eg. Facebook, Instagram)' : '社交媒体 (Facebook、Instagram)'?></label>
+            </div>
+            <div>
+                <input type="checkbox" name="media[]" value="2">
+                <label><?php echo $channel == 'ENG' ? 'Website' : '网站'?></label>
+            </div>
+            <div>
+                <input type="checkbox" name="media[]" value="3">
+                <label><?php echo $channel == 'ENG' ? 'Word of mouth' : '口碑'?></label>
+            </div>
+            <div>
+                <input type="checkbox" name="media[]" value="4">
+                <label><?php echo $channel == 'ENG' ? 'Referral' : '转介'?></label>
+            </div>
+        </div>
+        <div style="font-size:16px;margin-top:5rem;"><?php echo $channel == 'ENG' ? 'I would like to...' : '我想要...'?></div>
+        <div class="mt-5 position-relative">
+            <div>
+                <input type="checkbox" name="purpose[]" value="1">
                 <label><?php echo $channel == 'ENG' ? 'I want to receive Christ' : '我想接受基督为救主'?></label>
             </div>
             <div>
-                <input class="validation-required" type="checkbox" name="purpose[]" value="2">
+                <input type="checkbox" name="purpose[]" value="2">
                 <label><?php echo $channel == 'ENG' ? 'I need healing' : '我需要治疗'?></label>
             </div>
             <div>
-                <input class="validation-required" type="checkbox" name="purpose[]" value="3">
+                <input type="checkbox" name="purpose[]" value="3">
                 <label><?php echo $channel == 'ENG' ? 'I want to know more about Christ' : '我想要知道更多有关基督教信仰'?></label>
             </div>
             <div>
-                <input class="validation-required" type="checkbox" name="purpose[]" value="4">
+                <input type="checkbox" name="purpose[]" value="4">
                 <label><?php echo $channel == 'ENG' ? 'I need spiritual counselling' : '我需要精神上的辅导'?></label>
             </div>
-        </div> --}}
+        </div>
         <div class="d-flex justify-content-end" style="margin-top:5rem;">
             <a class="btn" href="javascript:history.go(-1)" style="background-color:lightgrey;color:white;margin-right:10px;"><?php echo $channel == 'ENG' ? 'BACK' : '回去'?></a>
             <button type="submit" class="btn btn-primary"><?php echo $channel == 'ENG' ? 'SUBMIT' : '提交'?></button>
@@ -174,7 +193,13 @@
         const fields = $('.visitor-form .validation-required');
         const validation = await Helper.validate(fields);
         if(!validation.status){
-            warning_response(validation.message ? validation.message : validation_msg);
+            async_warning_response(validation.message ? validation.message : validation_msg)
+            .then((response) => {
+                var error_field = $('.visitor-form .validation-required.validation-failed').first().parents('.row');
+                $('html, body').animate({
+                    scrollTop: error_field.offset().top
+                }, 500);
+            })
             return false;
         }
 

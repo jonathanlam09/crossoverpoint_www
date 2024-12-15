@@ -80,17 +80,18 @@
 
                 if(events.length > 0){
                     for(var i=0;i<events.length;i++){
+                        var event_name = events[i].type == 1 ? 'Prayer Meeting' : (events[i].name ? events[i].name : '-');
                         var image = `<div class="col-md-3 col-12 d-flex justify-content-center">
                                         <a href="${address}events/${events[i].event_id}">
-                                            <img style="max-height:150px;" src="${portal_address}assets/img/event/${events[i].image}"/>
+                                            <img style="max-height:150px;" src="${events[i].image ? `${portal_address}assets/img/event/${events[i].image}` : `${portal_address}assets/img/banner.png`}"/>
                                         </a>
                                     </div>`;
                         var title = `<h5>
                                         <a style="color:black;text-decoration:none;" href="${address}events/${events[i].event_id}">
-                                        ${events[i].name}
+                                        ${event_name}
                                         </a>
                                     </h5>`;
-                        var desc = `<div class="mt-1"><span>${events[i].description}</span></div>`;
+                        var desc = `<div class="mt-1"><span>${events[i].type == 1 ? 'Prayer Meeting' : (events[i].description ? events[i].description : '-')}</span></div>`;
                         var date = `<div class="mt-1"><span>${events[i].start_date}</span></div>`;
                         var text = `<div class="col-md-9 col-12 text-desc">${title}${desc}${date}</div>`;
                         if(i == 0){

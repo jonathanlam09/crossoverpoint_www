@@ -98,6 +98,7 @@ crossorigin="anonymous"></script>
     const dev_portal_address = 'http://localhost:8000/';
     const apiHeader = { headers: { 'Content-Type': 'multipart/form-data'} };
     const url_path = location.protocol + '//' + location.host + location.pathname;
+    const validation_msg = ('<?php echo $channel?>' == 'ENG') ? 'Please complete all required fields!' : '请填写所有必填字段！'
     const type_functions = {
         event: function (reload = false) {
             get_events(reload)
@@ -340,6 +341,15 @@ crossorigin="anonymous"></script>
                 })
             }
         }
+    }
+
+    async function async_warning_response(data) {
+        return await Swal.fire({
+            title: 'Warning!',
+            icon: 'warning',
+            text: data,
+            button: 'OK',
+        })
     }
 
     function error_response() {

@@ -24,7 +24,10 @@ class IndexController extends Controller
                 $service->encrypted_id = Helper::encrypt($service->id);
             }
         
-            $events = Events::where('active', 1)
+            $events = Events::where([
+                'active' => 1,
+                'for_public' => 1
+            ])
             ->whereDate('start_date', '>=', date('Y-m-d'))
             ->take(4)
             ->get();
@@ -139,9 +142,14 @@ class IndexController extends Controller
             if(empty($request->post())){
                 throw new Exception('Empty POST request!');
             }
-
+            
             $param = [
-                'body' => $request->post()
+                'body' => $request->post(),
+                'exclude' => [
+                    'email', 
+                    'media',
+                    'purpose'
+                ]
             ];
 
             $validation = Helper::validate($param);
@@ -154,14 +162,15 @@ class IndexController extends Controller
             $email = $request->post('email');
             $contact = $request->post('contact');
 
-            // $religion = $request->post('religion');
-            // $is_attend_church = $request->post('is_attend_church');
-            // $church_name = $request->post('church_name');
-            // $address = $request->post('address');
-            // $sex = $request->post('sex');
-            // $occupation = $request->post('occupation');
-            // $purpose = $request->post('purpose');
-            // $marital_status = $request->post('marital_status');
+            $religion = $request->post('religion');
+            $is_attend_church = $request->post('is_attend_church');
+            $church_name = $request->post('church_name');
+            $address = $request->post('address');
+            $sex = $request->post('sex');
+            $occupation = $request->post('occupation');
+            $purpose = $request->post('purpose');
+            $media = $request->post('media');
+            $marital_status = $request->post('marital_status');
 
             $data = [
                 'username' => $email,
@@ -169,7 +178,17 @@ class IndexController extends Controller
                 'last_name' => $last_name,
                 'email' => $email,
                 'contact' => $contact,
-                'is_visitor' => 1
+                'is_visitor' => 1,
+                'visited_at' => date('Y-m-d H:i:s'),
+                'religion' => $religion,
+                'is_attend_church' => $is_attend_church,
+                'address' => $address,
+                'church' => $church_name,
+                'sex' => $sex,
+                'occupation' => $occupation,
+                'purpose' => json_encode($purpose),
+                'media' => json_encode($media),
+                'marital_status' => $marital_status
             ];
             Users::create($data);
             $ret['status'] = true;
@@ -183,6 +202,7 @@ class IndexController extends Controller
         $ret = [
             'status' => false
         ];
+        
         try{
             if($request->method() != 'GET'){
                 throw new Exception('Invalid HTTP method!');
