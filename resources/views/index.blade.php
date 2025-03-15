@@ -68,11 +68,11 @@
         @else 
             <p id="paragraph" style="display:none;">信仰信条
                 我认识独一的真神。我认识神所差来的耶稣基督。
-                我得着永生 （17:3）。
-                我口里认耶稣为主。我心里信 神叫祂从死里复活（罗马 10:9）。
-                我要认识基督 （腓 3:10）。
-                我要传扬基督（歌 1:28）。
-                基督再来时，祂认识我，因我属于祂 (约 10: 14)，且遵行祂的旨意（约6:40）。
+                我得着永生 (17:3)。
+                我口里认耶稣为主。我心里信 神叫祂从死里复活 (罗马 10:9)。
+                我要认识基督 (腓 3:10)。
+                我要传扬基督 (歌 1:28)。
+                基督再来时，祂认识我，因我属于祂 (约 10: 14)，且遵行祂的旨意 (约6:40)。
             </p>
         @endif
     </div>
@@ -80,92 +80,95 @@
 <hr class="container">
 <section class="service-section d-none" style="padding: 75px 0;">
     <div class="container" id="service_container">
-        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming services" : "来临的道"?></h3>
-        <?php
-            if(!$service){
-                ?>
-                <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming services." : "请继续关注即将到来的更多讲道。"?></div>
-                <?php
-            }else{
-                $main_service_image = isset($service->image) ? IMAGE_PATH . "service/" . $service->image : url("assets/img/banner.png");
-                ?>
-                    <div class="row mb-2 mt-5" id="service_div">
-                        <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
-                            <div class="img d-flex justify-content-center" style="position:relative;">
-                                <a href="<?php echo url("services/" . $service->encrypted_id)?>"><img src="<?php echo $main_service_image?>" style="max-width:800px;width:100%;"></a>
-                            </div>
-                            <div class="text-center">
-                                <h6 class="mt-3 mb-3"><?php echo date("jS F Y 10:00:00 A", strtotime($service->date))?></h6>
-                                <h6 class="mb-3"><?php echo $channel == "ENG" ? $service->title : $service->ch_title?></h6>
-                                <p><?php echo $channel == "ENG" ? $service->description : $service->ch_description?></p>
-                            </div>
-                        </div>    
+        <h3 class="text-center text-uppercase" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">
+            {{ $channel == 'ENG' ? 'Upcoming services' : '来临的道' }}
+        </h3>
+        @if(!$service)
+            <div class="mt-5 text-center" style="opacity:.2;transform:translateY(-100%);transition:.5s ease;">
+                {{ $channel == "ENG" ? "Stay tuned for more upcoming services." : "请继续关注即将到来的更多讲道。" }}
+            </div>
+        @else
+            @php
+                $main_service_image = isset($service->image) ? IMAGE_PATH . 'service/' . $service->image : url('assets/img/banner.png');
+            @endphp
+        
+            <div class="row mb-2 mt-5" id="service_div">
+                <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                    <div class="img d-flex justify-content-center" style="position:relative;">
+                        <a href="{{ url('services/' . $service->encrypted_id) }}">
+                            <img src="{{ $main_service_image }}" style="max-width:800px;width:100%;">
+                        </a>
                     </div>
-                <?php
-            }
-        ?>
+                    <div class="text-center">
+                        <h6 class="mt-3 mb-3">{{ date("jS F Y 10:00:00 A", strtotime($service->date)) }}</h6>
+                        <h6 class="mb-3">{{ $channel == "ENG" ? $service->title : $service->ch_title }}</h6>
+                        <p>{{ $channel == "ENG" ? $service->description : $service->ch_description }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </section>
 <div class="d-flex justify-content-center">
-    <a href="<?php echo url("services/upcoming")?>" style="color:black;text-decoration:none;"><?php echo $channel == "ENG" ? "View more" : "查看更多"?></a>
+    <a href="{{ url("services/upcoming") }}" style="color:black;text-decoration:none;">
+        {{ $channel == 'ENG' ? 'View more' : '查看更多' }}
+    </a>
 </div>
 <hr class="container">
 <section class="event-section d-none" style="padding: 75px 0;">
     <div class="container" id="event_container">
-        <h3 class="text-center text-uppercase" 
-        style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Upcoming Events" : "来临的活动"?></h3>
-        <?php
-        if(count($events) == 0){
-            ?>
-            <div class="mt-5 text-center"
-            style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "Stay tuned for more upcoming events." : "请继续关注更多即将举行的活动。"?></div>
-            <?php
-        }else{
-            $total_event_count = count($events);
-            $main_event = $events[0];
-            array_splice($events, 0, 1);
-            $main_event_image = isset($main_event["image"]) ? IMAGE_PATH . "event/" . $main_event["image"] : url("assets/img/banner.png");
-            ?>
+        <h3 
+        class="text-center text-uppercase" 
+        style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+            {{ $channel == 'ENG' ? 'Upcoming Events' : '来临的活动' }}
+        </h3>
+        @if(count($events) == 0)
+            <div class="mt-5 text-center" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                {{ $channel == "ENG" ? "Stay tuned for more upcoming events." : "请继续关注更多即将举行的活动。" }}
+            </div>
+        @else
+            @php
+                $totalEventCount = count($events);
+                $mainEvent = $events[0];
+                $remainingEvents = array_slice($events, 1);
+                $mainEventImage = isset($mainEvent['image']) ? asset('images/event/' . $mainEvent['image']) : asset('assets/img/banner.png');
+            @endphp
+
             <div class="row mt-5" id="event_div">
-                <div class="col-12 <?php echo ($total_event_count > 1) ? 'col-lg-9 ' : ''?>" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                <div class="col-12 {{ ($totalEventCount > 1) ? 'col-lg-9' : '' }}" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
                     <div class="img">
-                        <a class="<?php echo ($total_event_count == 1) ? 'd-flex justify-content-center' : 'test'?>" 
-                            href="<?php echo url("events/" . $main_event["encrypted_id"])?>">
-                            <img src="{{ $main_event_image }}" style="max-width:800px;width:100%;">
+                        <a class="{{ ($totalEventCount == 1) ? 'd-flex justify-content-center' : 'test' }}" href="{{ url('events/' . $mainEvent['encrypted_id']) }}">
+                            <img src="{{ $mainEventImage }}" style="max-width:800px;width:100%;">
                         </a>
                     </div>
                     <div class="text-center">
                         <div>
-                            <span><?php echo date("jS F Y", strtotime($main_event["start_date"]))?></span> . <span><?php echo date("h:i A", strtotime($main_event["start_date"]))?></span>
-                            <h6><?php echo $channel == "ENG" ? $main_event["name"] : $main_event["ch_name"];?></h6>
-                            <p><?php echo $channel == "ENG" ? $main_event["description"] : $main_event["ch_description"];?></p>
+                            <span>{{ date('jS F Y', strtotime($mainEvent['start_date'])) }}</span> . <span>{{ date('h:i A', strtotime($mainEvent['start_date'])) }}</span>
+                            <h6>{{ $channel == "ENG" ? $mainEvent['name'] : $mainEvent['ch_name'] }}</h6>
+                            <p>{{ $channel == "ENG" ? $mainEvent['description'] : $mainEvent['ch_description'] }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 <?php echo ($total_event_count > 1) ? 'col-lg-3' : 'd-none'?>" id="event_subdiv">
-                    <?php
-                        if(count($events) > 0){
-                            foreach($events as $row){
-                                $image = isset($row["image"]) ? IMAGE_PATH . "event/" . $row["image"] : IMAGE_PATH . "banner.png";
-                        ?>
-                    <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
-                        <a href="{{ url('events/' . $row['encrypted_id']) }}">
-                            <img class="img-fluid" src="{{ $image }}">
-                        </a>
-                        <div class="d-flex flex-column align-items-center">
-                            <a style="color:black;">{{ date('jS F Y', strtotime('start_date')) }}</a>
-                            <a style="color:black;">{{ $row['name'] }}</a>
-                        </div>
-                    </div>
-                    <?php
-                            }
-                        }
-                    ?>
+                <div class="col-12 {{ ($totalEventCount > 1) ? 'col-lg-3' : 'd-none' }}" id="event_subdiv">
+                    @if(count($remainingEvents) > 0)
+                        @foreach($remainingEvents as $row)
+                            @php
+                                $image = isset($row['image']) ? asset('images/event/' . $row['image']) : asset('assets/img/banner.png');
+                            @endphp
+                            <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                                <a href="{{ url('events/' . $row['encrypted_id']) }}">
+                                    <img class="img-fluid" src="{{ $image }}">
+                                </a>
+                                <div class="d-flex flex-column align-items-center">
+                                    <a style="color:black;">{{ date('jS F Y', strtotime($row['start_date'])) }}</a>
+                                    <a style="color:black;">{{ $row['name'] }}</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
-            <?php
-        }
-        ?>
+        @endif
     </div>
 </section>
 @if (count($events) > 0)

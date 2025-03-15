@@ -61,7 +61,7 @@
     </section>
 </div>
 <div class="expand-image-div d-flex d-none align-items-center justify-content-center position-fixed top-0 left-0" style="background-color:rgba(0,0,0,0.8);width:100vw;height:100vh;">
-    <div class="position-fixed" style="top:0;right:0;cursor:pointer;" onclick="close_image()">
+    <div class="position-fixed" style="top:10px;right:10px;cursor:pointer;" onclick="close_image()">
         <i class="fas fa-times text-white" style="font-size: 24px;"></i>
     </div>
     <img id="display_image" class="img-fluid p-5" style="object-fit:contain;width:100%;height:100%;" loading="lazy">
