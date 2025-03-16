@@ -207,7 +207,7 @@
         <?php
     }
 ?>
-<div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100%;position:fixed;top:0;left:0">
+<div class="initial-loader d-flex flex-column justify-content-center align-items-center" style="transition:1s ease;background-color:black;height:100vh;width:100%;position:fixed;top:0;left:0;z-index:99;">
     <div class="initial-loader-logo d-flex justify-content-center bg-white mb-5" style="border-radius:50%;height:150px;width:150px;">
         <img class="img-fluid" src="<?php echo url("assets/img/logo.png")?>">
     </div>

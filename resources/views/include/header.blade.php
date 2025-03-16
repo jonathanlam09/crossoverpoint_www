@@ -57,6 +57,7 @@
         background-image: url("{{ url('assets/img/background.jpg') }}");
         background-size: 120%;
         background-repeat: no-repeat;
+        transition: 5s ease;
         background-position: center center;
     }
 
@@ -116,6 +117,10 @@
         .banner{
             height: 250px!important;
         }
+
+        .banner-wrapper {
+            height: 250px!important;
+        }
     }
 
     .memory-card:hover {
@@ -132,7 +137,7 @@
 </style>
 <section style="padding:0;width:100%;" class="banner-section">
     @if (request()->path() == '/')
-    <div class="position-relative" style="height:100vh;overflow:hidden;">
+    <div class="banner-wrapper position-relative" style="height:100vh;overflow:hidden;">
         <div class="banner-container d-flex">
             <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/1.png') }}')">
             </div>
@@ -167,7 +172,7 @@
                 <i class="fas fa-circle"></i>
             </div>
         </div> --}}
-        <div style="background-image: linear-gradient(to bottom, black, transparent);position:absolute;z-index: 99;top:0;left:0;width:100%;">
+        <div style="background-image:linear-gradient(to bottom, black, transparent);position:absolute;z-index:1;top:0;left:0;width:100%;">
             <div class="container-fluid" style="padding:0;margin:0;display:flex;justify-content:space-between;align-items:center;">
                 <div class="logo-div bg-white d-flex justify-content-center align-items-center" style="padding:10px;border-radius:50%;margin:15px;height:100px;width:100px;">
                     <a href="/"><img src="{{ url('assets/img/logo.png') }}" style="cursor:pointer;"></a>
@@ -292,7 +297,6 @@
                 transition: 'transform 0.5s ease-in-out',
             });
         }, 5000);
-
     })
 
     function dropdown_menu(){
