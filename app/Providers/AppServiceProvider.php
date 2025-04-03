@@ -80,6 +80,8 @@ use App\Models\Permissions;
 use App\Observers\PermissionsObserver;
 
 use App\Models\EventAttachments;
+use App\Models\EventRoomAttachments;
+use App\Models\EventRooms;
 use App\Observers\EventAttachmentsObserver;
 
 use App\Models\EventSignUps;
@@ -95,6 +97,8 @@ use App\Models\UserRelationships;
 use App\Observers\UserRelationshipsObserver;
 
 use App\Models\Modules;
+use App\Observers\EventRoomAttachmentsObserver;
+use App\Observers\EventRoomsObserver;
 use App\Observers\ModulesObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -120,6 +124,8 @@ class AppServiceProvider extends ServiceProvider
         Events::observe(EventsObserver::class);
         EventSignUps::observe(EventSignUpsObserver::class);
         EventAttachments::observe(EventAttachmentsObserver::class);
+        EventRooms::observe(EventRoomsObserver::class);
+        EventRoomAttachments::observe(EventRoomAttachmentsObserver::class);
         Groups::observe(GroupsObserver::class);
         GroupMembers::observe(GroupMembersObserver::class);
         GalleryTopics::observe(GalleryTopicsObserver::class);

@@ -25,12 +25,15 @@ class Events extends Model
         'end_date', 
         'registration_open_date',
         'registration_close_date',
+        'room_description',
+        'room_ch_description',
         'pic_id',
         'is_guest',
         'speaker_id',
         'speaker_name',
         'fee', 
         'image', 
+        'for_public',
         'active',
         'created_by',
         'updated_by'
@@ -48,9 +51,17 @@ class Events extends Model
         return $this->hasOne(PCO::class, 'ref_id', 'id')->where('type', 2);
     }
 
+    public function pcos(){
+        return $this->hasMany(PCO::class, 'ref_id', 'id')->where('type', 2);
+    }
+
     public function pic_name(){
         $user = $this->pic;
         return $user ? $user->getFullname() : '-';
+    }
+
+    public function rooms(){
+        return $this->hasMany(EventRooms::class, 'event_id', 'id')->where('active', 1);
     }
 
     public function registrants(){
