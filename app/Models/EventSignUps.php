@@ -19,6 +19,9 @@ class EventSignUps extends Model
         'last_name', 
         'email',
         'contact',
+        'emergency_contact',
+        'payment_method',
+        'json_body',
         'active', 
         'created_by',
         'updated_by'

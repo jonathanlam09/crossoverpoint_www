@@ -2,11 +2,6 @@
 <?php
     $image = isset($service->image) ? IMAGE_PATH . 'service/' . $service->image : IMAGE_PATH . 'banner.png';
 ?>
-<style>
-    .error-message{
-        width:150px;
-    }
-</style>
 <div style="background-color:lightgrey;">
     <div class="container p-5">
         <h3><?php echo $channel == 'ENG' ? 'SERVICES' : '讲道'?></h3>

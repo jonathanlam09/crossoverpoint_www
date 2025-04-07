@@ -12,6 +12,12 @@ class Events extends Model
      *
      * @var string
      */
+    const PAYMENT_METHOD = [
+        1 => 'Online transfer',
+        2 => 'Cash',
+        3 => 'Cheque',
+        4 => 'E-wallet'
+    ];
 
     protected $table = 'events';
     public $timestamps = false;

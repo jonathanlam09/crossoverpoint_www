@@ -91,29 +91,28 @@
 @include("include/footer")
 <script>
     const sermon_id = "<?php echo $sermon_id?>";
-    async function submit_handler(e){
+    const submit_handler = async (e) => {
         e.preventDefault();
-        const validation = await Helper.validate();
-        if(!validation.status){
-            warning_response(validation.message);
-        }
-        const form = $("#sermon_sign_up_form").get(0);
-        var formdata = new FormData(form);
 
-        axios.post(address + "api/sermons/sign-up?id=" + sermon_id, formdata, apiHeader)
-        .then((response) => {
-            if(response.data.status){
-                const success_msg = channel == "ENG" ? "You have successfully signed up!" : "已注册成功！";
-                success_response(success_msg)
-                .then((response) => {
-                    window.location.href = address + "sermons/" + sermon_id;
-                });
-            }else{
-                warning_response(response.data.message);
+        try {
+            const target = e.currentTarget;
+            const validation = await Helper.validate(`#${target.id}`);
+            if(!validation.status){
+                warning_response(validation.message);
             }
-        })
-        .catch((err) => {
-            error_response(err);
-        })
+
+            var formdata = new FormData(target);
+            const response = await axios.post(`${address}api/sermons/sign-up?id=${sermon_id}`, formdata, apiHeader);
+            if(!response.data.status) {
+                throw new Error(response.data.message);
+            }
+            const success_msg = channel == 'ENG' ? 'You have successfully signed up!' : '已注册成功！';
+            success_response(success_msg)
+            .then((response) => {
+                window.location.href = `${address}sermons/${sermon_id}`;
+            });
+        } catch (err) {
+            warning_response(err.message);
+        }
     }
 </script>

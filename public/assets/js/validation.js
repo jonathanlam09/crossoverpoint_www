@@ -53,12 +53,12 @@ $(document).on("blur", ".validation-required", (e) => {
 });
 "use strict";
 class Helper{
-    static async validate(){
+    static async validate(form){
         var ret = {
             status: true
         };
 
-        var fields = $(".validation-required");
+        var fields = $(`${form} .validation-required`);
         var checked_fields = [];
         for(var i=0;i<fields.length;i++){
             if($(fields[i]).get(0).tagName == "INPUT" && 

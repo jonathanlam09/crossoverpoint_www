@@ -32,33 +32,34 @@
                 </div>
                 <div class="col-lg-6 col-12 p-5">
                     <form id="enquiry_form" onsubmit="submit_enquiry(event)">
+                        <div class="alert alert-danger alert-message d-none"></div>
                         <div>
                             <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == 'ENG' ? 'Enquiries' : '詢問'?></h6>
                         </div>
                         <div class="row">
-                            <div class="col-6 mt-3">
+                            <div class="col-6 mt-3 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'First Name' : '名'?></label>
-                                <input name="first_name" type="text" class="form-control">
+                                <input name="first_name" id="first_name" type="text" class="form-control validation-required">
                             </div>
-                            <div class="col-6 mt-3">
+                            <div class="col-6 mt-3 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'Last Name' : '姓'?></label>
-                                <input name="last_name" type="text" class="form-control">
+                                <input name="last_name" id="last_name" type="text" class="form-control validation-required">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6 mt-3">
+                            <div class="col-6 mt-3 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'Contact' : '联系号码'?></label>
-                                <input name="contact" type="text" class="form-control">
+                                <input name="contact" id="contact" type="text" class="form-control validation-required">
                             </div>
-                            <div class="col-6 mt-3">
+                            <div class="col-6 mt-3 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'Email' : '电邮地址'?></label>
-                                <input name="email" type="text" class="form-control">
+                                <input name="email" id="email" type="text" class="form-control validation-required">
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-12">
+                            <div class="col-12 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'Type of Enquiries' : '查询类型'?></label>
-                                <select name="type_of_enquiry" class="form-control">
+                                <select name="type_of_enquiry" class="form-control validation-required" id="type_of_enquiry">
                                     <option value=""><?php echo $channel == 'ENG' ? 'Select your enquiries' : '选择您的询问'?></option>
                                     <option value="Prayer request"><?php echo $channel == 'ENG' ? 'Prayer Request' : '祈祷请求'?></option>
                                     <option value="Shelter"><?php echo $channel == 'ENG' ? 'Shelter' : '庇护'?></option>
@@ -69,9 +70,9 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="col-12">
+                            <div class="col-12 position-relative">
                                 <label for=""><?php echo $channel == 'ENG' ? 'Remarks' : '备注'?></label>
-                                <textarea class="form-control" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
+                                <textarea class="form-control validation-required" id="remarks" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                         <div class="mt-3 d-flex justify-content-end">
@@ -88,17 +89,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-<script src="<?php echo url("assets/js/validation.js?ver=" . time())?>"></script>
+<script src="{{ url('assets/js/validation.js?ver=' . time()) }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
 integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" 
 crossorigin="anonymous"></script>
 <script>
-    const address = window.location.origin + '/';
-    const portal_address = 'https://admin.crossoverpoint.org.my/';
+    const address = `${window.location.origin}/`;
+    const portal_address = `https://admin.crossoverpoint.org.my/`;
     const dev_portal_address = 'http://localhost:8000/';
     const apiHeader = { headers: { 'Content-Type': 'multipart/form-data'} };
-    const url_path = location.protocol + '//' + location.host + location.pathname;
-    const validation_msg = ('<?php echo $channel?>' == 'ENG') ? 'Please complete all required fields!' : '请填写所有必填字段！'
+    const url_path = `${location.protocol}//${location.host}${location.pathname}`;
+    var channel = `<?php echo $channel;?>`;
+    const validation_msg = (channel == 'ENG') ? 'Please complete all required fields!' : '请填写所有必填字段！'
     const type_functions = {
         event: function (reload = false) {
             get_events(reload)
@@ -107,7 +109,6 @@ crossorigin="anonymous"></script>
             get_services(reload)
         }
     };
-    var channel = `<?php echo $channel;?>`;
     var timeout;
     
     $(document).ready(()=>{
@@ -181,26 +182,32 @@ crossorigin="anonymous"></script>
         type_functions[type.toLowerCase()](true);
     }
 
-    function submit_enquiry(e){
+    const submit_enquiry = async (e) => {
         e.preventDefault();
+        const target = e.currentTarget;
 
-        const form = $('#enquiry_form').get(0);
-        var formdata = new FormData(form);
-        axios.post(address + 'api/index/enquiry', formdata, apiHeader)
-        .then((response) => {
-            if(response.data.status){
-                const success_msg = (channel == 'ENG' ? 'Your enquiry has been submitted! We will connect with you soon.' : '您的询问已提交！我们将尽快与您联系。');
-                success_response(success_msg)
-                .then((response) => {
-                    window.location.reload();
-                });
-            }else{
-                warning_response(response.data.message);
+        try {
+            const response = Helper.validate('#enquiry_form');
+            if(!response.status) {
+                throw new Error(channel == 'ENG' ? 'Please complete all required fields.' : '请填写所有必填字段。');
             }
-        })
-        .catch((err) => {
-            error_response(err);
-        })
+
+            var formdata = new FormData(target);
+            const res = await axios.post(address + 'api/index/enquiry', formdata, apiHeader);
+            if(!res.data.status) {
+                throw new Error(res.data.message);
+            }
+
+            const success_msg = (channel == 'ENG' ? 'Your enquiry has been submitted! We will connect with you soon.' : '您的询问已提交！我们将尽快与您联系。');
+            success_response(success_msg)
+            .then((response) => {
+                window.location.reload();
+            });
+        } catch (err) {
+            const err_message = $(`#${target.id} .alert-message`);
+            err_message.removeClass('d-none');
+            err_message.text(err.message);
+        }
     }
 
     function setup(total){

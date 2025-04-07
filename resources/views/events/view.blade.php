@@ -35,7 +35,7 @@
         </div>
     @endif
 
-    <div class="row" style="transform:translateY(50%);opacity:.2;transition:.5s ease;">
+    <div class="row event-item" style="transform:translateY(50%);opacity:.2;transition:.5s ease;">
         <div class="col-12 mt-5 d-flex justify-content-center">
             <img class="img-fluid" src="{{ $image }}">
         </div>
@@ -63,8 +63,7 @@
 
     <div class="d-flex justify-content-end mt-5">
         <a onclick="history.back()" class="btn btn-secondary">BACK</a>
-
-        @if(now()->timestamp >= strtotime($event->registration_open_date) && now()->timestamp <= strtotime($event->registration_close_date))
+        @if(time() >= strtotime($event->registration_open_date) && now()->timestamp <= strtotime($event->registration_close_date))
             <a class="btn" href="{{ url('events/sign-up/' . $event_id) }}" style="margin-left:5px;background-color:cornflowerblue;color:white;">
                 {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}
             </a>
@@ -85,8 +84,9 @@
         let observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
+                    console.log(entry.target)
                     entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
+                    entry.target.style.transform = "translateY(0px)";
                 }
             });
         }, observerOptions);

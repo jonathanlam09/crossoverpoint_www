@@ -67,7 +67,6 @@
         bottom: -10px;
         font-size: 10px;
         padding: 2px 10px;
-        width: 250px;
         max-width: 250px;
         border-radius: 3vh!important;
         margin-left: 10px!important;

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\EventRooms;
 use App\Models\Events;
 use Illuminate\Http\Request;
 use App\Models\Users;
@@ -74,6 +75,7 @@ class EventController extends Controller
                 ->orWhere('description', 'LIKE', '%' . $search . '%');
             })
             ->where('active', 1)
+            ->where('for_public', 1)
             ->orderBy('created_at', 'DESC')
             ->get();
 
@@ -188,52 +190,150 @@ class EventController extends Controller
                 throw new Exception('Event not found!');
             }
 
-            $first_name = $request->post('first_name');
-            $last_name = $request->post('last_name');
             $email = $request->post('email');
-            $contact = $request->post('contact');
 
-            if(!isset($first_name)){
-                throw new Exception('First name cannot be empty!');
-            }
+            if($event->type !== 4) {
+                $first_name = $request->post('first_name');
+                $last_name = $request->post('last_name');
+                $contact = $request->post('contact');
+                if(!isset($first_name)){
+                    throw new Exception('Please fill in your first name.');
+                }
+    
+                if(!isset($last_name)){
+                    throw new Exception('Please fill in your last name.');
+                }
+    
+                if(!isset($email)){
+                    throw new Exception('Please fill in your email.');
+                }
+    
+                if(!isset($contact)){
+                    throw new Exception('Please fill in your contact.');
+                }
 
-            if(!isset($last_name)){
-                throw new Exception('Last name cannot be empty!');
-            }
+                $event_sign_up = EventSignUps::where([
+                    'event_id' => $event_id,
+                    'email' => $email,
+                    'active' => 1
+                ])->first();
+                if($event_sign_up){
+                    throw new Exception('This email has already signed up for this event.');
+                }
+    
+                $data = [
+                    'event_id' => $event_id,
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'email' => $email,
+                    'contact' => $contact
+                ];
+                $sign_up = EventSignUps::create($data);
+    
+                unset($data['event_id']);
+                $data['event'] = $event;
+                $data['created_at'] = date('jS F Y H:i:s A', strtotime($sign_up->created_at));
+                $mailer = new Mailer();
+                $response = $mailer->event_sign_up($data);
+                if(!$response['status']){
+                    throw new Exception($response['message']);
+                }
+            } else {
+                $names = $request->post('name');
+                $contacts = $request->post('contact');
+                $ic = $request->post('ic');
+                $emergency_contact = $request->post('emergency_contact');
+                $rooms = $request->post('room');
+                $payment_method = $request->post('payment_method');
 
-            if(!isset($email)){
-                throw new Exception('Email cannot be empty!');
-            }
+                $registrants = [];
+                if(count($names) == 0) {
+                    throw new Exception('Please fill in all registrants details.');
+                }
 
-            if(!isset($contact)){
-                throw new Exception('Contact cannot be empty!');
-            }
-            
-            $event_sign_up = EventSignUps::where([
-                'event_id' => $event_id,
-                'email' => $email,
-                'active' => 1
-            ])->first();
-            if($event_sign_up){
-                throw new Exception('This email has already signed up for this event!');
-            }
+                if(!isset($email)) {
+                    throw new Exception('Please fill in your email.');
+                }
 
-            $data = [
-                'event_id' => $event_id,
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'email' => $email,
-                'contact' => $contact
-            ];
-            $sign_up = EventSignUps::create($data);
+                if(!$emergency_contact) {
+                    throw new Exception('Please fill in your emergency contact.');
+                }
 
-            unset($data['event_id']);
-            $data['event'] = $event;
-            $data['insert_time'] = date('jS F Y H:i:s A', strtotime($sign_up->insert_time));
-            $mailer = new Mailer();
-            $response = $mailer->event_sign_up($data);
-            if(!$response['status']){
-                throw new Exception($response['message']);
+                foreach($names as $key=>$name) {
+                    if(!$name) {
+                        throw new Exception('Please fill in all registrants details.');
+                    }
+
+                    if(!$contacts[$key]) {
+                        throw new Exception('Please fill in all registrants details.');
+                    }
+
+                    if(!$ic[$key]) {
+                        throw new Exception('Please fill in all registrants details.');
+                    }
+
+                    $registrants[] = [
+                        'name' => $name,
+                        'contact' => $contacts[$key],
+                        'ic' => $ic[$key]
+                    ];
+                }   
+
+                $room_count = false;
+                if(!isset($rooms)) {
+                    throw new Exception('Please select at least one room.');
+                }
+
+                $room_names = [];
+                if(count($rooms) > 0) {
+                    foreach($rooms as $key => $room) {
+                        $_room = EventRooms::where([
+                            'id' => $key
+                        ])->first();
+                        if(!$_room) {
+                            throw new Exception('Something went wrong.');
+                        }
+
+                        $room_names[] = $_room->label;
+                        if($room > 0) {
+                            $room_count = true;
+                        }
+                    }
+                }
+
+                if(!$room_count) {
+                    throw new Exception('Please select at least one room.');
+                }
+
+                if(!isset($payment_method)) {
+                    throw new Exception('Please select payment method.');
+                }
+
+                $data = [
+                    'email' => $email,
+                    'registrants' => $registrants,
+                    'emergency_contact' => $emergency_contact,
+                    'payment_method' => $payment_method,
+                    'rooms' => $rooms
+                ];
+
+                $sign_up = EventSignUps::create([
+                    'email' => $email,
+                    'event_id' => $event_id,
+                    'json_body' => json_encode($data),
+                    'emergency_contact' => $emergency_contact,
+                    'payment_method' => $payment_method
+                ]);
+
+                $data['event'] = $event;
+                $data['room_names'] = $room_names;
+                $data['created_at'] = date('jS F Y H:i:s A', strtotime($sign_up->created_at));
+                
+                $mailer = new Mailer();
+                $response = $mailer->event_sign_up($data);
+                if(!$response['status']){
+                    throw new Exception('Something went wrong.');
+                }
             }
             $ret['status'] = true;
         }catch(\Exception $e){
