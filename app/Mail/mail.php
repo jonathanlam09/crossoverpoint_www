@@ -134,14 +134,6 @@ class Mailer {
                     throw new Exception('Something went wrong.');
                 }
     
-                if(!isset($param['rooms'])){
-                    throw new Exception('Something went wrong.');
-                }
-    
-                if(!isset($param['room_names'])){
-                    throw new Exception('Something went wrong.');
-                }
-
                 $registrants = $param['registrants'];
                 $participants_html = "<p align='left' style='margin:0;'>Registrants:</p>";
                 if(count($registrants) > 0) {
@@ -151,18 +143,22 @@ class Mailer {
                 }
 
                 $rooms = $param['rooms'];
-                $rooms_html = "<p align='left' style='margin:0;'>Rooms:</p>";
-                if(count($rooms) > 0) {
-                    $count = 0;
-                    foreach($rooms as $key => $row) {
-                        if($row == 0) {
-                            continue;
-                        } 
-                        $rooms_html .= "<li align='left' style='margin:0;'>" . ($row) . "x " . $param['room_names'][$count] . "</li>";
-                        $count += 1;
+                if(isset($rooms)) {
+                    $rooms_html = "<p align='left' style='margin:0;'>Rooms:</p>";
+                    if(count($rooms) > 0) {
+                        $count = 0;
+                        foreach($rooms as $key => $row) {
+                            if($row == 0) {
+                                continue;
+                            } 
+                            $rooms_html .= "<li align='left' style='margin:0;'>" . ($row) . "x " . $param['room_names'][$count] . "</li>";
+                            $count += 1;
+                        }
                     }
+                } else{
+                    $rooms_html = '';
                 }
-
+                
                 $html = "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#F2F2F2;padding:50px;'>
                             <tr>
                                 <td align='center'>

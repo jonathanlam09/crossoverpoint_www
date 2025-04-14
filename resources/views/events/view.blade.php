@@ -6,7 +6,8 @@
     $start_date = date('jS F Y H:i:s A', strtotime($event->start_date));
     $end_date = date('jS F Y H:i:s A', strtotime($event->end_date));
     $fee = $event->fee ?? '0';
-    $fee = $fee == 0 ? 'FOC' : '$' . number_format($fee, 2);
+    $fee = $fee == 0 ? 'FOC' : 'RM' . number_format($fee, 2);
+    $venue = $event->venue ? $event->venue : '-';
     $image = $event->image ? IMAGE_PATH . 'event/' . $event->image : IMAGE_PATH . 'banner.png';
 @endphp
 
@@ -44,6 +45,7 @@
     @foreach ([
         'Name' => $name,
         'Description' => $description,
+        'Venue' => $venue,
         'Start date' => $start_date,
         'End date' => $end_date,
         'PIC' => $event->pic ? $event->pic->getFullname() : '-',

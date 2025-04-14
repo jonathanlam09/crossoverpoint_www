@@ -280,29 +280,27 @@ class EventController extends Controller
                 }   
 
                 $room_count = false;
-                if(!isset($rooms)) {
-                    throw new Exception('Please select at least one room.');
-                }
+                if(isset($rooms)) {
+                    $room_names = [];
+                    if(count($rooms) > 0) {
+                        foreach($rooms as $key => $room) {
+                            $_room = EventRooms::where([
+                                'id' => $key
+                            ])->first();
+                            if(!$_room) {
+                                throw new Exception('Something went wrong.');
+                            }
 
-                $room_names = [];
-                if(count($rooms) > 0) {
-                    foreach($rooms as $key => $room) {
-                        $_room = EventRooms::where([
-                            'id' => $key
-                        ])->first();
-                        if(!$_room) {
-                            throw new Exception('Something went wrong.');
-                        }
-
-                        $room_names[] = $_room->label;
-                        if($room > 0) {
-                            $room_count = true;
+                            $room_names[] = $_room->label;
+                            if($room > 0) {
+                                $room_count = true;
+                            }
                         }
                     }
-                }
 
-                if(!$room_count) {
-                    throw new Exception('Please select at least one room.');
+                    if(!$room_count) {
+                        throw new Exception('Please select at least one room.');
+                    }
                 }
 
                 if(!isset($payment_method)) {
@@ -326,14 +324,14 @@ class EventController extends Controller
                 ]);
 
                 $data['event'] = $event;
-                $data['room_names'] = $room_names;
+                $data['room_names'] = isset($room_names) ? $room_names : null;
                 $data['created_at'] = date('jS F Y H:i:s A', strtotime($sign_up->created_at));
                 
                 $mailer = new Mailer();
                 $response = $mailer->event_sign_up($data);
-                if(!$response['status']){
-                    throw new Exception('Something went wrong.');
-                }
+                // if(!$response['status']){
+                //     throw new Exception('Something went wrong.');
+                // }
             }
             $ret['status'] = true;
         }catch(\Exception $e){

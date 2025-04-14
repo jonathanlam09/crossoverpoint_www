@@ -53,6 +53,8 @@
                             <div style="padding:15px;text-align:center;">
                                 <h6 class="mt-4" style="text-transform:uppercase;font-weight:700;">{{ $channel === 'ENG' ? $event->name : $event->ch_name }}</h6>
                                 <p class="mt-3">{{ $channel === 'ENG' ? $event->description : $event->ch_description }}</p>
+                                <p class="mt-3">{{ $event->venue }}</p>
+                                <p class="mt-3">{{ $event->fee ? 'RM' . $event->fee : 'FOC' }}</p>
                             </div>
                         </div>
                     </div>
@@ -141,11 +143,10 @@
                                     <input type="text" class="form-input validation-required w-100 validation-required" name="emergency_contact" id="emergency_contact">
                                 </div>
                             </div>
-
-                            <div class="col-12 mt-5 section">
-                                <label>{{ $channel == 'ENG' ? 'Choice of room' : '房间选择' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                <p>{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
-                                @if ($event->rooms)
+                            @if ($event->rooms && $event->rooms->count() > 0)
+                                <div class="col-12 mt-5 section">
+                                    <label>{{ $channel == 'ENG' ? 'Choice of room' : '房间选择' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
+                                    <p>{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
                                     @foreach ($event->rooms as $room)
                                         <div class="row d-flex align-items-center mb-3">
                                             <div class="col-3 d-flex justify-content-center">
@@ -170,8 +171,8 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                @endif
-                            </div>
+                                </div>
+                            @endif
 
                             <div class="col-12 mt-5 section">
                                 <label>{{ $channel == 'ENG' ? 'Payment method' : '付款方式' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
@@ -226,17 +227,9 @@
 
                             <input type="hidden" name="event_id" value="{{ $event_id }}">
                             <div class="d-flex justify-content-center mt-5">
-                                @if($fee == 0)
-                                    <button type="submit" class="btn text-white" style="background-color:cornflowerblue;">
-                                        {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}
-                                    </button>
-                                @else
-                                    <div>
-                                        <a class="btn text-white" style="background-color:cornflowerblue;">
-                                            {{ $channel == 'ENG' ? 'SUBMIT' : '提交' }}
-                                        </a>
-                                    </div>
-                                @endif
+                                <button type="submit" class="btn text-white" style="background-color:cornflowerblue;">
+                                    {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}
+                                </button>
                             </div>
                         </div>
                     @endif
@@ -272,6 +265,7 @@
     const submit_handler = async (e) =>{
         e.preventDefault();
         const form = e.currentTarget;
+
         try {
             const validation = await Helper.validate('#event_sign_up_form');
 

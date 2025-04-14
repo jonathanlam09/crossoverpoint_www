@@ -70,6 +70,10 @@ class Events extends Model
         return $this->hasMany(EventRooms::class, 'event_id', 'id')->where('active', 1);
     }
 
+    public function room($id){
+        return $this->hasMany(EventRooms::class, 'event_id', 'id')->where('id', );
+    }
+
     public function registrants(){
         return $this->hasMany(EventSignUps::class, 'event_id', 'id')->where('active', 1);
     }
