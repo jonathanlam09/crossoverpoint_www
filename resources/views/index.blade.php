@@ -105,7 +105,7 @@
             @endphp
         
             <div class="row mb-2 mt-5" id="service_div">
-                <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(100%);">
+                <div class="col-12" style="opacity:.2;transition:.5s ease;transform:translateY(10%);">
                     <div class="img d-flex justify-content-center" style="position:relative;">
                         <a href="{{ url('services/' . $service->encrypted_id) }}">
                             <img src="{{ $main_service_image }}" style="max-width:800px;width:100%;">
@@ -131,11 +131,11 @@
     <div class="container" id="event_container">
         <h3 
         class="text-center text-uppercase" 
-        style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+        style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
             {{ $channel == 'ENG' ? 'Upcoming Events' : '来临的活动' }}
         </h3>
         @if(count($events) == 0)
-            <div class="mt-5 text-center" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+            <div class="mt-5 text-center" style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
                 {{ $channel == "ENG" ? "Stay tuned for more upcoming events." : "请继续关注更多即将举行的活动。" }}
             </div>
         @else
@@ -147,7 +147,7 @@
             @endphp
 
             <div class="row mt-5" id="event_div">
-                <div class="col-12 {{ ($totalEventCount > 1) ? 'col-lg-9' : '' }}" id="event_main_div" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                <div class="col-12 {{ ($totalEventCount > 1) ? 'col-lg-9' : '' }}" id="event_main_div" style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
                     <div class="img">
                         <a class="{{ ($totalEventCount == 1) ? 'd-flex justify-content-center' : 'test' }}" href="{{ url('events/' . $mainEvent['encrypted_id']) }}">
                             <img src="{{ $mainEventImage }}" style="max-width:800px;width:100%;">
@@ -167,7 +167,7 @@
                             @php
                                 $image = isset($row['image']) ? asset('images/event/' . $row['image']) : asset('assets/img/banner.png');
                             @endphp
-                            <div class="row" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                            <div class="row" style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
                                 <a href="{{ url('events/' . $row['encrypted_id']) }}">
                                     <img class="img-fluid" src="{{ $image }}">
                                 </a>
@@ -195,13 +195,13 @@
         <section class="more-section d-none" style="padding: 75px 0;">
             <div class="container" id="more_container">
                 <h3 class="text-center text-uppercase" 
-                style="opacity:.2;transform:translateY(100%);transition:.5s ease;"><?php echo $channel == "ENG" ? "More about us" : "关于我们更多"?></h3>
+                style="opacity:.2;transform:translateY(10%);transition:.5s ease;"><?php echo $channel == "ENG" ? "More about us" : "关于我们更多"?></h3>
                 <div class="memory-row row mt-5 pt-5">
                     <?php
                         if(count($topics) > 0) {
                             foreach ($topics as $key => $row) {
                                 ?>
-                                <div class="col-md-3 col-sm-6 col-12 p-0" style="opacity:.2;transform:translateY(100%);transition:.5s ease;">
+                                <div class="col-md-3 col-sm-6 col-12 p-0" style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
                                     <a class="text-decoration-none text-white" href="<?php echo url('gallery/' . $row->encrypted_id)?>">
                                         <div class="bg-dark memory-card text-white d-flex justify-content-center align-items-center" 
                                         style="background-image:url(<?php echo ADMIN_PORTAL . $row->path?>);">

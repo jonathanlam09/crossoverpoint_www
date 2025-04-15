@@ -39,7 +39,7 @@
 
 <div class="container mt-5 mb-5">
     <div class="row container-row">
-        <div class="col-12 d-flex justify-content-center align-items-center" style="transition:1s ease;transform:translateY(100%);opacity:.2;">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="transition:1s ease;transform:translateY(10%);opacity:.2;">
             <form id="event_sign_up_form" onsubmit="submit_handler(event)">
                 <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:15px">
                     <div class="col-12 d-flex justify-content-center align-items-start">
@@ -243,13 +243,14 @@
     const event_id = '{{ $event_id }}';
     $(document).ready(() => {
         const observerOptions = {
-            root: document.querySelector('.container-row'),
+            root: null,
             rootMargin: '0px',
             threshold: 0
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
+                console.log(entry.isIntersecting)
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
