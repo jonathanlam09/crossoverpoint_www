@@ -165,7 +165,7 @@
                     @if(count($remainingEvents) > 0)
                         @foreach($remainingEvents as $row)
                             @php
-                                $image = isset($row['image']) ? asset('images/event/' . $row['image']) : asset('assets/img/banner.png');
+                                $image = isset($row['image']) ? ADMIN_PORTAL . 'assets/img/event/' . $row['image'] : asset('assets/img/banner.png');
                             @endphp
                             <div class="row" style="opacity:.2;transform:translateY(10%);transition:.5s ease;">
                                 <a href="{{ url('events/' . $row['encrypted_id']) }}">

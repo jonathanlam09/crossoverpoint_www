@@ -279,7 +279,7 @@
             if(!response.data.status) {
                 throw new Error(response.data.message);
             }
-            const success_msg = `{{ $channel == 'ENG' ? 'You have successfully signed up!' : '您已注册成功！' }}`;
+            const success_msg = `{{ $channel == 'ENG' ? 'You have successfully signed up! You will receive a confirmation slip in your email.' : '您已注册成功！你将会在你的电子邮件中收到确认单。' }}`;
             success_response(success_msg).then(() => {
                 window.location.href = `{{ url('events') }}/${event_id}`;
             });
