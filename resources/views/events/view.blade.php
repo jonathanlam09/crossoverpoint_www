@@ -6,7 +6,7 @@
     $start_date = date('jS F Y H:i:s A', strtotime($event->start_date));
     $end_date = date('jS F Y H:i:s A', strtotime($event->end_date));
     $fee = $event->fee ?? '0';
-    $fee = $fee == 0 ? 'FOC' : 'RM' . number_format($fee, 2);
+    $fee = $fee == 0 ? 0 : 'RM' . number_format($fee, 2);
     $venue = $event->venue ? $event->venue : '-';
     $image = $event->image ? IMAGE_PATH . 'event/' . $event->image : IMAGE_PATH . 'banner.png';
 @endphp
@@ -43,18 +43,45 @@
     </div>
 
     @foreach ([
-        'Name' => $name,
-        'Description' => $description,
+        'Name' => $channel == 'ENG' ? $name : $event->ch_name,
+        'Description' => $channel == 'ENG' ? $description : $event->ch_description,
         'Venue' => $venue,
         'Start date' => $start_date,
         'End date' => $end_date,
+        'Registration open date' => $event->registration_open_date ? date('jS F Y H:i:s A', strtotime($event->registration_open_date)) : '-',
+        'Registration closing date' => $event->registration_close_date ? date('jS F Y 23:59:59 A', strtotime($event->registration_close_date)) : '-',
         'PIC' => $event->pic ? $event->pic->getFullname() : '-',
         'Fee' => $fee
     ] as $label => $value)
+        @if ($label === 'Fee' && $value == 0)
+            @continue
+        @endif
         <div class="row d-flex justify-content-center mt-3 event-item">
             <div class="row" style="width: 800px">
                 <div class="col-md-6 col-12">
-                    <span style="font-weight:700;">{{ $channel == 'ENG' ? $label : __('translations.'.$label) }}</span>
+                    <span style="font-weight:700;">
+                        @if ($channel == 'ENG')
+                            {{ $label }}
+                        @else
+                            @if ($label == 'Registration open date')
+                                报名开放日期
+                            @elseif ($label == 'Registration closing date')
+                                报名截止日期
+                            @elseif($label == 'Venue')
+                                地点
+                            @elseif($label == 'PIC')
+                                负责人
+                            @elseif($label == 'Name')
+                                名字
+                            @elseif($label == 'Description')
+                                描写
+                            @elseif($label == 'Start date')
+                                开始日期
+                            @elseif($label == 'End date')
+                                结束日期
+                            @endif
+                        @endif
+                    </span>
                 </div>
                 <div class="col-md-6 col-12">
                     <span>{{ $value }}</span>
@@ -64,7 +91,7 @@
     @endforeach
 
     <div class="d-flex justify-content-end mt-5">
-        <a onclick="history.back()" class="btn btn-secondary">BACK</a>
+        <a onclick="history.back()" class="btn btn-secondary">{{ $channel == 'ENG' ? 'BACK' : '返回' }}</a>
         @if(time() >= strtotime($event->registration_open_date) && now()->timestamp <= strtotime($event->registration_close_date))
             <a class="btn" href="{{ url('events/sign-up/' . $event_id) }}" style="margin-left:5px;background-color:cornflowerblue;color:white;">
                 {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}

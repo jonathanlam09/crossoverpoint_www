@@ -16,7 +16,8 @@ class Mailer {
         $this->mail->Username   = env('SMTP_USERNAME');
         $this->mail->Password   = env('SMTP_PASSWORD');   
         $this->mail->Port       = env('SMTP_PORT');  
-        $this->mail->SMTPSecure = 'ssl';             
+        $this->mail->SMTPSecure = 'ssl';    
+        $this->mail->CharSet = 'UTF-8';
     }
 
     public function test($email){
@@ -149,6 +150,7 @@ class Mailer {
                         $count = 0;
                         foreach($rooms as $key => $row) {
                             if($row == 0) {
+                                $count += 1;
                                 continue;
                             } 
                             $rooms_html .= "<li align='left' style='margin:0;'>" . ($row) . "x " . $param['room_names'][$count] . "</li>";
@@ -159,20 +161,20 @@ class Mailer {
                     $rooms_html = '';
                 }
                 
-                $html = "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#F2F2F2;padding:50px;'>
+                $html = "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color:#F2F2F2;padding:10px;'>
                             <tr>
                                 <td align='center'>
                                     <img src='https://admin.crossoverpoint.org.my/assets/img/logo.png' style='height:200px;float:center;'/>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td style='padding-left:20px;padding-right:20px;'>
                                     <p>This email is to confirm your registration for the attached event!</p>
                                 </td>
                             </tr>
                             <tr>
                                 <td align='center'>
-                                    <div style='background-color:lightgrey;width:80%;padding:30px;margin:50px 0px;'>
+                                    <div style='background-color:lightgrey;width:80%;padding:20px;margin:20px 0px;'>
                                         <div>
                                             <img style='width:100%;max-width:400px;border-radius:1vh;' src='https://admin.crossoverpoint.org.my/assets/img/event/" . $param['event']->image . "'/>
                                         </div>
@@ -182,7 +184,8 @@ class Mailer {
                                             <p align='left' style='margin:0;'>Start Date: " . date('jS F Y H:i:s A', strtotime($param['event']->start_date)) . "</p>
                                             <p align='left' style='margin:0;'>End Date: " . date('jS F Y H:i:s A', strtotime($param['event']->end_date)) . "</p>
                                             " . $participants_html . $rooms_html . "
-                                            <p align='left' style='margin:0;'>Payment method: " . Events::PAYMENT_METHOD[$param['payment_method']] . "</p>
+                                            <p align='left' style='margin:0;'>Payment method: " . Events::PAYMENT_METHOD[$param['payment_method']] . "</p>" 
+                                            . (isset($param['additional_remarks']) ? "<p align='left' style='margin:0;'>Additional Remarks: " . $param['additional_remarks'] . "</p>" : '') . "
                                         </div>
                                     </div>
                                 </td>

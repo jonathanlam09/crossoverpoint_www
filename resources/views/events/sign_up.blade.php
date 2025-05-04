@@ -54,7 +54,9 @@
                                 <h6 class="mt-4" style="text-transform:uppercase;font-weight:700;">{{ $channel === 'ENG' ? $event->name : $event->ch_name }}</h6>
                                 <p class="mt-3">{{ $channel === 'ENG' ? $event->description : $event->ch_description }}</p>
                                 <p class="mt-3">{{ $event->venue }}</p>
-                                <p class="mt-3">{{ $event->fee ? 'RM' . $event->fee : 'FOC' }}</p>
+                                @if ($event->fee)
+                                    <p class="mt-3">{{ 'RM' . $event->fee }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -146,36 +148,62 @@
                             @if ($event->rooms && $event->rooms->count() > 0)
                                 <div class="col-12 mt-5 section">
                                     <label>{{ $channel == 'ENG' ? 'Choice of room' : '房间选择' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                    <p>{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
+                                    <p style="white-space: pre-line;">{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
                                     @foreach ($event->rooms as $room)
                                         <div class="row d-flex align-items-center mb-3">
                                             <div class="col-3 d-flex justify-content-center">
-                                                <button class="btn" onclick="minus_room_count(event)">
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                                <input type="text" class="form-input validation-required text-center room-count" value="0" style="width:30px" name="room[{{ $room->id }}]" readonly>
-                                                <button class="btn" onclick="add_room_count(event)">
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
+                                                @if ($room->disabled)
+                                                    <button class="btn" style="border:0;" disabled>
+                                                        <i class="fa fa-minus" style="color:lightgrey;"></i>
+                                                    </button>
+                                                    <input type="text" class="form-input validation-required text-center room-count" value="0" style="width:30px" name="room[{{ $room->id }}]" readonly disabled>
+                                                    <button class="btn" disabled style="border:0;">
+                                                        <i class="fa fa-plus" style="color:lightgrey;"></i>
+                                                    </button>
+                                                @else 
+                                                    <button class="btn" onclick="minus_room_count(event)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" class="form-input validation-required text-center room-count" value="0" style="width:30px" name="room[{{ $room->id }}]" readonly>
+                                                    <button class="btn" onclick="add_room_count(event)">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                @endif
                                             </div>
                                             <div class="col-9">
-                                                <div>
+                                                <div class="{{ $room->disabled ? 'opacity-50' : '' }}">
                                                     <img 
                                                     class="w-100" 
-                                                    src="{{ $room->attachments ? ADMIN_PORTAL . $room->attachments[0]->path : url('assets/img/banner.png') }}"
+                                                    src="{{ (isset($room->attachments) && count($room->attachments) > 0) ? ADMIN_PORTAL . $room->attachments[0]->path : url('assets/img/banner.png') }}"
                                                     style="max-width:300px;border-radius:2vh;"/>
                                                 </div>  
                                                 <label for="">{{ $channel === 'ENG' ? $room->label : $room->ch_label }}</label>
                                                 <p class="m-0">{{ $channel === 'ENG' ? $room->description : $room->ch_description }}</p>
                                                 <strong>RM{{ $room->price }}</strong>
+                                                @if ($room->disabled)
+                                                    <p class="text-danger">0 left.</p>
+                                                @endif
                                             </div>
                                         </div>
                                     @endforeach
+                                    <div class="mt-3">
+                                        <label>{{ $channel == 'ENG' ? 'Additional Remarks' : '附加备注' }}</label>
+                                        <input type="text" class="form-input w-100" name="additional_remarks">
+                                    </div>
                                 </div>
                             @endif
 
                             <div class="col-12 mt-5 section">
-                                <label>{{ $channel == 'ENG' ? 'Payment method' : '付款方式' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
+                                <label>{{ $channel == 'ENG' ? 'Payment method' : '付款方式' }}
+                                    <i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i> 
+                                </label>
+                                @if ($channel == 'ENG' && $event->payment_remarks)
+                                    <p style="white-space: pre-line;">{{ $event->payment_remarks }}</p>
+                                @elseif ($event->payment_remarks_ch)  
+                                    <p style="white-space: pre-line;">{{ $event->payment_remarks_ch }}</p>
+                                @endif
+
+
                                 <p>{{ $channel == 'ENG' ? `The receipt for online transfer and ewallet payment is required to send or pass it to the PIC once you've made the payment. ` : '对于线上转账和电子钱包的支付，请在完成转账后将收据发送给负责人。' }}</p>
                                 <div class="row d-flex align-items-center mb-3">
                                     <div class="row col-md-6 col-12 mb-3">

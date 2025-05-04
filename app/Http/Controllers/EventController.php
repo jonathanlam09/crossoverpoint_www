@@ -245,6 +245,7 @@ class EventController extends Controller
                 $emergency_contact = $request->post('emergency_contact');
                 $rooms = $request->post('room');
                 $payment_method = $request->post('payment_method');
+                $additional_remarks = $request->post('additional_remarks');
 
                 $registrants = [];
                 if(count($names) == 0) {
@@ -312,7 +313,8 @@ class EventController extends Controller
                     'registrants' => $registrants,
                     'emergency_contact' => $emergency_contact,
                     'payment_method' => $payment_method,
-                    'rooms' => $rooms
+                    'rooms' => $rooms,
+                    'additional_remarks' => $additional_remarks
                 ];
 
                 $sign_up = EventSignUps::create([
@@ -320,7 +322,8 @@ class EventController extends Controller
                     'event_id' => $event_id,
                     'json_body' => json_encode($data),
                     'emergency_contact' => $emergency_contact,
-                    'payment_method' => $payment_method
+                    'payment_method' => $payment_method,
+                    'additional_remarks' => $additional_remarks
                 ]);
 
                 $data['event'] = $event;

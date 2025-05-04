@@ -23,6 +23,7 @@ class EventRooms extends Model
         'description', 
         'ch_description', 
         'active',
+        'disabled',
         'created_by',
         'updated_by'
     ];

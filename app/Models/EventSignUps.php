@@ -21,6 +21,7 @@ class EventSignUps extends Model
         'contact',
         'emergency_contact',
         'payment_method',
+        'additional_remarks',
         'json_body',
         'active', 
         'created_by',

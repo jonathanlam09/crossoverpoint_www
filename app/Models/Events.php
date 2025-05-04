@@ -38,6 +38,8 @@ class Events extends Model
         'speaker_id',
         'speaker_name',
         'fee', 
+        'payment_remarks',
+        'payment_remarks_ch',
         'image', 
         'for_public',
         'active',
