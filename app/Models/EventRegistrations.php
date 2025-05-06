@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
  
-class EventSignUps extends Model
+class EventRegistrations extends Model
 {
     /**
      * The table associated with the model.
@@ -11,7 +11,7 @@ class EventSignUps extends Model
      * @var string
      */
 
-    protected $table = 'event_sign_ups';
+    protected $table = 'event_registrations';
     public $timestamps = false;
     protected $fillable = [
         'event_id',

@@ -178,7 +178,7 @@
                                                     style="max-width:300px;border-radius:2vh;"/>
                                                 </div>  
                                                 <label for="">{{ $channel === 'ENG' ? $room->label : $room->ch_label }}</label>
-                                                <p class="m-0">{{ $channel === 'ENG' ? $room->description : $room->ch_description }}</p>
+                                                <p class="m-0" style="white-space:break-spaces;">{{ $channel === 'ENG' ? $room->description : $room->ch_description }}</p>
                                                 <strong>RM{{ $room->price }}</strong>
                                                 @if ($room->disabled)
                                                     <p class="text-danger">0 left.</p>

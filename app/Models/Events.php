@@ -77,6 +77,6 @@ class Events extends Model
     }
 
     public function registrants(){
-        return $this->hasMany(EventSignUps::class, 'event_id', 'id')->where('active', 1);
+        return $this->hasMany(EventRegistrations::class, 'event_id', 'id')->where('active', 1);
     }
 }

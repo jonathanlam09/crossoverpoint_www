@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\EventRooms;
 use App\Models\Events;
 use Illuminate\Http\Request;
-use App\Models\Users;
-use App\Models\EventSignUps;
+use App\Models\EventRegistrations;
 use Helper;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -212,7 +211,7 @@ class EventController extends Controller
                     throw new Exception('Please fill in your contact.');
                 }
 
-                $event_sign_up = EventSignUps::where([
+                $event_sign_up = EventRegistrations::where([
                     'event_id' => $event_id,
                     'email' => $email,
                     'active' => 1
@@ -228,7 +227,7 @@ class EventController extends Controller
                     'email' => $email,
                     'contact' => $contact
                 ];
-                $sign_up = EventSignUps::create($data);
+                $sign_up = EventRegistrations::create($data);
     
                 unset($data['event_id']);
                 $data['event'] = $event;
@@ -317,7 +316,7 @@ class EventController extends Controller
                     'additional_remarks' => $additional_remarks
                 ];
 
-                $sign_up = EventSignUps::create([
+                $sign_up = EventRegistrations::create([
                     'email' => $email,
                     'event_id' => $event_id,
                     'json_body' => json_encode($data),

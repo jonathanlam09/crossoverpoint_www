@@ -81,11 +81,15 @@ use App\Observers\PermissionsObserver;
 
 use App\Models\EventAttachments;
 use App\Models\EventRoomAttachments;
+
 use App\Models\EventRooms;
 use App\Observers\EventAttachmentsObserver;
 
-use App\Models\EventSignUps;
-use App\Observers\EventSignUpsObserver;
+use App\Models\EventRegistrations;
+use App\Observers\EventRegistrationsObserver;
+
+use App\Models\EventRegistrationReceipts;
+use App\Observers\EventRegistrationReceiptsObserver;
 
 use App\Models\Visitors;
 use App\Observers\VisitorsObserver;
@@ -122,7 +126,8 @@ class AppServiceProvider extends ServiceProvider
         AccountOfferingCheques::observe(AccountOfferingChequesObserver::class);
         AccountOfferingDeductions::observe(AccountOfferingDeductionsObserver::class);
         Events::observe(EventsObserver::class);
-        EventSignUps::observe(EventSignUpsObserver::class);
+        EventRegistrations::observe(EventRegistrationsObserver::class);
+        EventRegistrationReceipts::observe(EventRegistrationReceiptsObserver::class);
         EventAttachments::observe(EventAttachmentsObserver::class);
         EventRooms::observe(EventRoomsObserver::class);
         EventRoomAttachments::observe(EventRoomAttachmentsObserver::class);
