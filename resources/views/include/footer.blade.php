@@ -1,91 +1,306 @@
-<footer style="background-color:black;">
-    <section id="contact_us">
-        <div class="container pt-5 pb-5" style="color: white;">
-            <div class="row">
-                <div class="col-lg-6 col-12 mb-5 p-5">
-                    <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == 'ENG' ? 'Crossover Point' : '跨越教会'?></h6>
-                    <p class="mt-3 mb-2" style="margin:0">32A, Jalan Aman Tiara 8, Telok Panglima Garang, Selangor 42500</p>
-                    <a class="mt-3 text-white" style="cursor:pointer;text-decoration:none;" href="mailto:crossoverpointchurch@gmail.com">crossoverpointchurch@gmail.com</a>
-                    <div class="mt-3 row">
-                        <div class="col-2">
-                            <a class="text-white" href="https://www.facebook.com/crossoverpointchurch" target="_blank">
-                                <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a class="text-white" href="https://www.instagram.com/crossoverpoint/" target="_blank">
-                                <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a class="text-white" target="_blank" href="https://wa.me/601154265548?text=I%20would%20like%20to%20ask%20about%20Crossover%20Point">
-                                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <div class="col-2">
-                            <a class="text-white" href="mailto:crossoverpointchurch@gmail.com">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                            </a>
-                        </div>
+<style>
+    :root {
+        --footer-bg: #000000;
+        --footer-text: #ffffff;
+        --footer-text-muted: #999999;
+        --input-bg: #1a1a1a;
+        --input-border: #333333;
+        --input-focus: #ffffff;
+    }
+
+    footer {
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+    }
+
+    .footer-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 100px 40px 60px;
+    }
+
+    .footer-section {
+        margin-bottom: 60px;
+    }
+
+    .footer-title {
+        font-size: 0.9rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        color: var(--footer-text);
+    }
+
+    .footer-info p,
+    .footer-info a {
+        color: var(--footer-text-muted);
+        font-size: 0.9rem;
+        line-height: 1.8;
+        margin-bottom: 12px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-info a:hover {
+        color: var(--footer-text);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--input-border);
+        color: var(--footer-text-muted);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .social-links a:hover {
+        border-color: var(--footer-text);
+        color: var(--footer-text);
+        transform: translateY(-3px);
+    }
+
+    .enquiry-form {
+        max-width: 600px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--footer-text-muted);
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 0;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--input-border);
+        color: var(--footer-text);
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-bottom-color: var(--input-focus);
+        background: transparent;
+    }
+
+    .form-control::placeholder {
+        color: var(--footer-text-muted);
+        opacity: 0.5;
+    }
+
+    select.form-control {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999999' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0 center;
+        padding-right: 20px;
+    }
+
+    select.form-control option {
+        background: var(--footer-bg);
+        color: var(--footer-text);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+        padding: 12px 0;
+    }
+
+    .error-message {
+        background-color: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        color: #ff6b6b;
+        padding: 12px 20px;
+        font-size: 0.85rem;
+        margin-bottom: 25px;
+        border-radius: 0;
+    }
+
+    .submit-btn {
+        background: var(--footer-text);
+        color: var(--footer-bg);
+        border: none;
+        padding: 14px 50px;
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-radius: 0;
+        margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+        background: var(--footer-text-muted);
+        transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+        border-top: 1px solid var(--input-border);
+        padding-top: 40px;
+        margin-top: 60px;
+        text-align: center;
+        color: var(--footer-text-muted);
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    @media (max-width: 991px) {
+        .footer-container {
+            padding: 80px 30px 40px;
+        }
+
+        .footer-section {
+            margin-bottom: 50px;
+        }
+
+        .social-links {
+            justify-content: flex-start;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .footer-container {
+            padding: 60px 20px 30px;
+        }
+
+        .form-group.half-width {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .submit-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<footer id="contact_us">
+    <div class="footer-container">
+        <div class="row">
+            <!-- Contact Information -->
+            <div class="col-lg-5 col-12 footer-section">
+                <h6 class="footer-title"><?php echo $channel == 'ENG' ? 'Crossover Point' : '跨越教会'?></h6>
+                <div class="footer-info">
+                    <p>32A, Jalan Aman Tiara 8<br>Telok Panglima Garang<br>Selangor 42500</p>
+                    <a href="mailto:crossoverpointchurch@gmail.com" style="display: block;">crossoverpointchurch@gmail.com</a>
+                    
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/crossoverpointchurch" target="_blank" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/crossoverpoint/" target="_blank" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/601154265548?text=I%20would%20like%20to%20ask%20about%20Crossover%20Point" target="_blank" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:crossoverpointchurch@gmail.com" aria-label="Email">
+                            <i class="fa fa-envelope"></i>
+                        </a>
                     </div>
-                    <div id="map"></div>
                 </div>
-                <div class="col-lg-6 col-12 p-5">
-                    <form id="enquiry_form" onsubmit="submit_enquiry(event)">
-                        <div class="alert alert-danger alert-message d-none"></div>
-                        <div>
-                            <h6 style="font-weight: 700; font-size: 18px; margin: 0;"><?php echo $channel == 'ENG' ? 'Enquiries' : '詢問'?></h6>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 mt-3 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'First Name' : '名'?></label>
+            </div>
+
+            <!-- Enquiry Form -->
+            <div class="col-lg-7 col-12 footer-section">
+                <h6 class="footer-title"><?php echo $channel == 'ENG' ? 'Enquiries' : '詢問'?></h6>
+                
+                <form id="enquiry_form" class="enquiry-form" onsubmit="submit_enquiry(event)">
+                    <div class="alert error-message d-none"></div>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><?php echo $channel == 'ENG' ? 'First Name' : '名'?></label>
                                 <input name="first_name" id="first_name" type="text" class="form-control validation-required">
                             </div>
-                            <div class="col-6 mt-3 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'Last Name' : '姓'?></label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><?php echo $channel == 'ENG' ? 'Last Name' : '姓'?></label>
                                 <input name="last_name" id="last_name" type="text" class="form-control validation-required">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-6 mt-3 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'Contact' : '联系号码'?></label>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><?php echo $channel == 'ENG' ? 'Contact' : '联系号码'?></label>
                                 <input name="contact" id="contact" type="text" class="form-control validation-required">
                             </div>
-                            <div class="col-6 mt-3 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'Email' : '电邮地址'?></label>
-                                <input name="email" id="email" type="text" class="form-control validation-required">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"><?php echo $channel == 'ENG' ? 'Email' : '电邮地址'?></label>
+                                <input name="email" id="email" type="email" class="form-control validation-required">
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-12 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'Type of Enquiries' : '查询类型'?></label>
-                                <select name="type_of_enquiry" class="form-control validation-required" id="type_of_enquiry">
-                                    <option value=""><?php echo $channel == 'ENG' ? 'Select your enquiries' : '选择您的询问'?></option>
-                                    <option value="Prayer request"><?php echo $channel == 'ENG' ? 'Prayer Request' : '祈祷请求'?></option>
-                                    <option value="Shelter"><?php echo $channel == 'ENG' ? 'Shelter' : '庇护'?></option>
-                                    <option value="Serving"><?php echo $channel == 'ENG' ? 'Serving' : '服侍'?></option>
-                                    <option value="Ministry"><?php echo $channel == 'ENG' ? 'Ministry' : '事工'?></option>
-                                    <option value="Discipleship"><?php echo $channel == 'ENG' ? 'Discipleship' : '门徒训练'?></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12 position-relative">
-                                <label for=""><?php echo $channel == 'ENG' ? 'Remarks' : '备注'?></label>
-                                <textarea class="form-control validation-required" id="remarks" style="resize:none;" name="remarks" cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
-                        <div class="mt-3 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-default text-white" style="background-color:cornflowerblue;border-radius:2vh;"><?php echo $channel == 'ENG' ? 'SUBMIT' : '提交'?></button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php echo $channel == 'ENG' ? 'Type of Enquiries' : '查询类型'?></label>
+                        <select name="type_of_enquiry" class="form-control validation-required" id="type_of_enquiry">
+                            <option value=""><?php echo $channel == 'ENG' ? 'Select your enquiries' : '选择您的询问'?></option>
+                            <option value="Prayer request"><?php echo $channel == 'ENG' ? 'Prayer Request' : '祈祷请求'?></option>
+                            <option value="Shelter"><?php echo $channel == 'ENG' ? 'Shelter' : '庇护'?></option>
+                            <option value="Serving"><?php echo $channel == 'ENG' ? 'Serving' : '服侍'?></option>
+                            <option value="Ministry"><?php echo $channel == 'ENG' ? 'Ministry' : '事工'?></option>
+                            <option value="Discipleship"><?php echo $channel == 'ENG' ? 'Discipleship' : '门徒训练'?></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><?php echo $channel == 'ENG' ? 'Remarks' : '备注'?></label>
+                        <textarea class="form-control validation-required" id="remarks" name="remarks"></textarea>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="submit-btn">
+                            <?php echo $channel == 'ENG' ? 'SUBMIT' : '提交'?>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
+
+        <div class="footer-bottom">
+            <p>&copy; <?php echo date('Y'); ?> Crossover Point. <?php echo $channel == 'ENG' ? 'All rights reserved.' : '版权所有。'?></p>
+        </div>
+    </div>
 </footer>
+
 </body>
 </html>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
@@ -204,9 +419,14 @@ crossorigin="anonymous"></script>
                 window.location.reload();
             });
         } catch (err) {
-            const err_message = $(`#${target.id} .alert-message`);
+            const err_message = $(`#${target.id} .error-message`);
             err_message.removeClass('d-none');
             err_message.text(err.message);
+            
+            // Scroll to error
+            $('html, body').animate({
+                scrollTop: err_message.offset().top - 100
+            }, 300);
         }
     }
 
@@ -322,7 +542,8 @@ crossorigin="anonymous"></script>
             title: 'Success!',
             icon: 'success',
             text: data,
-            button: 'OK',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#000000',
         });
     }
 
@@ -333,7 +554,8 @@ crossorigin="anonymous"></script>
                     title: 'Warning!',
                     icon: 'warning',
                     text: data,
-                    button: 'OK',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#000000',
                 }).then((result) => {
                     window.location.href = address + redirect_page;
                 })
@@ -344,7 +566,8 @@ crossorigin="anonymous"></script>
                     title: 'Warning!',
                     icon: 'warning',
                     text: data,
-                    button: 'OK',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#000000',
                 })
             }
         }
@@ -355,7 +578,8 @@ crossorigin="anonymous"></script>
             title: 'Warning!',
             icon: 'warning',
             text: data,
-            button: 'OK',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#000000',
         })
     }
 
@@ -364,7 +588,8 @@ crossorigin="anonymous"></script>
             title: 'Error!',
             icon: 'error',
             text: 'Something Error !',
-            button: 'OK',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#000000',
         })
     }
 </script>

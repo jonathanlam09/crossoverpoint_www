@@ -4,294 +4,523 @@
     $fee = isset($event->fee) ? $event->fee : 0;
 @endphp
 <style>
+    .page-header {
+        padding: 4rem 0 2rem;
+    }
+
+    .page-title {
+        font-weight: 300;
+        font-size: 3rem;
+        letter-spacing: 2px;
+    }
+
+    .signup-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 3rem 1rem;
+    }
+
+    .form-wrapper {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .form-wrapper.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .event-card {
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+
+    .event-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .event-details {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .event-date-badge {
+        background: #f8f9fa;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: -2rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .event-title {
+        font-weight: 500;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .event-info {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 0.5rem;
+    }
+
+    .alert {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border-radius: 4px;
+        border-left: 3px solid #dc3545;
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .form-label .required {
+        color: #dc3545;
+        margin-left: 0.25rem;
+    }
+
     .form-input {
-        border-radius: 0!important;
+        width: 100%;
+        padding: 0.75rem 0;
         border: 0;
-        border-bottom: 1px solid #d3d3d3;
+        border-bottom: 1px solid #e0e0e0;
         background: transparent;
+        font-size: 1rem;
+        color: #333;
+        transition: border-color 0.3s ease;
     }
 
     .form-input:focus {
-        box-shadow: none;
         outline: none;
+        border-bottom-color: #999;
+    }
+
+    .form-input.validation-failed {
+        border-bottom-color: #dc3545;
+    }
+
+    .participant-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .participant-number {
+        min-width: 30px;
+        color: #999;
+    }
+
+    .participant-inputs {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .action-button {
+        background: none;
+        border: 1px solid #e0e0e0;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+    .action-button:hover {
+        border-color: #999;
+    }
+
+    .action-button.danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .action-button.danger:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+    .room-option {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        align-items: center;
+    }
+
+    .room-option:last-child {
+        border-bottom: none;
+    }
+
+    .room-counter {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .room-counter button {
+        background: none;
+        border: 1px solid #e0e0e0;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .room-counter button:hover:not(:disabled) {
+        border-color: #999;
+    }
+
+    .room-counter button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+    .room-counter input {
+        width: 50px;
+        text-align: center;
+        border: none;
+    }
+
+    .room-info {
+        flex: 1;
+    }
+
+    .room-image {
+        max-width: 200px;
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .room-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .room-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        white-space: pre-wrap;
+    }
+
+    .room-price {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .payment-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .payment-option {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem;
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .payment-option:hover {
+        border-color: #999;
+    }
+
+    .payment-option input[type="radio"] {
+        margin: 0;
+    }
+
+    .payment-image {
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .submit-button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0.75rem 3rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background: #000;
+    }
+
+    .button-wrapper {
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .signup-container {
+            padding: 2rem 1rem;
+        }
+
+        .participant-inputs {
+            grid-template-columns: 1fr;
+        }
+
+        .room-option {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .payment-options {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
-@if ($event->type == 4)
-<style>
-    #event_sign_up_form .error-message {
-        display: none;
-    }
-
-    #event_sign_up_form .validation-failed {
-        border: 0!important;
-        border-bottom: 1px solid rgb(220, 53, 69)!important;
-    }
-</style>
-@endif
-
-
-<div style="background-color:lightgrey;">
-    <div class="container p-5">
-        <h3>{{ $channel == 'ENG' ? 'EVENTS' : '活动' }}</h3>
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title text-center">{{ $channel == 'ENG' ? 'EVENTS' : '活动' }}</h1>
     </div>
 </div>
 
-<div class="container mt-5 mb-5">
-    <div class="row container-row">
-        <div class="col-12 d-flex justify-content-center align-items-center" style="transition:1s ease;transform:translateY(10%);opacity:.2;">
-            <form id="event_sign_up_form" onsubmit="submit_handler(event)">
-                <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;padding:15px">
-                    <div class="col-12 d-flex justify-content-center align-items-start">
-                        <div style="max-width:760px;box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;border-radius:2vh;">
-                            <div style="display:flex;justify-content:center;position:relative;">
-                                <img src="{{ $image }}" style="border-top-left-radius:2vh;border-top-right-radius:2vh;">
-                                <div style="box-shadow:rgba(149, 157, 165, 0.2) 0px 8px 24px;position:absolute;bottom:-15px;background-color:#f8f9fa;padding:5px 20px;border-radius:2vh;">
-                                    <span>{{ date('jS F Y H:i:s A', strtotime($event->start_date)) }}</span>
-                                </div>
-                            </div>
-                            <div style="padding:15px;text-align:center;">
-                                <h6 class="mt-4" style="text-transform:uppercase;font-weight:700;">{{ $channel === 'ENG' ? $event->name : $event->ch_name }}</h6>
-                                <p class="mt-3">{{ $channel === 'ENG' ? $event->description : $event->ch_description }}</p>
-                                <p class="mt-3">{{ $event->venue }}</p>
-                                @if ($event->fee)
-                                    <p class="mt-3">{{ 'RM' . $event->fee }}</p>
-                                @endif
-                            </div>
+<div class="signup-container">
+    <div class="form-wrapper">
+        <form id="event_sign_up_form" onsubmit="submit_handler(event)">
+            <div class="event-card">
+                <img src="{{ $image }}" alt="Event" class="event-image">
+                <div class="event-date-badge">
+                    {{ date('jS F Y H:i:s A', strtotime($event->start_date)) }}
+                </div>
+                <div class="event-details">
+                    <h2 class="event-title">{{ $channel === 'ENG' ? $event->name : $event->ch_name }}</h2>
+                    <p class="event-info">{{ $channel === 'ENG' ? $event->description : $event->ch_description }}</p>
+                    <p class="event-info">{{ $event->venue }}</p>
+                    @if ($event->fee)
+                        <p class="event-info"><strong>{{ 'RM' . $event->fee }}</strong></p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="alert alert-message d-none">test</div>
+
+            @if ($event->type !== 4)
+                <div class="form-section">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <label class="form-label">{{ $channel == 'ENG' ? 'First Name' : '名' }}</label>
+                            <input type="text" class="form-input validation-required" name="first_name" id="first_name" placeholder="eg. John">
+                        </div>
+                        <div>
+                            <label class="form-label">{{ $channel == 'ENG' ? 'Last Name' : '姓' }}</label>
+                            <input type="text" class="form-input validation-required" name="last_name" id="last_name" placeholder="eg. Doe">
                         </div>
                     </div>
-                    <div class="alert alert-danger alert-message mt-3 d-none">test</div>
-                    @if ($event->type !== 4)
-                        <div class="row mt-5">
-                            <div class="col-lg-6 col-12 mt-3">
-                                <label>{{ $channel == 'ENG' ? 'First Name' : '名' }}</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control validation-required" name="first_name" id="first_name" placeholder="eg. John" style="border:none;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                </div>
-                            </div>
+                </div>
 
-                            <div class="col-lg-6 col-12 mt-3">
-                                <label>{{ $channel == 'ENG' ? 'Last Name' : '姓' }}</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control validation-required" name="last_name" id="last_name" placeholder="eg. Doe" style="border:none;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                </div>
-                            </div>
+                <div class="form-section">
+                    <label class="form-label">{{ $channel == 'ENG' ? 'Email' : '电邮地址' }}</label>
+                    <input type="text" class="form-input validation-required" name="email" id="email" placeholder="eg. johndoe@example.com">
+                </div>
 
-                            <div class="col-12 mt-3">
-                                <label>{{ $channel == 'ENG' ? 'Email' : '电邮地址' }}</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control validation-required" name="email" id="email" placeholder="eg. johndoe@example.com" style="border:none;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                </div>
-                            </div>
+                <div class="form-section">
+                    <label class="form-label">{{ $channel == 'ENG' ? 'Contact' : '联系号码' }}</label>
+                    <input type="text" class="form-input validation-required" name="contact" id="contact" placeholder="eg. 0123456789">
+                </div>
 
-                            <div class="col-12 mt-3">
-                                <label>{{ $channel == 'ENG' ? 'Contact' : '联系号码' }}</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control validation-required" name="contact" id="contact" placeholder="eg. 0123456789" style="border:none;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                </div>
-                            </div>
-                            <input type="hidden" name="event_id" value="{{ $event_id }}">
-                            <div class="d-flex justify-content-center mt-5">
-                                @if($fee == 0)
-                                    <button type="submit" class="btn text-white" style="background-color:cornflowerblue;">
-                                        {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}
-                                    </button>
-                                @else
-                                    <div>
-                                        <h6 class="text-center" style="font-weight:700;">{{ '$' . number_format($fee ,2) }}</h6>
-                                        <a href="" class="btn text-white" style="background-color:cornflowerblue;">
-                                            {{ $channel == 'ENG' ? 'PROCEED TO PAYMENT' : '付款' }}
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+                <input type="hidden" name="event_id" value="{{ $event_id }}">
+                
+                <div class="button-wrapper">
+                    @if($fee == 0)
+                        <button type="submit" class="submit-button">
+                            {{ $channel == 'ENG' ? 'Sign Up' : '报名' }}
+                        </button>
                     @else
-                        <div class="row mt-5">
-                            <div class="col-12 mt-3 section">
-                                <label>{{ $channel == 'ENG' ? 'Full name of every individual (As per IC) & IC Number ' : '每个人的全名 (如身份证上的) & 身份证号码' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                <div class="participant-section">
-                                    <div class="row input-group mt-2">
-                                        <div class="col-1 mt-1 count-index">1. </div>
-                                        <div class="col-md-3 col-11 mt-1 position-relative">
-                                            <input type="text" class="form-input validation-required w-100" id="name" placeholder="{{ $channel == 'ENG' ? 'Name' : '全名' }}" name="name[]">
-                                        </div>
-                                        <div class="d-md-none d-block col-1"></div>
-                                        <div class="col-md-3 col-11 mt-1 position-relative">
-                                            <input type="text" class="form-input validation-required w-100" id="contact" placeholder="{{ $channel == 'ENG' ? 'Contact' : '号码' }}" name="contact[]">
-                                        </div>
-                                        <div class="d-md-none d-block col-1"></div>
-                                        <div class="col-md-3 col-11 mt-1 position-relative">
-                                            <input type="text" class="form-input validation-required w-100" id="identity_number" placeholder="{{ $channel == 'ENG' ? 'IC No.' : '身份证号码' }}" name="ic[]">
-                                        </div>
-                                        <div class="d-md-none d-block mb-3"></div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end mt-3">
-                                    <button class="btn bg-dark text-white text-uppercase btn-sm" onclick="add_participant(event)">Add <i class="fa fa-plus"></i></button>
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-5 section">
-                                <label>{{ $channel == 'ENG' ? 'Email' : '电邮地址' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                <div class="input-group">
-                                    <input type="text" class="form-input validation-required w-100 validation-required" name="email" id="email">
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-5 section">
-                                <label>{{ $channel == 'ENG' ? 'Emergency contact (Full name & contact number)' : '紧急联系人 (全名＆联系号码）' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                <div class="input-group">
-                                    <input type="text" class="form-input validation-required w-100 validation-required" name="emergency_contact" id="emergency_contact">
-                                </div>
-                            </div>
-                            @if ($event->rooms && $event->rooms->count() > 0)
-                                <div class="col-12 mt-5 section">
-                                    <label>{{ $channel == 'ENG' ? 'Choice of room' : '房间选择' }}<i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i></label>
-                                    <p style="white-space: pre-line;">{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
-                                    @foreach ($event->rooms as $room)
-                                        <div class="row d-flex align-items-center mb-3">
-                                            <div class="col-3 d-flex justify-content-center">
-                                                @if ($room->disabled)
-                                                    <button class="btn" style="border:0;" disabled>
-                                                        <i class="fa fa-minus" style="color:lightgrey;"></i>
-                                                    </button>
-                                                    <input type="text" class="form-input validation-required text-center room-count" value="0" style="width:30px" name="room[{{ $room->id }}]" readonly disabled>
-                                                    <button class="btn" disabled style="border:0;">
-                                                        <i class="fa fa-plus" style="color:lightgrey;"></i>
-                                                    </button>
-                                                @else 
-                                                    <button class="btn" onclick="minus_room_count(event)">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" class="form-input validation-required text-center room-count" value="0" style="width:30px" name="room[{{ $room->id }}]" readonly>
-                                                    <button class="btn" onclick="add_room_count(event)">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="{{ $room->disabled ? 'opacity-50' : '' }}">
-                                                    <img 
-                                                    class="w-100" 
-                                                    src="{{ (isset($room->attachments) && count($room->attachments) > 0) ? ADMIN_PORTAL . $room->attachments[0]->path : url('assets/img/banner.png') }}"
-                                                    style="max-width:300px;border-radius:2vh;"/>
-                                                </div>  
-                                                <label for="">{{ $channel === 'ENG' ? $room->label : $room->ch_label }}</label>
-                                                <p class="m-0" style="white-space:break-spaces;">{{ $channel === 'ENG' ? $room->description : $room->ch_description }}</p>
-                                                <strong>RM{{ $room->price }}</strong>
-                                                @if ($room->disabled)
-                                                    <p class="text-danger">0 left.</p>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    <div class="mt-3">
-                                        <label>{{ $channel == 'ENG' ? 'Additional Remarks' : '附加备注' }}</label>
-                                        <input type="text" class="form-input w-100" name="additional_remarks">
-                                    </div>
-                                </div>
-                            @endif
-
-                            <div class="col-12 mt-5 section">
-                                <label>{{ $channel == 'ENG' ? 'Payment method' : '付款方式' }}
-                                    <i class="fa fa-asterisk text-danger fa-2xs" style='margin-left:5px;'></i> 
-                                </label>
-                                @if ($channel == 'ENG' && $event->payment_remarks)
-                                    <p style="white-space: pre-line;">{{ $event->payment_remarks }}</p>
-                                @elseif ($event->payment_remarks_ch)  
-                                    <p style="white-space: pre-line;">{{ $event->payment_remarks_ch }}</p>
-                                @endif
-
-
-                                <p>{{ $channel == 'ENG' ? `The receipt for online transfer and ewallet payment is required to send or pass it to the PIC once you've made the payment. ` : '对于线上转账和电子钱包的支付，请在完成转账后将收据发送给负责人。' }}</p>
-                                <div class="row d-flex align-items-center mb-3">
-                                    <div class="row col-md-6 col-12 mb-3">
-                                        <div class="col-1">
-                                            <input type="radio" name="payment_method" value="1">
-                                        </div>
-                                        <div class="col-11">
-                                            <div style="border-radius:2vh;overflow:hidden;">
-                                                <img src="{{ url('assets/img/online_transfer.png') }}" alt="">
-                                            </div>
-                                            <label for="">{{ $channel === 'ENG' ? 'Online transfer' : '线上转账' }}</label>
-                                        </div>
-                                    </div>
-                                    <div class="row col-md-6 col-12 mb-3">
-                                        <div class="col-1">
-                                            <input type="radio" name="payment_method" value="2">
-                                        </div>
-                                        <div class="col-11">
-                                            <div style="border-radius:2vh;overflow:hidden;">
-                                                <img src="{{ url('assets/img/cash.png') }}" alt="">
-                                            </div>
-                                            <label for="">{{ $channel === 'ENG' ? 'Cash' : '现金' }}</label>
-                                        </div>
-                                    </div>
-                                    <div class="row col-md-6 col-12 mb-3">
-                                        <div class="col-1">
-                                            <input type="radio" name="payment_method" value="3">
-                                        </div>
-                                        <div class="col-11">
-                                            <div style="border-radius:2vh;overflow:hidden;">
-                                                <img src="{{ url('assets/img/cheque.png') }}" alt="">
-                                            </div>
-                                            <label for="">{{ $channel === 'ENG' ? 'Cheque' : '支票' }}</label>
-                                        </div>
-                                    </div>
-                                    <div class="row col-md-6 col-12 mb-3">
-                                        <div class="col-1">
-                                            <input type="radio" name="payment_method" value="4">
-                                        </div>
-                                        <div class="col-11">
-                                            <div style="border-radius:2vh;overflow:hidden;">
-                                                <img src="{{ url('assets/img/qrcode.png') }}" alt="">
-                                            </div>
-                                            <label for="">{{ $channel === 'ENG' ? 'E-wallet' : '电子钱包' }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="event_id" value="{{ $event_id }}">
-                            <div class="d-flex justify-content-center mt-5">
-                                <button type="submit" class="btn text-white" style="background-color:cornflowerblue;">
-                                    {{ $channel == 'ENG' ? 'SIGN UP' : '报名' }}
-                                </button>
-                            </div>
+                        <div>
+                            <p style="font-weight: 500; margin-bottom: 1rem;">{{ 'RM' . number_format($fee, 2) }}</p>
+                            <a href="" class="submit-button" style="display: inline-block; text-decoration: none;">
+                                {{ $channel == 'ENG' ? 'Proceed to Payment' : '付款' }}
+                            </a>
                         </div>
                     @endif
                 </div>
-            </form>
-        </div>
+            @else
+                <div class="form-section">
+                    <label class="form-label">
+                        {{ $channel == 'ENG' ? 'Full name of every individual (As per IC) & IC Number' : '每个人的全名 (如身份证上的) & 身份证号码' }}
+                        <span class="required">*</span>
+                    </label>
+                    <div class="participant-section">
+                        <div class="participant-row">
+                            <div class="participant-number">1.</div>
+                            <div class="participant-inputs">
+                                <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'Name' : '全名' }}" name="name[]">
+                                <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'Contact' : '号码' }}" name="contact[]">
+                                <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'IC No.' : '身份证号码' }}" name="ic[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right; margin-top: 1rem;">
+                        <button class="action-button" onclick="add_participant(event)">
+                            {{ $channel == 'ENG' ? 'Add' : '添加' }} <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">{{ $channel == 'ENG' ? 'Email' : '电邮地址' }}<span class="required">*</span></label>
+                    <input type="text" class="form-input validation-required" name="email" id="email">
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">{{ $channel == 'ENG' ? 'Emergency contact (Full name & contact number)' : '紧急联系人 (全名＆联系号码）' }}<span class="required">*</span></label>
+                    <input type="text" class="form-input validation-required" name="emergency_contact" id="emergency_contact">
+                </div>
+
+                @if ($event->rooms && $event->rooms->count() > 0)
+                    <div class="form-section">
+                        <label class="form-label">{{ $channel == 'ENG' ? 'Choice of room' : '房间选择' }}<span class="required">*</span></label>
+                        <p style="white-space: pre-line; color: #666; margin-bottom: 1.5rem;">{{ $channel == 'ENG' ? $event->room_description : $event->room_ch_description }}</p>
+                        
+                        @foreach ($event->rooms as $room)
+                            <div class="room-option" style="{{ $room->disabled ? 'opacity: 0.5;' : '' }}">
+                                <div class="room-counter">
+                                    @if ($room->disabled)
+                                        <button type="button" disabled><i class="fa fa-minus"></i></button>
+                                        <input type="text" class="form-input text-center room-count" value="0" name="room[{{ $room->id }}]" readonly disabled>
+                                        <button type="button" disabled><i class="fa fa-plus"></i></button>
+                                    @else
+                                        <button type="button" onclick="minus_room_count(event)"><i class="fa fa-minus"></i></button>
+                                        <input type="text" class="form-input text-center room-count" value="0" name="room[{{ $room->id }}]" readonly>
+                                        <button type="button" onclick="add_room_count(event)"><i class="fa fa-plus"></i></button>
+                                    @endif
+                                </div>
+                                <div class="room-info">
+                                    <img class="room-image" src="{{ (isset($room->attachments) && count($room->attachments) > 0) ? ADMIN_PORTAL . $room->attachments[0]->path : url('assets/img/banner.png') }}" alt="{{ $channel === 'ENG' ? $room->label : $room->ch_label }}">
+                                    <div class="room-label">{{ $channel === 'ENG' ? $room->label : $room->ch_label }}</div>
+                                    <div class="room-description">{{ $channel === 'ENG' ? $room->description : $room->ch_description }}</div>
+                                    <div class="room-price">RM{{ $room->price }}</div>
+                                    @if ($room->disabled)
+                                        <p style="color: #dc3545; margin-top: 0.5rem;">0 left.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                        
+                        <div style="margin-top: 1.5rem;">
+                            <label class="form-label">{{ $channel == 'ENG' ? 'Additional Remarks' : '附加备注' }}</label>
+                            <input type="text" class="form-input" name="additional_remarks">
+                        </div>
+                    </div>
+                @endif
+
+                <div class="form-section">
+                    <label class="form-label">{{ $channel == 'ENG' ? 'Payment method' : '付款方式' }}<span class="required">*</span></label>
+                    
+                    @if ($channel == 'ENG' && $event->payment_remarks)
+                        <p style="white-space: pre-line; color: #666; margin-bottom: 1rem;">{{ $event->payment_remarks }}</p>
+                    @elseif ($event->payment_remarks_ch)
+                        <p style="white-space: pre-line; color: #666; margin-bottom: 1rem;">{{ $event->payment_remarks_ch }}</p>
+                    @endif
+
+                    <p style="color: #666; margin-bottom: 1.5rem;">{{ $channel == 'ENG' ? 'The receipt for online transfer and ewallet payment is required to send or pass it to the PIC once you\'ve made the payment.' : '对于线上转账和电子钱包的支付，请在完成转账后将收据发送给负责人。' }}</p>
+
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="1">
+                            <div style="flex: 1;">
+                                <img src="{{ url('assets/img/online_transfer.png') }}" alt="Online Transfer" class="payment-image">
+                                <div>{{ $channel === 'ENG' ? 'Online transfer' : '线上转账' }}</div>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="2">
+                            <div style="flex: 1;">
+                                <img src="{{ url('assets/img/cash.png') }}" alt="Cash" class="payment-image">
+                                <div>{{ $channel === 'ENG' ? 'Cash' : '现金' }}</div>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="3">
+                            <div style="flex: 1;">
+                                <img src="{{ url('assets/img/cheque.png') }}" alt="Cheque" class="payment-image">
+                                <div>{{ $channel === 'ENG' ? 'Cheque' : '支票' }}</div>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="4">
+                            <div style="flex: 1;">
+                                <img src="{{ url('assets/img/qrcode.png') }}" alt="E-wallet" class="payment-image">
+                                <div>{{ $channel === 'ENG' ? 'E-wallet' : '电子钱包' }}</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <input type="hidden" name="event_id" value="{{ $event_id }}">
+                
+                <div class="button-wrapper">
+                    <button type="submit" class="submit-button">
+                        {{ $channel == 'ENG' ? 'Sign Up' : '报名' }}
+                    </button>
+                </div>
+            @endif
+        </form>
     </div>
 </div>
+
 @include('include.footer')
+
 <script>
     const event_id = '{{ $event_id }}';
+    
     $(document).ready(() => {
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0
-        };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                console.log(entry.isIntersecting)
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.container-row > *').forEach((element) => {
-            observer.observe(element);
-        });
-    })
+        const formWrapper = document.querySelector('.form-wrapper');
+        if(formWrapper) observer.observe(formWrapper);
+    });
 
-    const submit_handler = async (e) =>{
+    const submit_handler = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
 
@@ -326,7 +555,7 @@
         const target = $(e.currentTarget);
         const input = target.siblings('.room-count');
         if(input) {
-            input.val(parseInt(input.val()) + 1)
+            input.val(parseInt(input.val()) + 1);
         }
     }
 
@@ -334,10 +563,8 @@
         e.preventDefault();
         const target = $(e.currentTarget);
         const input = target.siblings('.room-count');
-        if(input) {
-            if(input.val() > 0) {
-                input.val(parseInt(input.val()) - 1)
-            }
+        if(input && input.val() > 0) {
+            input.val(parseInt(input.val()) - 1);
         }
     }
 
@@ -346,24 +573,16 @@
         const section = $('.participant-section');
         const count = section.children().length;
         const html = `
-            <div class="row input-group mt-2">
-                <div class="col-1 mt-1 count-index">${count + 1}. </div>
-                <div class="col-md-3 col-11 mt-1 position-relative">
-                    <input type="text" class="form-input validation-required w-100" id="name" placeholder="{{ $channel == 'ENG' ? 'Name' : '全名' }}" name="name[]">
+            <div class="participant-row">
+                <div class="participant-number">${count + 1}.</div>
+                <div class="participant-inputs">
+                    <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'Name' : '全名' }}" name="name[]">
+                    <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'Contact' : '号码' }}" name="contact[]">
+                    <input type="text" class="form-input validation-required" placeholder="{{ $channel == 'ENG' ? 'IC No.' : '身份证号码' }}" name="ic[]">
                 </div>
-                <div class="d-md-none d-block col-1"></div>
-                <div class="col-md-3 col-11 mt-1 position-relative">
-                    <input type="text" class="form-input validation-required w-100" id="contact" placeholder="{{ $channel == 'ENG' ? 'Contact' : '号码' }}" name="contact[]">
-                </div>
-                <div class="d-md-none d-block col-1"></div>
-                <div class="col-md-3 col-11 mt-1 position-relative">
-                    <input type="text" class="form-input validation-required w-100" id="identity_number" placeholder="{{ $channel == 'ENG' ? 'IC No.' : '身份证号码' }}" name="ic[]">
-                </div>
-                <div class="col-md-2 col-12 mt-1 d-flex justify-content-end">
-                    <button class="btn btn-sm text-white bg-danger" onclick="delete_participant(event)">
-                        DELETE <i class="fa fa-trash"></i>
-                    </button>
-                </div>
+                <button class="action-button danger" onclick="delete_participant(event)">
+                    <i class="fa fa-trash"></i>
+                </button>
             </div>
         `;
         section.append(html);
@@ -372,12 +591,10 @@
     const delete_participant = (e) => {
         e.preventDefault();
         const target = $(e.currentTarget);
-        target.closest('.row').remove();
-        const index_count = $('.count-index');
-        if(index_count.length > 0) {
-            for(var i=0;i<index_count.length;i++) {
-                $(index_count[i]).text(`${i + 1}.`)
-            }
-        }
+        target.closest('.participant-row').remove();
+        const numbers = $('.participant-number');
+        numbers.each((i, el) => {
+            $(el).text(`${i + 1}.`);
+        });
     }
 </script>

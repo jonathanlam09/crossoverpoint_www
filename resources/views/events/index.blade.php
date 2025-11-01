@@ -1,28 +1,195 @@
 @include('include/header')
 <style>
-    @media screen and (max-width: 767px){
-        .text-desc{
-            margin-top: 1rem;
+    .page-header {
+        padding: 4rem 0 2rem;
+    }
+
+    .page-title {
+        font-weight: 300;
+        font-size: 3rem;
+        letter-spacing: 2px;
+    }
+
+    .events-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1rem;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        /* color: #333; */
+        /* background: white; */
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #999;
+    }
+
+    .search-wrapper {
+        position: relative;
+        min-width: 200px;
+    }
+
+    .search-wrapper input {
+        padding-left: 2.5rem;
+    }
+
+    .search-wrapper i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+    }
+
+    .event-item {
+        padding: 2rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .event-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .event-item:last-child {
+        border-bottom: none;
+    }
+
+    .event-link {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .event-link:hover .event-title {
+        color: #555;
+    }
+
+    .event-image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .event-content {
+        flex: 1;
+    }
+
+    .event-title {
+        font-weight: 400;
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .event-description {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    .event-date {
+        color: #999;
+        font-size: 0.9rem;
+    }
+
+    .no-events {
+        text-align: center;
+        color: #999;
+        padding: 3rem 0;
+        font-size: 1rem;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .filters-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-group {
+            width: 100%;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            min-width: unset;
+        }
+
+        .form-control {
+            width: 100%;
+        }
+
+        .event-link {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+        }
+
+        .events-container {
+            padding: 2rem 1rem;
         }
     }
 </style>
-<div style="background-color:lightgrey;">
-    <div class="container p-5">
-        <h3><?php echo $channel == 'ENG' ? 'EVENTS' : '活动'?></h3>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title text-center"><?php echo $channel == 'ENG' ? 'EVENTS' : '活动'?></h1>
     </div>
 </div>
-<div class="container mt-5 mb-5">
-    <div class="mt-3 d-flex">
-        <div>
-            <select class="form-control" name="dt_type" id="dt_type" style="border-radius:3vh;text-align:center;">
-                <option value="upcoming" selected>Upcoming</option>
-                <option value="past" selected>Past</option>
+
+<div class="events-container">
+    <div class="filters-wrapper">
+        <div class="filter-group">
+            <select class="form-control" name="dt_type" id="dt_type" style="color:black;width:auto;">
+                <option value="upcoming" selected>{{ $channel == 'ENG' ? 'Upcoming' : '即将到来'}}</option>
+                <option value="past">{{ $channel == 'ENG' ? 'Past' : '过去'}}</option>
             </select>
-        </div>
-    </div>
-    <div class="mt-3" style="display:flex; justify-content: space-between;">
-        <div style="display:flex;">
-            <select class="form-control" name="count" id="count" style="border-radius:3vh;text-align:center;">
+            <select class="form-control" name="count" id="count" style="color:black;">
                 <option value="5" selected>5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -30,27 +197,30 @@
                 <option value="100">100</option>
             </select>
         </div>
-        <div style="position:relative;">
-            <input id="dt_search" class="form-control" type="text" placeholder="Search here" style="border-radius: 3vh;padding-left:30px;">
-            <i class="fa fa-search" style="position:absolute;top:50%;transform:translateY(-50%);left:10px;color:grey;"></i>
+        <div class="search-wrapper">
+            <input id="dt_search" class="form-control" type="text" placeholder="<?php echo $channel == 'ENG' ? 'Search' : '搜索'?>">
+            <i class="fa fa-search"></i>
         </div>
     </div>
-    <div class="mt-5 mb-5" id="event_row">
-    </div>
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="pagination"></div>
-    </div>
+
+    <div id="event_row"></div>
+
+    <div class="pagination"></div>
+    
     <input type="text" value="event" id="type" hidden>
 </div>
+
 @include('include/footer')
+
 <script>
     var channel = '<?php echo $channel?>';
     let opt = {
-        root: document.getElementById('#event_row'),
+        root: null,
         rootMargin: '0px',
-        threshold: 0,
+        threshold: 0.1,
     };
     var observer = new IntersectionObserver(show_items, opt);
+    
     $(document).ready(() => {
         const params = {
             types: ['upcoming', 'past'],
@@ -59,7 +229,7 @@
         dt_setup(params);
     })
 
-   function get_events(isFirstLoad){
+    function get_events(isFirstLoad){
         const query = new URLSearchParams(window.location.search);
         const page = query.get('page');
         const length = query.get('length');
@@ -79,56 +249,65 @@
                 }
 
                 if(events.length > 0){
-                    for(var i=0;i<events.length;i++){
-                        var event_name = events[i].type == 1 ? 'Prayer Meeting' : (events[i].name ? events[i].name : '-');
-                        var image = `<div class="col-md-3 col-12 d-flex justify-content-center">
-                                        <a href="${address}events/${events[i].event_id}">
-                                            <img style="max-height:150px;" src="${events[i].image ? `${portal_address}assets/img/event/${events[i].image}` : `${portal_address}assets/img/banner.png`}"/>
-                                        </a>
-                                    </div>`;
-                        var title = `<h5>
-                                        <a style="color:black;text-decoration:none;" href="${address}events/${events[i].event_id}">
-                                        ${event_name}
-                                        </a>
-                                    </h5>`;
-                        var desc = `<div class="mt-1"><span>${events[i].type == 1 ? 'Prayer Meeting' : (events[i].description ? events[i].description : '-')}</span></div>`;
-                        var date = `<div class="mt-1"><span>${events[i].start_date}</span></div>`;
-                        var text = `<div class="col-md-9 col-12 text-desc">${title}${desc}${date}</div>`;
-                        if(i == 0){
-                            var row = `<div class="event-rows" style="opacity:.2;transform:translateY(50%);transition:.5s ease;"><hr><div class="row">${image}${text}</div><hr></div>`;
-                        }else{
-                            var row = `<div class="event-rows" style="opacity:.2;transform:translateY(50%);transition:.5s ease;"><div class="row">${image}${text}</div><hr></div>`;
-                        }
-                        $('#event_row').append(row);
+                    for(var i=0; i<events.length; i++){
+                        var event_name = events[i].type == 1 
+                            ? (channel == 'ENG' ? 'Prayer Meeting' : '祷告会') 
+                            : (events[i].name 
+                                ? (channel == 'ENG' ? events[i].name : events[i].ch_name) 
+                                : '-');
+                        
+                        var event_desc = events[i].type == 1 
+                            ? '' 
+                            : (events[i].description 
+                                ? (channel == 'ENG' ? events[i].description : events[i].ch_description) 
+                                : '');
+                        
+                        var imageUrl = events[i].image 
+                            ? `${portal_address}assets/img/event/${events[i].image}` 
+                            : `${portal_address}assets/img/banner.png`;
+                        
+                        var eventHtml = `
+                            <div class="event-item">
+                                <a href="${address}events/${events[i].event_id}" class="event-link">
+                                    <img src="${imageUrl}" alt="${event_name}" class="event-image">
+                                    <div class="event-content">
+                                        <h3 class="event-title">${event_name}</h3>
+                                        ${event_desc ? `<div class="event-description">${event_desc}</div>` : ''}
+                                        <div class="event-date">${events[i].start_date}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        
+                        $('#event_row').append(eventHtml);
                     }
-                }else{
-                    var row = `<div class="col-12">${(channel == 'ENG' ? 'No events.' : '没有活动。')}</div>`;
-                    $('#event_row').append(row);
+                    
+                    // Observe all event items
+                    setTimeout(() => {
+                        var items = $('.event-item');
+                        for(var i=0; i<items.length; i++){
+                            observer.observe(items[i]);
+                        }
+                    }, 100);
+                } else {
+                    var noEventsText = channel == 'ENG' ? 'No events found.' : '没有活动。';
+                    $('#event_row').append(`<div class="no-events">${noEventsText}</div>`);
                 }
-            }else{
+            } else {
                 warning_response(response.data.message);
             }
         })
         .catch((err) => {
             warning_response(err);
         })
-        
-        setTimeout(() => {
-            var rows = $('.event-rows');
-            for(var i=0; i<rows.length;i++){
-                observer.observe(rows[i]);
-            }
-        }, 500);
     }
 
     function show_items(entries){
-        if(entries.length > 0){
-            for(var i=0;i<entries.length;i++){
-                if(entries[i].isIntersecting){
-                    $(entries[i].target).css('opacity', '1');
-                    $(entries[i].target).css('transform', 'translateY(0%)');
-                }
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
-        }
+        });
     }
 </script>

@@ -5,6 +5,7 @@ use App\Models\EventRooms;
 use App\Models\Events;
 use Illuminate\Http\Request;
 use App\Models\EventRegistrations;
+use App\Models\EventRoomArrangements;
 use Helper;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -324,6 +325,61 @@ class EventController extends Controller
                     'payment_method' => $payment_method,
                     'additional_remarks' => $additional_remarks
                 ]);
+
+                // Begin room arrangement
+                $group = array_map(function ($r) {
+                    return ucwords(strtolower($r['name']));
+                }, $registrants);
+                
+                foreach ($rooms as $roomId => $roomCount) {
+                    if ($roomCount == 0) continue;
+                
+                    $_room = $event->rooms->firstWhere('id', $roomId);
+                    $paxPerRoom = $_room?->pax_per_room ?? 0;
+                
+                    // Get existing arrangements for this room
+                    $existingArrangements = EventRoomArrangements::where('event_id', $event_id)
+                        ->where('room_id', $roomId)
+                        ->get()
+                        ->groupBy('room_number');
+                
+                    $buffer = $group;
+                
+                    // Step 1: Fill existing non-full rooms
+                    foreach ($existingArrangements as $roomNo => $membersInRoom) {
+                        $currentCount = $membersInRoom->count();
+                        if ($currentCount < $paxPerRoom) {
+                            $slotsLeft = $paxPerRoom - $currentCount;
+                            $membersToAdd = array_splice($buffer, 0, $slotsLeft);
+                            foreach ($membersToAdd as $memberName) {
+                                EventRoomArrangements::create([
+                                    'event_id' => $event_id,
+                                    'room_id' => $roomId,
+                                    'room_number' => $roomNo,
+                                    'members' => $memberName
+                                ]);
+                            }
+                            if (count($buffer) === 0) break;
+                        }
+                    }
+                
+                    // Step 2: Allocate new room_numbers for remaining
+                    $usedRoomNumbers = $existingArrangements->keys()->toArray();
+                    $nextRoomNo = empty($usedRoomNumbers) ? 0 : max($usedRoomNumbers) + 1;
+                
+                    while (count($buffer) > 0) {
+                        $members = array_splice($buffer, 0, $paxPerRoom);
+                        foreach ($members as $memberName) {
+                            EventRoomArrangements::create([
+                                'event_id' => $event_id,
+                                'room_id' => $roomId,
+                                'room_number' => $nextRoomNo,
+                                'member_name' => $memberName
+                            ]);
+                        }
+                        $nextRoomNo++;
+                    }
+                }
 
                 $data['event'] = $event;
                 $data['room_names'] = isset($room_names) ? $room_names : null;

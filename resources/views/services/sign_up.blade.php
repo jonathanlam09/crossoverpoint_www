@@ -2,7 +2,7 @@
 <?php
     $image = isset($service->image) ? IMAGE_PATH . 'service/' . $service->image : IMAGE_PATH . 'banner.png';
 ?>
-<div style="background-color:lightgrey;">
+<div>
     <div class="container p-5">
         <h3><?php echo $channel == 'ENG' ? 'SERVICES' : '讲道'?></h3>
     </div>

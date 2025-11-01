@@ -1,34 +1,201 @@
 @include('include/header')
-<?php
+
+@php
     $channel = session()->get('channel');
     if(!isset($channel)){
         $channel = 'ENG';
     }
-?>
+@endphp
+
 <style>
-    @media screen and (max-width: 767px){
-        .title-desc{
-            margin-top: 1rem;
+    .page-header {
+        padding: 4rem 0 2rem;
+    }
+
+    .page-title {
+        font-weight: 300;
+        font-size: 3rem;
+        letter-spacing: 2px;
+    }
+
+    .services-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1rem;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #999;
+    }
+
+    .search-wrapper {
+        position: relative;
+        min-width: 200px;
+    }
+
+    .search-wrapper input {
+        padding-left: 2.5rem;
+    }
+
+    .search-wrapper i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+    }
+
+    .service-item {
+        padding: 2rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .service-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .service-item:last-child {
+        border-bottom: none;
+    }
+
+    .service-link {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .service-link:hover .service-title {
+        color: #555;
+    }
+
+    .service-image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .service-content {
+        flex: 1;
+    }
+
+    .service-title {
+        font-weight: 400;
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .service-description {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+
+    .service-date {
+        color: #999;
+        font-size: 0.9rem;
+    }
+
+    .no-services {
+        text-align: center;
+        color: #999;
+        padding: 3rem 0;
+        font-size: 1rem;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .filters-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-group {
+            width: 100%;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            min-width: unset;
+        }
+
+        .form-control {
+            width: 100%;
+        }
+
+        .service-link {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+        }
+
+        .services-container {
+            padding: 2rem 1rem;
         }
     }
 </style>
-<div style="background-color:lightgrey;">
-    <div class="container p-5" id="service">
-        <h3><?php echo $channel == 'ENG' ? 'SERVICES' : '讲道'?></h3>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title text-center">{{ $channel == 'ENG' ? 'SERVICES' : '讲道' }}</h1>
     </div>
 </div>
-<div class="container mt-5 mb-5">
-    <div class="mt-3 d-flex">
-        <div>
-            <select class="form-control" name="dt_type" id="dt_type" style="border-radius:3vh;text-align:center;">
-                <option value="upcoming" selected>Upcoming</option>
-                <option value="past" selected>Past</option>
+
+<div class="services-container">
+    <div class="filters-wrapper">
+        <div class="filter-group">
+            <select class="form-control" name="dt_type" id="dt_type" style="color:black;width:auto;">
+                <option value="upcoming" selected>{{ $channel == 'ENG' ? 'Upcoming' : '即将到来'}}</option>
+                <option value="past">{{ $channel == 'ENG' ? 'Past' : '过去'}}</option>
             </select>
-        </div>
-    </div>
-    <div class="mt-3 d-flex justify-content-between">
-        <div style="display:flex;">
-            <select class="form-control" name="dt_length" id="dt_length" style="border-radius:3vh;text-align:center;">
+            <select class="form-control" name="dt_length" id="dt_length" style="color:black;">
                 <option value="5" selected>5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -36,25 +203,27 @@
                 <option value="100">100</option>
             </select>
         </div>
-        <div style="position:relative;">
-            <input id="dt_search" class="form-control" type="text" placeholder="Search here" style="border-radius:3vh;padding-left:30px;">
-            <i class="fas fa-search" style="position:absolute;top:50%;transform:translateY(-50%);left:10px;color:grey;"></i>
+        <div class="search-wrapper">
+            <input id="dt_search" class="form-control" type="text" placeholder="{{ $channel == 'ENG' ? 'Search' : '搜索' }}">
+            <i class="fa fa-search"></i>
         </div>
     </div>
-    <div class="mt-5 mb-5" id="service_row">
-    </div>
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="pagination"></div>
-    </div>
+
+    <div id="service_row"></div>
+
+    <div class="pagination"></div>
+    
     <input type="text" value="service" id="type" hidden>
 </div>
+
 @include('include/footer')
+
 <script>
-    var channel = '<?php echo $channel?>';
+    var channel = '{{ $channel }}';
     let opt = {
-        root: document.getElementById('#service_row'),
+        root: null,
         rootMargin: '0px',
-        threshold: 0,
+        threshold: 0.1,
     };
     var observer = new IntersectionObserver(show_services, opt);
 
@@ -79,86 +248,65 @@
                 $('#service_row').empty();
                 var services = response.data.data.services;
                 var total = response.data.data.total;
+                
                 if(isFirstLoad){
                     $('.pagination').empty();
                     setup(total);
                 }
 
                 if(services.length > 0){
-                    for(var i=0;i<services.length;i++){
-                        if(services[i].image == null){
-                            var image =  `<div class="col-md-3 col-12 d-flex justify-content-center">
-                                            <a href="${address}services/${services[i].service_id}">
-                                                <img style="max-height:150px;" src="${address}assets/img/banner.png"/>
-                                            </a>
-                                        </div>`;
-                        }else{
-                            var image = `<div class="col-md-3 col-12 d-flex justify-content-center">
-                                            <a href="${address}services/${services[i].service_id}">
-                                                <img style="max-height:150px;" src="${portal_address}assets/img/service/${services[i].image}"/>
-                                            </a>
-                                        </div>`;
-                        }
-                        var title = `<h5>
-                                        <a style="color:black;text-decoration:none;cursor:pointer;" href="${address}services/${services[i].service_id}">${(channel == 'ENG' ? services[i].title : services[i].ch_title)}
-                                        </a>
-                                    </h5>`;
-                        var desc = `<h6>${((channel == 'ENG' ? services[i].description : services[i].ch_description) || '-')}</h6>`;
-                        var date = `<div><h6>${services[i].date}</h6></div>`;
-                        var text = `<div class="title-desc">${title}${desc}</div>`;
-                        var div = `<div class="d-flex flex-column justify-content-between col-md-9 col-12">${text}${date}</div>`;
-                        if(i == 0){
-                            var row = `<div class="service-rows" style="opacity:.2;transform:translateY(50%);transition:.5s ease;">
-                                        <hr>
-                                        <div class="row">
-                                            ${image}
-                                            ${div}
-                                        </div>
-                                        <hr>
-                                    </div>`;
-                        }else{
-                            var row = `<div class="service-rows" style="opacity:.2;transform:translateY(50%);transition:.5s ease;">
-                                        <div class="row p-2">
-                                            ${image}
-                                            ${div}
-                                        </div>
-                                        <hr>
-                                    </div>`;
-                        }
-                        $('#service_row').append(row);
+                    for(var i=0; i<services.length; i++){
+                        var service_title = channel == 'ENG' ? services[i].title : services[i].ch_title;
+                        var service_desc = channel == 'ENG' ? services[i].description : services[i].ch_description;
+                        
+                        var imageUrl = services[i].image 
+                            ? `${portal_address}assets/img/service/${services[i].image}` 
+                            : `${address}assets/img/banner.png`;
+                        
+                        var serviceHtml = `
+                            <div class="service-item">
+                                <a href="${address}services/${services[i].service_id}" class="service-link">
+                                    <img src="${imageUrl}" alt="${service_title}" class="service-image">
+                                    <div class="service-content">
+                                        <h3 class="service-title">${service_title || '-'}</h3>
+                                        ${service_desc ? `<div class="service-description">${service_desc}</div>` : ''}
+                                        <div class="service-date">${services[i].date}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        
+                        $('#service_row').append(serviceHtml);
                     }
-                }else{
-                    if($('#period').val() == 'past'){
-                        var div = `<div class="col-12">${(channel == 'ENG' ? 'No past services.' : '没有过去的讲道。')}</div>`;
-                    }else{
-                        var div = `<div class="col-12">${(channel == 'ENG' ? 'No upcoming services.' : '没有即将举行的讲道。')}</div>`;
-                    }
-                    $('#service_row').append(div);
+                    
+                    // Observe all service items
+                    setTimeout(() => {
+                        var items = $('.service-item');
+                        for(var i=0; i<items.length; i++){
+                            observer.observe(items[i]);
+                        }
+                    }, 100);
+                } else {
+                    var noServicesText = type == 'past'
+                        ? (channel == 'ENG' ? 'No past services.' : '没有过去的讲道。')
+                        : (channel == 'ENG' ? 'No upcoming services.' : '没有即将举行的讲道。');
+                    $('#service_row').append(`<div class="no-services">${noServicesText}</div>`);
                 }
-            }else{
+            } else {
                 warning_response(response.data.message);
             }
         })
         .catch((err) => {
             warning_response(err);
         })
-
-        setTimeout(() => {
-            var rows = $('.service-rows');
-            for(var i=0; i<rows.length;i++){
-                observer.observe(rows[i]);
-            }
-        }, 500);
     }
 
     function show_services(entries){
-        if(entries.length > 0){
-            for(var i=0;i<entries.length;i++){
-                if(entries[i].isIntersecting){
-                    $(entries[i].target).css('opacity', '1');
-                    $(entries[i].target).css('transform', 'translateY(0%)');
-                }
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
-        }
+        });
     }
 </script>

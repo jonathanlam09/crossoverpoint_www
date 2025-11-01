@@ -13,312 +13,446 @@
 </head>
 <body>
 <style>
-    html, body{
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #f8f9fa;
+    :root {
+        --header-height: 80px;
+    }
+
+    html, body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+        background-color: white;
         font-size: 14px;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Header Styles */
+    .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: transparent;
+        transition: all 0.4s ease;
+    }
+
+    .main-header.scrolled {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .main-header.scrolled .nav-link,
+    .main-header.scrolled .channel-switcher span {
+        color: #000 !important;
+    }
+
+    .main-header.scrolled .logo-container {
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .logo-container {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container:hover {
+        transform: scale(1.05);
+    }
+
+    .logo-container img {
+        width: 40px;
+        height: auto;
+    }
+
+    /* Navigation */
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: white;
+        opacity: 0.7;
+    }
+
+    .nav-link:hover::after {
+        width: 100%;
+    }
+
+    .main-header.scrolled .nav-link:hover {
+        color: #000;
+    }
+
+    /* Channel Switcher */
+    .channel-switcher {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .channel-switcher span {
+        color: white!important;
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 4px 8px;
+    }
+
+    .channel-switcher span:hover {
+        opacity: 0.7;
+    }
+
+    .channel-switcher span.active {
+        background: white;
+        color: #000!important;
+        border-radius: 2px;
+    }
+
+    .main-header.scrolled .channel-switcher span.active {
+        background: #000;
+        color: white!important;
+    }
+
+    .channel-divider {
+        width: 1px;
+        height: 16px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .main-header.scrolled .channel-divider {
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-icon {
+        display: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .main-header.scrolled .mobile-menu-icon {
+        color: #000;
+    }
+
+    .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100vh;
+        background: #000;
+        z-index: 9999;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+
+    .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-menu-close {
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .mobile-menu-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .mobile-nav-menu {
+        list-style: none;
+        padding: 40px 20px;
+        margin: 0;
+    }
+
+    .mobile-nav-menu li {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .mobile-nav-menu .nav-link {
+        color: white;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+
+    .mobile-nav-menu .nav-link:hover {
+        opacity: 0.7;
+    }
+
+    /* Banner Slider */
+    .banner-wrapper {
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
     }
 
     .banner-container {
         height: 100%;
         width: 100vw;
-        transition: transform .5s ease;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
     }
 
     .slider-children {
-        display: inline-block;
         min-width: 100vw;
         width: 100vw;
         height: 100%;
-        transition: 3s ease;
-        background-size: 120%;
+        background-size: cover;
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: center;
+        filter: grayscale(20%);
     }
 
-    .page{
-        padding: 0 10px;
-        border-radius: 2vh;
-        cursor: pointer;
-    }
-    
-    .active-page{
-        background-color: grey;
-        font-weight: 700;
-    }
-
-    .form-control{
-        border-radius: 3vh!important;
-    }
-
-    .banner{
-        height: 560px;
-        background-image: url("{{ url('assets/img/background.jpg') }}");
-        background-size: 120%;
-        background-repeat: no-repeat;
-        transition: 5s ease;
-        background-position: center center;
-    }
-
-    .error-message{
-        background-color: #dc3545;
+    .banner-overlay {
         position: absolute;
-        bottom: -10px;
-        font-size: 10px;
-        padding: 2px 10px;
-        max-width: 250px;
-        border-radius: 3vh!important;
-        margin-left: 10px!important;
-        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
+        pointer-events: none;
     }
 
-    .star-required{
-        color: #dc3545;
-        margin-left: 5px;
+    /* Responsive */
+    @media (max-width: 991px) {
+        .nav-menu {
+            display: none;
+        }
+
+        .mobile-menu-icon {
+            display: block;
+        }
+
+        .header-container {
+            padding: 15px 20px;
+        }
+
+        .banner-wrapper {
+            height: 60vh;
+        }
     }
 
+    @media (max-width: 767px) {
+        .logo-container {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-container img {
+            width: 32px;
+        }
+
+        .banner-wrapper {
+            height: 50vh;
+        }
+
+        .channel-switcher span {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* Utility Classes */
     img {
         max-width: 100%;
         height: auto;
     }
 
-    .menu-list li {
-        display: flex; 
-        align-items: center;
-        padding: 15px 30px;
+    .memory-card {
+        height: 300px;
+        transition: all 0.4s ease;
         cursor: pointer;
-    }
-
-    .menu-div .menu-list li:not(:last-child):hover{
-        font-weight: bold;
-        transform: scale(1.05);
-    }
-
-    #mobile-menu .menu-list li:hover{
-        font-weight: bold;
-        transform: scale(1.05);
-    }
-
-    .ch-btn:hover, .eng-btn:hover{
-        font-weight: bold;
-        transform: scale(1.05);
-    }
-
-    .active-ch{
-        padding: 2px;
-        background-color: white;
-        color: black;
-        border-radius: 2px;
-    }
-
-    @media only screen and (max-width: 991px){
-        .banner{
-            height: 250px!important;
-        }
-
-        .banner-wrapper {
-            height: 250px!important;
-        }
+        background-size: cover;
+        filter: grayscale(20%);
     }
 
     .memory-card:hover {
-        filter:brightness(80%);
+        filter: grayscale(0%);
+        transform: scale(1.02);
     }
 
-    .memory-card {
-        height:300px;
-        transition-duration: 1s;
-        filter: brightness(50%);
-        cursor: pointer;
-        background-size: cover;
+    .nav-link,
+    .channel-switcher span {
+        color: black;
+        /* text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); */
     }
 </style>
-<section style="padding:0;width:100%;" class="banner-section">
+
+<section class="banner-section mb-5">
     @if (request()->path() == '/')
-    <div class="banner-wrapper position-relative" style="height:100vh;overflow:hidden;">
-        <div class="banner-container d-flex">
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/1.png') }}')">
-            </div>
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/2.png') }}')">
-            </div>
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/3.png') }}')">
-            </div>
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/4.png') }}')">
-            </div>
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/5.png') }}')">
-            </div>
-            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/6.png') }}')">
-            </div>
+    <div class="banner-wrapper">
+        <div class="banner-container">
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/1.png') }}')"></div>
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/2.png') }}')"></div>
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/3.png') }}')"></div>
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/4.png') }}')"></div>
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/5.png') }}')"></div>
+            <div class="slider-children" style="background-image:url('{{ url('assets/img/slider/6.png') }}')"></div>
         </div>
-        {{-- <div class="slider-dot-container position-absolute d-flex" style="bottom:10px;left:50%;transform:translateX(-50%);">
-            <div class="p-1 text-secondary">
-                <i class="fas fa-circle"></i>
-            </div>
-            <div class="p-1 text-white">
-                <i class="fas fa-circle"></i>
-            </div>
-            <div class="p-1 text-white">
-                <i class="fas fa-circle"></i>
-            </div>
-            <div class="p-1 text-white">
-                <i class="fas fa-circle"></i>
-            </div>
-            <div class="p-1 text-white">
-                <i class="fas fa-circle"></i>
-            </div>
-            <div class="p-1 text-white">
-                <i class="fas fa-circle"></i>
-            </div>
-        </div> --}}
-        <div style="background-image:linear-gradient(to bottom, black, transparent);position:absolute;z-index:1;top:0;left:0;width:100%;">
-            <div class="container-fluid" style="padding:0;margin:0;display:flex;justify-content:space-between;align-items:center;">
-                <div class="logo-div bg-white d-flex justify-content-center align-items-center" style="padding:10px;border-radius:50%;margin:15px;height:100px;width:100px;">
-                    <a href="/"><img src="{{ url('assets/img/logo.png') }}" style="cursor:pointer;"></a>
-                </div>
-                <div class="menu-div d-none d-lg-flex" style="display:flex;justify-content:flex-end;align-items:center;margin-top:20px;">
-                    <ul class="menu-list text-uppercase" style="display:flex;color:white;list-style-type:none;margin:0;padding:0">
-                        <li><a class="nav-home" href="{{ url('/') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
-                        <li><a class="nav-about-us" href="{{ url('/about-us') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'About us' : '关于我们' }}</a></li>
-                        <li><a class="nav-testimony" href="{{ url('testimony') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Testimonies' : '見證' }}</a></li>
-                        <li><a class="nav-services" href="{{ url('services?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
-                        <li><a class="nav-events" href="{{ url('events?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Events' : '活动' }}</a></li>
-                        <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Contact us' : '联系我们' }}</a></li>
-                        <li class="d-flex align-items-center">
-                            <span class="ch-btn {{ $channel == 'CH' ? 'active-ch' : '' }}" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
-                            <div style="height:100%;border-right: 1px solid white;padding:5px"></div>
-                            <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
-                            <span class="eng-btn {{ $channel == 'ENG' ? 'active-ch' : '' }}" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex d-lg-none" style="color:white;justify-content:flex-end;align-items:center;font-size:18px;margin-top:20px;">
-                    <div class="d-flex justify-content-center align-items-center" style="margin-right:20px;font-size:12px;">
-                        <span class="ch-btn {{ $channel == 'CH' ? 'active-ch' : '' }}" style="cursor:pointer;" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
-                        <div style="border-right: 1px solid white;padding:5px"></div>
-                        <div style="border-left: 1px solid white;padding:5px"></div>
-                        <span class="eng-btn {{ $channel == 'ENG' ? 'active-ch' : '' }}" style="cursor:pointer;" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
-                    </div>
-                    <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div id="mobile-menu" style="z-index:99;height:100vh;width:100%;background-color:black;position:fixed;top:0%;left:0%;display:none;">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="logo-div" style="padding: 10px;">
-                        <a href="#"><img src="{{ url('assets/img/logo.png') }}" 
-                            style="cursor:pointer;height:80px;"></a>
-                    </div>
-                    <div>
-                        <i class="fa fa-close" style="color:white;padding:10px;cursor:pointer;" onclick="dropdown_menu()"></i>
-                    </div>
-                </div>
-                
-                <ul class="menu-list text-uppercase text-center" style="color:white;list-style-type:none;margin:0;padding:20px;">
-                    <li><a class="nav-home" href="{{ url('/') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
-                    <li><a class="nav-about-use" href="{{ url('about-us') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'About us' : '关于我们' }}</a></li>
-                    <li><a class="nav-testimony" href="{{ url('testimony') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Testimonies' : '見證' }}</a></li>
-                    <li><a class="nav-services" href="{{ url('services?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
-                    <li><a class="nav-events" href="{{ url('events?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Events' : '活动' }}</a></li>
-                    <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Contact us' : '联系我们' }}</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    @else
-    <div class="banner">
-        <div style="background-image: linear-gradient(to bottom, black, transparent)">
-            <div class="container-fluid" style="padding:0;margin:0;display:flex;justify-content:space-between;align-items:center;">
-                <div class="logo-div bg-white d-flex justify-content-center align-items-center" style="padding:10px;border-radius:50%;margin:15px;height:100px;width:100px;">
-                    <a href="/"><img src="{{ url('assets/img/logo.png') }}" style="cursor:pointer;"></a>
-                </div>
-                <div class="menu-div d-none d-lg-flex" style="display:flex;justify-content:flex-end;align-items:center;margin-top:20px;">
-                    <ul class="menu-list text-uppercase" style="display:flex;color:white;list-style-type:none;margin:0;padding:0">
-                        <li><a class="nav-home" href="{{ url('/') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
-                        <li><a class="nav-about-us" href="{{ url('/about-us') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'About us' : '关于我们' }}</a></li>
-                        <li><a class="nav-testimony" href="{{ url('testimony') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Testimonies' : '見證' }}</a></li>
-                        <li><a class="nav-services" href="{{ url('services?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
-                        <li><a class="nav-events" href="{{ url('events?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Events' : '活动' }}</a></li>
-                        <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Contact us' : '联系我们' }}</a></li>
-                        <li class="d-flex align-items-center">
-                            <span class="ch-btn {{ $channel == 'CH' ? 'active-ch' : '' }}" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
-                            <div style="height:100%;border-right: 1px solid white;padding:5px"></div>
-                            <div style="height:100%;border-left: 1px solid white;padding:5px"></div>
-                            <span class="eng-btn {{ $channel == 'ENG' ? 'active-ch' : '' }}" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex d-lg-none" style="color:white;justify-content:flex-end;align-items:center;font-size:18px;margin-top:20px;">
-                    <div class="d-flex justify-content-center align-items-center" style="margin-right:20px;font-size:12px;">
-                        <span class="ch-btn {{ $channel == 'CH' ? 'active-ch' : '' }}" style="cursor:pointer;" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
-                        <div style="border-right: 1px solid white;padding:5px"></div>
-                        <div style="border-left: 1px solid white;padding:5px"></div>
-                        <span class="eng-btn {{ $channel == 'ENG' ? 'active-ch' : '' }}" style="cursor:pointer;" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
-                    </div>
-                    <i id="mobile-menu-icon" onclick="dropdown_menu()" style="margin-right:10px;font-size:18px;cursor:pointer;" class="fa fa-bars" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div id="mobile-menu" style="z-index:99;height:100vh;width:100%;background-color:black;position:fixed;top:0%;left:0%;display:none;">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="logo-div" style="padding: 10px;">
-                        <a href="#"><img src="{{ url('assets/img/logo.png') }}" style="cursor:pointer;height:80px;"></a>
-                    </div>
-                    <div>
-                        <i class="fa fa-close" style="color:white;padding:10px;cursor:pointer;" onclick="dropdown_menu()"></i>
-                    </div>
-                </div>
-                <ul class="menu-list text-uppercase text-center" style="color:white;list-style-type:none;margin:0;padding:20px;">
-                    <li><a class="nav-home" href="{{ url('/') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
-                    <li><a class="nav-about-us" href="{{ url('about-us') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'About us' : '关于我们' }}</a></li>
-                    <li><a class="nav-testimony" href="{{ url('testimony') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Testimonies' : '見證' }}</a></li>
-                    <li><a class="nav-services" href="{{ url('services?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
-                    <li><a class="nav-events" href="{{ url('events?page=1&length=10&type=upcoming') }}" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Events' : '活动' }}</a></li>
-                    <li><a class="nav-contact-us" onclick="smooth_scroll('#contact_us')" style="color:white;text-decoration:none;">{{ $channel == 'ENG' ? 'Contact us' : '联系我们' }}</a></li>
-                </ul>
-            </div>
-        </div>
+        <div class="banner-overlay"></div>
     </div>
     @endif
+
+    <!-- Main Header -->
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
+            <a href="/" class="logo-container">
+                <img src="{{ url('assets/img/logo.png') }}" alt="Logo">
+            </a>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu">
+                <li><a class="nav-link" href="{{ url('/') }}">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
+                <li><a class="nav-link" href="{{ url('/about-us') }}">{{ $channel == 'ENG' ? 'ABOUT' : '关于我们' }}</a></li>
+                <li><a class="nav-link" href="{{ url('testimony') }}">{{ $channel == 'ENG' ? 'TESTIMONIES' : '見證' }}</a></li>
+                <li><a class="nav-link" href="{{ url('services?page=1&length=10&type=upcoming') }}">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
+                <li><a class="nav-link" href="{{ url('events?page=1&length=10&type=upcoming') }}">{{ $channel == 'ENG' ? 'EVENTS' : '活动' }}</a></li>
+                <li><a class="nav-link" onclick="smooth_scroll('#contact_us')">{{ $channel == 'ENG' ? 'CONTACT' : '联系我们' }}</a></li>
+                <li>
+                    <div class="channel-switcher">
+                        <span class="{{ $channel == 'CH' ? 'active' : '' }}" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
+                        <div class="channel-divider"></div>
+                        <span class="{{ $channel == 'ENG' ? 'active' : '' }}" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="d-flex align-items-center gap-3">
+                <div class="channel-switcher d-lg-none">
+                    <span class="{{ $channel == 'CH' ? 'active' : '' }}" onclick="change_channel('CH')">{{ $channel == 'ENG' ? 'CH' : '华' }}</span>
+                    <div class="channel-divider"></div>
+                    <span class="{{ $channel == 'ENG' ? 'active' : '' }}" onclick="change_channel('ENG')">{{ $channel == 'ENG' ? 'ENG' : '英' }}</span>
+                </div>
+                <i class="fa fa-bars mobile-menu-icon" onclick="toggleMobileMenu()"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <img src="{{ url('assets/img/logo.png') }}" class="mobile-menu-logo" alt="Logo">
+            <i class="fa fa-times mobile-menu-close" onclick="toggleMobileMenu()"></i>
+        </div>
+        <ul class="mobile-nav-menu">
+            <li><a class="nav-link" href="{{ url('/') }}">{{ $channel == 'ENG' ? 'HOME' : '主页' }}</a></li>
+            <li><a class="nav-link" href="{{ url('/about-us') }}">{{ $channel == 'ENG' ? 'ABOUT' : '关于我们' }}</a></li>
+            <li><a class="nav-link" href="{{ url('testimony') }}">{{ $channel == 'ENG' ? 'TESTIMONIES' : '見證' }}</a></li>
+            <li><a class="nav-link" href="{{ url('services?page=1&length=10&type=upcoming') }}">{{ $channel == 'ENG' ? 'Services' : '聚會' }}</a></li>
+            <li><a class="nav-link" href="{{ url('events?page=1&length=10&type=upcoming') }}">{{ $channel == 'ENG' ? 'EVENTS' : '活动' }}</a></li>
+            <li><a class="nav-link" onclick="smooth_scroll('#contact_us'); toggleMobileMenu();">{{ $channel == 'ENG' ? 'CONTACT' : '联系我们' }}</a></li>
+        </ul>
+    </div>
 </section>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-    $(document).ready(()=>{
-        $('.banner').css('background-size', '100%');
+    $(document).ready(() => {
+        // Banner slider
         let slideIndex = 0;
         const totalSlides = $('.slider-children').length;
-        $('.slider-children').eq(slideIndex).css('background-size', '100%');
+        
         setInterval(() => {
-            $('.slider-children').css('background-size', '120%');
-
             slideIndex = (slideIndex + 1) % totalSlides;
-            $($('.slider-children')[slideIndex]).css('background-size', '100%')
             $('.banner-container').css({
                 transform: `translateX(${-slideIndex * 100}vw)`,
-                transition: 'transform 0.5s ease-in-out',
             });
         }, 5000);
-    })
 
-    function dropdown_menu(){
-        $('#mobile-menu').slideToggle();
+        // Header scroll effect
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 100) {
+                $('#mainHeader').addClass('scrolled');
+            } else {
+                $('#mainHeader').removeClass('scrolled');
+            }
+        });
+    });
+
+    function toggleMobileMenu() {
+        $('#mobileMenu').toggleClass('active');
+        $('body').toggleClass('overflow-hidden');
     }
 
-    function change_channel(val){
+    function change_channel(val) {
         axios.get(address + 'api/index/language?ch=' + val)
         .then((response) => {
-            if(response.data.status){
+            if(response.data.status) {
                 location.reload();
-            }else{
+            } else {
                 warning_response(response.data.message);
             }
         })
         .catch((err) => {
             error_response(err);
-        })
+        });
     }
 
-    function smooth_scroll(val){
-        if($('#mobile-menu').css('display') != 'none'){
-            $('#mobile-menu').slideToggle();
+    function smooth_scroll(val) {
+        if($('#mobileMenu').hasClass('active')) {
+            toggleMobileMenu();
         }
         $(val).get(0).scrollIntoView({
             behavior: 'smooth'
