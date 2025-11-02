@@ -363,7 +363,7 @@
     /* Divider */
     .section-divider {
         max-width: 60px;
-        margin: 100px auto;
+        /* margin: 100px auto; */
         border: 0;
         height: 1px;
         background: var(--border-color);
